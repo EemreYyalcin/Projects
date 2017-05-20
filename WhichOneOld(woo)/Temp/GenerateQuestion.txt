@@ -1,0 +1,295 @@
+//package com.woo.utils;
+//
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
+//import java.util.ArrayList;
+//import java.util.Iterator;
+//
+//import org.apache.commons.io.IOUtils;
+//import org.springframework.core.io.Resource;
+//
+//import com.woo.domain.Category;
+//import com.woo.domain.Item;
+//import com.woo.domain.Question;
+//import com.woo.service.CategoryServiceImpl;
+//import com.woo.service.ItemServiceImpl;
+//import com.woo.service.QuestionServiceImpl;
+//
+//public class GenerateQuestion {
+//
+//	private QuestionServiceImpl questionServiceImpl;
+//	private ItemServiceImpl itemServiceImpl;
+//	private CategoryServiceImpl categoryServiceImpl;
+//
+//	public GenerateQuestion(QuestionServiceImpl questionServiceImpl, ItemServiceImpl itemServiceImpl, CategoryServiceImpl categoryServiceImpl) {
+//		this.itemServiceImpl = itemServiceImpl;
+//		this.questionServiceImpl = questionServiceImpl;
+//		this.categoryServiceImpl = categoryServiceImpl;
+//	}
+//
+//	public void addQuestionToDB() {
+//
+//		try {
+//			LogMessage.logx("XXXXXXX 0");
+//			Iterable<Category> categoriesList = categoryServiceImpl.getCategories();
+//			LogMessage.logx("XXXXXXX 1");
+//
+//			for (Category category : categoriesList) {
+//				for (int i = 1; i < 13; i++) {
+//					Question question = generateQuestion(category, i);
+//					while (question != null) {
+//						questionServiceImpl.addQuestion(question);
+//						LogMessage.logx("XXXXXXX Adding Questions level: " + i);
+//						LogMessage.logx("Question : " + question.toString());
+//						question = generateQuestion(category, i);
+//					}
+//				}
+//			}
+//
+//			LogMessage.logx("XXXXXXX 2");
+//			Iterable<Question> questions = questionServiceImpl.getQuestions();
+//			if (questions == null) {
+//				LogMessage.logx("XXXXXXX 3");
+//				LogMessage.logx("XXXXXXX ERROR NO QUESTIONS");
+//				return;
+//			}
+//			LogMessage.logx("XXXXXXX 4 ");
+//			Iterator<Question> iterator = questions.iterator();
+//			while (iterator.hasNext()) {
+//				LogMessage.logx(iterator.next().toString());
+//			}
+//			LogMessage.logx("XXXXXXX 5 ");
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+//
+//	public Question generateQuestion(Category category, int level) {
+//
+//		if (category == null) {
+//			LogMessage.logx("Category must be defined!!");
+//			return null;
+//		}
+//
+//		Item itemA = null;
+//		Iterable<Item> itemAList = null;
+//		for (int i = 0; i < 10; i++) {
+//			itemAList = itemServiceImpl.getItemsByCategoryAndUsageCount(category, i);
+//			if (itemAList != null) {
+//				LogMessage.logx("İtemAList:" + itemAList);
+//				if (itemAList.iterator().hasNext()) {
+//					itemA = itemAList.iterator().next();
+//				}
+//			}
+//		}
+//		if (itemA == null) {
+//			LogMessage.logx("Question Creating Done!!");
+//			return null;
+//		}
+//
+//		int max = -1;
+//		int min = -1;
+//		int minTeenYear = category.getYear();
+//		int maxTeenYear = category.getYear() + 10;
+//
+//		int timeType = 0;
+//		if (level == 1) {
+//			min = selectAvailableValue(itemA.getYear(), maxTeenYear, minTeenYear, 4, true);
+//			max = selectAvailableValue(itemA.getYear(), maxTeenYear, minTeenYear, 4, false);
+//			timeType = 0;
+//		} else if (level == 2) {
+//			min = selectAvailableValue(itemA.getYear(), maxTeenYear, minTeenYear, 2, true);
+//			max = selectAvailableValue(itemA.getYear(), maxTeenYear, minTeenYear, 2, false);
+//			timeType = 0;
+//		} else if (level == 3) {
+//			min = selectAvailableValue(itemA.getYear(), maxTeenYear, minTeenYear, 1, true);
+//			max = selectAvailableValue(itemA.getYear(), maxTeenYear, minTeenYear, 1, false);
+//			timeType = 0;
+//		} else if (level == 4) {
+//			min = selectAvailableValue(itemA.getMonth(), 12, 1, 8, true);
+//			max = selectAvailableValue(itemA.getMonth(), 12, 1, 8, false);
+//			timeType = 1;
+//		} else if (level == 5) {
+//			min = selectAvailableValue(itemA.getMonth(), 12, 1, 4, true);
+//			max = selectAvailableValue(itemA.getMonth(), 12, 1, 4, false);
+//			timeType = 1;
+//		} else if (level == 6) {
+//			min = selectAvailableValue(itemA.getMonth(), 12, 1, 2, true);
+//			max = selectAvailableValue(itemA.getMonth(), 12, 1, 2, false);
+//			timeType = 1;
+//		} else if (level == 7) {
+//			min = selectAvailableValue(itemA.getMonth(), 12, 1, 1, true);
+//			max = selectAvailableValue(itemA.getMonth(), 12, 1, 1, false);
+//			timeType = 1;
+//		} else if (level == 8) {
+//			min = selectAvailableValue(itemA.getDay(), 31, 1, 16, true);
+//			max = selectAvailableValue(itemA.getDay(), 31, 1, 16, false);
+//			timeType = 2;
+//		} else if (level == 9) {
+//			min = selectAvailableValue(itemA.getDay(), 31, 1, 8, true);
+//			max = selectAvailableValue(itemA.getDay(), 31, 1, 8, false);
+//			timeType = 2;
+//		} else if (level == 10) {
+//			min = selectAvailableValue(itemA.getDay(), 31, 1, 4, true);
+//			max = selectAvailableValue(itemA.getDay(), 31, 1, 4, false);
+//			timeType = 2;
+//		} else if (level == 11) {
+//			min = selectAvailableValue(itemA.getDay(), 31, 1, 2, true);
+//			max = selectAvailableValue(itemA.getDay(), 31, 1, 2, false);
+//			timeType = 2;
+//		} else if (level == 12) {
+//			min = selectAvailableValue(itemA.getDay(), 31, 1, 1, true);
+//			max = selectAvailableValue(itemA.getDay(), 31, 1, 1, false);
+//			timeType = 2;
+//		} else {
+//			min = selectAvailableValue(itemA.getYear(), maxTeenYear, minTeenYear, 4, true);
+//			max = selectAvailableValue(itemA.getYear(), maxTeenYear, minTeenYear, 4, false);
+//			timeType = 0;
+//		}
+//		Item itemB = null;
+//
+//		for (int i = 0; i < 10; i++) {
+//			Iterable<Item> itemBList = itemServiceImpl.getItemsCategoryAndUsageCountAndNotEqualItem(category, i, itemA, timeType, min, max);
+//			if (itemBList != null) {
+//				Iterator<Item> iterator = itemBList.iterator();
+//				while (iterator.hasNext()) {
+//					Item tempItem = iterator.next();
+//					Question question = questionServiceImpl.getQuestionByItemAndItem(itemA, tempItem);
+//					if (question != null) {
+//						continue;
+//					}
+//					itemB = tempItem;
+//					break;
+//				}
+//			}
+//		}
+//
+//		if (itemB == null) {
+//			LogMessage.logx("Item B is not Found Changing Level:" + category.getName());
+//			return null;
+//		}
+//
+//		Question question = new Question();
+//		itemA.setUsageCount(itemA.getUsageCount() + 1);
+//		itemB.setUsageCount(itemB.getUsageCount() + 1);
+//		itemServiceImpl.addItemFromFile(itemA);
+//		itemServiceImpl.addItemFromFile(itemB);
+//		question.setItemA(itemA);
+//		question.setItemB(itemB);
+//
+//		return question;
+//
+//	}
+//
+//	private int selectAvailableValue(int staticValue, int max, int min, int difference, boolean isMin) {
+//		if (isMin) {
+//			int temp = staticValue - difference;
+//			if (temp < min) {
+//				return min;
+//			} else {
+//				return temp;
+//			}
+//		}
+//		int temp = staticValue + difference;
+//		if (temp > max) {
+//			return max;
+//		} else {
+//			return temp;
+//		}
+//
+//	}
+//
+//	public void createFileDirectory() {
+//		try {
+//			String category = "upload-dir\\person";
+//			Path rootLocation = Paths.get(category);
+//			boolean exists = Files.exists(rootLocation);
+//			if (!exists) {
+//				Files.createDirectory(rootLocation);
+//			}
+//
+//			for (int year = 1992; year < 2019; year++) {
+//				if (!Files.exists(Paths.get(category + "\\" + year))) {
+//					Files.createDirectory(Paths.get(category + "\\" + year));
+//					System.out.println("File Created : " + category + "\\" + year);
+//				}
+//				for (int month = 1; month < 13; month++) {
+//					if (!Files.exists(Paths.get(category + "\\" + year + "\\" + month))) {
+//						Files.createDirectory(Paths.get(category + "\\" + year + "\\" + month));
+//						System.out.println("File Created : " + category + "\\" + year + "\\" + month);
+//					}
+//					for (int day = 1; day < 32; day++) {
+//						if (!Files.exists(Paths.get(category + "\\" + year + "\\" + month + "\\" + day))) {
+//							Files.createDirectory(Paths.get(category + "\\" + year + "\\" + month + "\\" + day));
+//						}
+//					}
+//				}
+//
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+//
+//	private void loadFromFileToDB() {
+//		try {
+//			ArrayList<String> fileList = fileSystemStorageService.getImgResourceFileList();
+//			String previousCategoryName = "";
+//			String currentCategoryName = "";
+//			int yearOfTen = 1990;
+//			for (int i = 0; i < fileList.size(); i++) {
+//				String[] parts = fileList.get(i).split("\\\\");
+//				if (parts.length < 6) {
+//					System.out.println("File Path Error " + fileList.get(i));
+//					continue;
+//				}
+//				Item item = new Item();
+//				currentCategoryName = parts[1];
+//				item.setYear(Integer.valueOf(parts[2]));
+//				item.setMonth(Integer.valueOf(parts[3]));
+//				item.setDay(Integer.valueOf(parts[4]));
+//				item.setFilename(parts[5]);
+//				int tempYear = item.getYear() - item.getYear() % 10;
+//
+//				if (previousCategoryName.length() == 0) {
+//					previousCategoryName = parts[1];
+//					categoryService.addCategory(new Category(currentCategoryName, tempYear));
+//					yearOfTen = tempYear;
+//				}
+//				if (!currentCategoryName.equals(previousCategoryName) || (tempYear != yearOfTen)) {
+//					categoryService.addCategory(new Category(currentCategoryName, tempYear));
+//					yearOfTen = tempYear;
+//					previousCategoryName = currentCategoryName;
+//				}
+//				item.setCategory(categoryService.getCategoryByNameAndYear(currentCategoryName, yearOfTen));
+//
+//				Resource file = fileSystemStorageService.getFile(Paths.get(parts[0] + "\\" + parts[1] + "\\" + parts[2] + "\\" + parts[3] + "\\" + parts[4]), parts[5]);
+//				byte[] content = IOUtils.toByteArray(file.getInputStream());
+//				if (content == null) {
+//					System.out.println("File Read Error !! Filename:" + fileList.get(i));
+//					continue;
+//				}
+//				if (content.length <= 0) {
+//					System.out.println("File Size Error !! Filename:" + fileList.get(i));
+//					continue;
+//				}
+//
+//				item.setContent(content);
+//				item.setCategory(categoryService.getCategoryByName(currentCategoryName));
+//
+//				addItemFromFile(item);
+//				System.out.println("Saved Successfully From File Filename : " + fileList.get(i));
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+//
+//}

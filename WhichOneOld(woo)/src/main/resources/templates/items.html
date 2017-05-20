@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<nav role="navigation">
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/woo/addItems">Add More Items</a></li>
+		</ul>
+	</nav>
+	<div>
+		<ul>
+			<li th:each="item : ${items}"><a th:href="${item.filename}"
+				th:text="${item.filename}"></a> <span
+				th:text="'Year: ' + ${item.year}"></span> <span
+				th:text="'Month: ' + ${item.month}"></span> <span
+				th:text="'Day: ' + ${item.day}"></span> <img
+				th:src="${serverAddress}+${item.id}" height="400" width="400" /></li>
+		</ul>
+	</div>
+
+</body>
+</html>

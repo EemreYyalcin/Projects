@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!-- Template by Quackit.com -->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SelectLevel</title>
+<!-- Bootstrap Core CSS -->
+<link type="text/css" th:href="@{/css/bootstrap.min.css}"
+	rel="stylesheet" />
+
+<!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
+<link type="text/css" th:href="@{/css/custom.css}" rel="stylesheet" />
+</head>
+
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<!-- Logo and responsive toggle -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#"> <span
+				class="glyphicon glyphicon-fire"></span> Logo
+			</a>
+		</div>
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li><a th:href="${homeUrl}">Home</a></li>
+				<li class="active"><a th:href="${categories}">Categories</a></li>
+				<li><a href="#">Question</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#">Contact</a></li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+	</div>
+	<!-- /.container -->
+</nav>
+
+<!-- Heading -->
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			WOO <small>Select Levels</small>
+		</h1>
+	</div>
+</div>
+<!-- /.row -->
+
+<body>
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<tbody>
+					<tr th:each="level : ${levels}">
+						<td><a th:href="${level.nextUrl} + ${level.level}"> <img
+								class="img-responsive" th:src="${level.imageUrl}" alt=""
+								height="400" width="400" />
+						</a></td>
+						<td>
+							<h3>
+								<a th:href="${level.nextUrl}" th:text="${level.name}"></a>
+							</h3>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script th:src="@{/js/jquery-1.11.3.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>

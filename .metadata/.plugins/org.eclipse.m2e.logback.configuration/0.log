@@ -1,0 +1,27 @@
+2017-05-20 03:15:59,935 [Worker-13] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.woo:springwoo:0.0.1-SNAPSHOT @ C:\Emre\Education\Projects\spring-woo-01\pom.xml.
+2017-05-20 03:16:02,244 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /spring-woo-01/src/main/java
+2017-05-20 03:16:02,245 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /spring-woo-01/src/main/resources
+2017-05-20 03:16:02,247 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /spring-woo-01/src/main/resources
+2017-05-20 03:16:02,250 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /spring-woo-01/src/test/java
+2017-05-20 03:16:02,689 [Worker-13] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 1 project(s) in 5 sec
+2017-05-20 03:16:11,429 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-20 03:16:11,437 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2017-05-20 03:16:11,491 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 28 resources
+2017-05-20 03:16:14,418 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-20 03:16:14,418 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Emre\Education\Projects\spring-woo-01\src\test\resources
+2017-05-20 03:16:50,911 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-20 03:16:50,913 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-05-20 03:16:50,913 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-05-20 03:16:50,916 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-20 03:16:50,916 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Emre\Education\Projects\spring-woo-01\src\test\resources
+2017-05-20 03:17:55,384 [Worker-17] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.woo:springwoo:0.0.1-SNAPSHOT @ C:\Emre\Education\Projects\WhichOneOld(woo)\pom.xml.
+2017-05-20 03:17:57,399 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-20 03:17:57,401 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2017-05-20 03:17:57,432 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 28 resources
+2017-05-20 03:17:57,926 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-20 03:17:57,933 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Emre\Education\Projects\WhichOneOld(woo)\src\test\resources
+2017-05-20 03:18:01,654 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-20 03:18:01,661 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2017-05-20 03:18:01,675 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 28 resources
+2017-05-20 03:18:01,995 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-20 03:18:02,002 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Emre\Education\Projects\WhichOneOld(woo)\src\test\resources

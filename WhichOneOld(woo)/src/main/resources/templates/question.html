@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!-- Template by Quackit.com -->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+<title>Portfolio, 2 Column</title>
+
+<!-- Bootstrap Core CSS -->
+<link type="text/css" th:href="@{/css/bootstrap.min.css}"
+	rel="stylesheet" />
+
+<!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
+<link type="text/css" th:href="@{/css/custom.css}" rel="stylesheet" />
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<!-- Logo and responsive toggle -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"> <span
+					class="glyphicon glyphicon-fire"></span> Logo
+				</a>
+			</div>
+			<!-- Navbar links -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a th:href="${homeUrl}">Home</a></li>
+					<li><a th:href="${categories}">Categories</a></li>
+					<li class="active"><a href="#">Question</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+
+
+	<!-- Heading -->
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">
+				WOO <small>Questions</small>
+			</h1>
+		</div>
+	</div>
+	<!-- /.row -->
+	<!-- Projects Row -->
+	<div class="row">
+		<div id="clickA" class="col-md-5 portfolio-item">
+			<a href="#" id="clickANext"
+				th:onclick="'changeColor(\'clickA\',\'' + ${answerModel.answerA} + '\',\'' + ${answerModel.answerB} + '\',\'' + ${answerModel.answerC} + '\',\'' + ${questionModel.itemAClickNext} + '\');'">
+				<img class="img-responsive"
+				th:src="${questionModel.imageResource}+${questionModel.itemA.id}"
+				alt=""></img>
+			</a>
+			<h3>
+				<a href="#" th:text="${questionModel.itemA.year}"></a>
+			</h3>
+		</div>
+		<div id="clickC" class="col-md-2 portfolio-item"
+			th:if="${questionModel.itemCClickNext}">
+			<a href="#" id="clickCNext"
+				th:onclick="'changeColor(\'clickC\',\'' + ${answerModel.answerA} + '\',\'' + ${answerModel.answerC} + '\',\'' + ${answerModel.answerC} + '\',\'' + ${questionModel.itemCClickNext} + '\');'">
+				<img class="img-responsive"
+				th:src="${questionModel.imageResource}+${questionModel.itemA.id}"
+				alt=""></img>
+			</a>
+			<h3>
+				<a href="#" th:text="Equal"></a>
+			</h3>
+		</div>
+		<div id="clickB" class="col-md-5 portfolio-item">
+			<a href="#" id="clickBNext"
+				th:onclick="'changeColor(\'clickB\',\'' + ${answerModel.answerA} + '\',\'' + ${answerModel.answerB} + '\',\'' + ${answerModel.answerC} + '\',\'' + ${questionModel.itemBClickNext} + '\');'">
+				<img class="img-responsive"
+				th:src="${questionModel.imageResource}+${questionModel.itemB.id}"
+				alt=""></img>
+			</a>
+			<h3>
+				<a href="#" th:text="${questionModel.itemB.year}"></a>
+			</h3>
+		</div>
+	</div>
+	<!-- /.row -->
+
+	<div class="container">
+		<div class="progress active">
+			<div class="progress-bar progress-bar-success progress-bar-striped"
+				role="progressbar"
+				th:style="'width:'+ ${questionModel.truePercentage}+'%;'"
+				th:utext="'TRUE ( ' + ${questionModel.truePercentage} + '% )'"></div>
+			<div class="progress-bar progress-bar-danger progress-bar-striped"
+				role="progressbar"
+				th:style="'width:'+ ${questionModel.falsePercentage}+'%;'"
+				th:utext="'FALSE ( ' + ${questionModel.falsePercentage} + '% )'"></div>
+		</div>
+		<div class="progress active">
+			<div class="progress-bar progress-bar-info progress-bar-striped"
+				role="progressbar"
+				th:style="'width:'+ ${questionModel.totalPercentage}+'%;'"
+				th:utext="'CLICK ( ' + ${questionModel.totalPercentage} + ' )'"></div>
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script th:src="@{/js/jquery-1.11.3.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script th:src="@{/js/question.js}"></script>
+</body>
+
+</html>
