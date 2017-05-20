@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename Java project &apos;spring-woo-01&apos; to &apos;WhichOneOld(woo)&apos;&#x0D;&#x0A;- Original element: &apos;spring-woo-01&apos;&#x0D;&#x0A;- Renamed element: &apos;spring-woo-01&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename Java project &apos;spring-woo-01&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=spring-woo-01" name="WhichOneOld(woo)" references="true" stamp="1495239462161" version="1.0"/>
-</session>
