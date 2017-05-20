@@ -19,7 +19,7 @@ public class FileSystemStorageService {
 	@Autowired
 	public FileSystemStorageService() {
 		try {
-			rootLocation = Paths.get("upload-dir");
+			rootLocation = Paths.get("C:\\Users\\eemre\\Desktop\\DB\\upload-dir");
 			boolean exists = Files.exists(rootLocation);
 			if (!exists) {
 				Files.createDirectory(rootLocation);

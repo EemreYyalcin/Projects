@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -27,6 +28,10 @@ public class Category {
 	private Set<Question> questions;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	private Set<Item> items;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+	private Set<CategoryScore> categoryScores;
+	@ManyToMany(mappedBy = "categoryList")
+	private Set<Statistic> categoryStatistics;
 	@Column(name = "DECADE", nullable = false)
 	private int decade;
 	@Column(name = "MAPCOUNTITEM")
@@ -119,7 +124,24 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name +", decade=" + decade + ", mapCountItem=" + mapCountItem + ", mapCountQuestion=" + mapCountQuestion + "]";
+		return "Category [id=" + id + ", name=" + name + ", decade=" + decade + ", mapCountItem=" + mapCountItem
+				+ ", mapCountQuestion=" + mapCountQuestion + "]";
+	}
+
+	public Set<CategoryScore> getCategoryScores() {
+		return categoryScores;
+	}
+
+	public void setCategoryScores(Set<CategoryScore> categoryScores) {
+		this.categoryScores = categoryScores;
+	}
+
+	public Set<Statistic> getCategoryStatistics() {
+		return categoryStatistics;
+	}
+
+	public void setCategoryStatistics(Set<Statistic> categoryStatistics) {
+		this.categoryStatistics = categoryStatistics;
 	}
 
 }
