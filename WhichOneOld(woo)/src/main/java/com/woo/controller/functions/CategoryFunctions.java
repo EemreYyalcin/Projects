@@ -6,13 +6,16 @@ import java.util.Properties;
 import com.woo.domain.Category;
 import com.woo.domain.Item;
 import com.woo.model.CategoryModel;
-import com.woo.service.CategoryServiceImpl;
-import com.woo.service.ItemServiceImpl;
+import com.woo.service.impl.CategoryScoreServiceImpl;
+import com.woo.service.impl.CategoryServiceImpl;
+import com.woo.service.impl.ItemServiceImpl;
 import com.woo.utils.LogMessage;
 
 public class CategoryFunctions {
 
-	public static ArrayList<CategoryModel> getCategoriesByName(Iterable<Category> categories, ItemServiceImpl itemService, CategoryServiceImpl categoryService) {
+	public static ArrayList<CategoryModel> getCategoriesByName(Iterable<Category> categories,
+			ItemServiceImpl itemService, CategoryServiceImpl categoryService,
+			CategoryScoreServiceImpl categoryScoreService, long userId) {
 		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 		Properties categoryNames = new Properties();
 		for (Category category : categories) {
@@ -24,6 +27,7 @@ public class CategoryFunctions {
 			categoryModel.setLastUpdateDate(categoryService.getLastUpdateDate(category.getName()));
 			Item randomItem = ItemFunctions.getRandomItem(itemService, category);
 			categoryModel.setCategoryClickUrl("/woo/category/");
+			categoryModel.setCategoryScoreModel(categoryScoreService.getTotalCategoryScore(userId, category.getName()));
 			if (randomItem == null || randomItem.getId() == 0) {
 				LogMessage.error("Wrong Item Code:Patika");
 				continue;
@@ -43,7 +47,8 @@ public class CategoryFunctions {
 		return categoryModels;
 	}
 
-	public static ArrayList<CategoryModel> getCategoriesByDecade(ArrayList<Category> categories, ItemServiceImpl itemService) {
+	public static ArrayList<CategoryModel> getCategoriesByDecade(ArrayList<Category> categories,
+			ItemServiceImpl itemService) {
 		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 		LogMessage.logx("categories:" + categories.toString());
 		for (Category category : categories) {

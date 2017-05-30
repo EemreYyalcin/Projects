@@ -1,15 +1,17 @@
 package com.woo.domain;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Statistic {
@@ -18,9 +20,12 @@ public class Statistic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "STATISTIC_ID", nullable = false, updatable = false)
 	private long id;
-	@ManyToMany
-	@JoinTable(name = "STATISTIC_CATEGORY", joinColumns = @JoinColumn(name = "STATISTIC_ID", referencedColumnName = "STATISCIC_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "CATEGORY_ID"))
-	private Set<Category> categoryList;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "STATISTIC_CATEGORYSCORE", joinColumns = @JoinColumn(name = "STATISTIC_ID", referencedColumnName = "STATISTIC_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORYSCORE_ID", referencedColumnName = "CATEGORYSCORE_ID"))
+	private List<CategoryScore> categoryScoreList;
+	@OneToOne
+	@JoinColumn(name = "CONTACT_ID", nullable = false)
+	private Contact contact;
 
 	public long getId() {
 		return id;
@@ -30,12 +35,20 @@ public class Statistic {
 		this.id = id;
 	}
 
-	public Set<Category> getCategoryList() {
-		return categoryList;
+	public List<CategoryScore> getCategoryList() {
+		return categoryScoreList;
 	}
 
-	public void setCategoryList(Set<Category> categoryList) {
-		this.categoryList = categoryList;
+	public void setCategoryList(List<CategoryScore> categoryScoreList) {
+		this.categoryScoreList = categoryScoreList;
+	}
+
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 
 }

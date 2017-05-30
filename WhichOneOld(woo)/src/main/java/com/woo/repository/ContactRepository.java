@@ -6,4 +6,5 @@ import com.woo.domain.Contact;
 
 public interface ContactRepository extends CrudRepository<Contact, Long> {
 
+	Contact findByEmail(String email);
 }

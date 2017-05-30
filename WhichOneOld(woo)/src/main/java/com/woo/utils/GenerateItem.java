@@ -10,13 +10,14 @@ import org.springframework.core.io.Resource;
 
 import com.woo.domain.Category;
 import com.woo.domain.Item;
-import com.woo.service.CategoryServiceImpl;
-import com.woo.service.FileSystemStorageService;
-import com.woo.service.ItemServiceImpl;
+import com.woo.service.impl.CategoryServiceImpl;
+import com.woo.service.impl.FileSystemStorageServiceImpl;
+import com.woo.service.impl.ItemServiceImpl;
 
 public class GenerateItem {
 
-	public static void loadFromFileToDB(FileSystemStorageService fileSystemStorageService, CategoryServiceImpl categoryService, ItemServiceImpl itemService) {
+	public static void loadFromFileToDB(FileSystemStorageServiceImpl fileSystemStorageService,
+			CategoryServiceImpl categoryService, ItemServiceImpl itemService) {
 		try {
 			ArrayList<String> fileList = fileSystemStorageService.getImgResourceFileList();
 			String currentCategoryName = "";
@@ -60,7 +61,8 @@ public class GenerateItem {
 					String[] yearAndFilename = yearAndFilenames.split(".YLC.");
 					int year = Integer.valueOf(yearAndFilename[0]);
 					String filename = yearAndFilename[1];
-					Resource file = fileSystemStorageService.getFile(Paths.get(prefix + "\\" + category.getName() + "\\" + year), filename);
+					Resource file = fileSystemStorageService
+							.getFile(Paths.get(prefix + "\\" + category.getName() + "\\" + year), filename);
 
 					// InputStream is = file.getInputStream();
 					// byte[] content = IOUtils.toByteArray(is);
@@ -69,15 +71,21 @@ public class GenerateItem {
 					byte[] content = ImageCodec.resizeImageConvert(file.getFile());
 
 					if (content == null) {
-						LogMessage.logx("File Read Error !! Filename:" + prefix + "\\" + category.getName() + "\\" + year + "\\" + filename);
-//						fileSystemStorageService.deleteFile(Paths.get(prefix + "\\" + category.getName() + "\\" + year + "\\" + filename));
+						LogMessage.logx("File Read Error !! Filename:" + prefix + "\\" + category.getName() + "\\"
+								+ year + "\\" + filename);
+						// fileSystemStorageService.deleteFile(Paths.get(prefix
+						// + "\\" + category.getName() + "\\" + year + "\\" +
+						// filename));
 						continue;
 					}
 					if (content.length <= 0) {
-						LogMessage.logx("File Size Error !! Filename:" + prefix + "\\" + category.getName() + "\\" + year + "\\" + filename);
-//						fileSystemStorageService.deleteFile(Paths.get(prefix + "\\" + category.getName() + "\\" + year + "\\" + filename));
+						LogMessage.logx("File Size Error !! Filename:" + prefix + "\\" + category.getName() + "\\"
+								+ year + "\\" + filename);
+						// fileSystemStorageService.deleteFile(Paths.get(prefix
+						// + "\\" + category.getName() + "\\" + year + "\\" +
+						// filename));
 						continue;
-					} 
+					}
 					try {
 						Item item = new Item();
 						item.setFilename(year + filename);
@@ -87,10 +95,12 @@ public class GenerateItem {
 						item.setCategory(category);
 						itemService.addItem(item);
 						++categoryMapCountItem;
-						fileSystemStorageService.deleteFile(Paths.get(prefix + "\\" + category.getName() + "\\" + year + "\\" + filename));
+						fileSystemStorageService.deleteFile(
+								Paths.get(prefix + "\\" + category.getName() + "\\" + year + "\\" + filename));
 					} catch (Exception e) {
 						// ignored
-						fileSystemStorageService.deleteFile(Paths.get(prefix + "\\" + category.getName() + "\\" + year + "\\" + filename));
+						fileSystemStorageService.deleteFile(
+								Paths.get(prefix + "\\" + category.getName() + "\\" + year + "\\" + filename));
 					}
 				}
 				category.setMapCountItem(categoryMapCountItem);

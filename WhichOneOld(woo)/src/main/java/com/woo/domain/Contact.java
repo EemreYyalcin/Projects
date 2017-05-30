@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Contact {
@@ -21,45 +22,60 @@ public class Contact {
 	private String name;
 	@Column(name = "SURNAME")
 	private String surname;
+	@OneToOne
+	private Statistic statistic;
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public Contact setId(long id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public Contact setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public Contact setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public Contact setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public String getSurname() {
 		return surname;
 	}
 
-	public void setSurname(String surname) {
+	public Contact setSurname(String surname) {
 		this.surname = surname;
+		return this;
+	}
+
+	public Statistic getStatistic() {
+		return statistic;
+	}
+
+	public void setStatistic(Statistic statistic) {
+		this.statistic = statistic;
 	}
 
 }

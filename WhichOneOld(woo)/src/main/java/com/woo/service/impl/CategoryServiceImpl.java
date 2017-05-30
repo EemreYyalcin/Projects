@@ -1,4 +1,4 @@
-package com.woo.service;
+package com.woo.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.woo.domain.Category;
 import com.woo.repository.CategoryRepository;
+import com.woo.service.types.CategoryService;
 
 @Service
-public class CategoryServiceImpl {
+public class CategoryServiceImpl implements CategoryService{
 
 	private CategoryRepository categoryRepository;
 
@@ -18,27 +19,27 @@ public class CategoryServiceImpl {
 	public CategoryServiceImpl(CategoryRepository categoryRepository) {
 		this.categoryRepository = categoryRepository;
 	}
-
+	@Override
 	public void addCategory(Category category) {
 		categoryRepository.save(category);
 	}
-
+	@Override
 	public Iterable<Category> getCategories() {
 		return categoryRepository.findAll();
 	}
-
+	@Override
 	public void deleteCategoriesById(long id) {
 		categoryRepository.delete(id);
 	}
-
+	@Override
 	public Category getCategoryById(long id) {
 		return categoryRepository.findById(id);
 	}
-
+	@Override
 	public ArrayList<Category> getCategoriesByName(String name) {
 		return categoryRepository.findByNameLike(name);
 	}
-
+	@Override
 	public Category getCategoryByNameAndDecade(String name, int decade) {
 		Iterable<Category> categoryList = categoryRepository.findByNameAndDecade(name, decade);
 		if (categoryList == null) {
@@ -49,7 +50,7 @@ public class CategoryServiceImpl {
 		}
 		return categoryList.iterator().next();
 	}
-
+	@Override
 	public ArrayList<Integer> getDecades(String categoryName) {
 		ArrayList<Category> categories = getCategoriesByName(categoryName);
 		ArrayList<Integer> list = new ArrayList<>();
@@ -58,7 +59,7 @@ public class CategoryServiceImpl {
 		}
 		return list;
 	}
-
+	@Override
 	public Date getLastUpdateDate(String categoryName) {
 		ArrayList<Category> categories = getCategoriesByName(categoryName);
 		if (categories.size() <= 0) {

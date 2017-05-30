@@ -16,10 +16,12 @@ public class CategoryModel {
 	private String categoryClickUrl;
 	private String imageResource;
 	private ArrayList<Integer> decadeList;
+	private CategoryScoreModel categoryScoreModel;
 
 	public static CategoryModel getCategoryModel(Category category) {
 		CategoryModel model = new CategoryModel();
-		model.setCategoryId(category.getId()).setCategoryName(category.getName()).setDecade(category.getDecade()).setLastUpdateDate(category.getLastUpdateDate());
+		model.setCategoryId(category.getId()).setCategoryName(category.getName()).setDecade(category.getDecade())
+				.setLastUpdateDate(category.getLastUpdateDate());
 		return model;
 	}
 
@@ -97,6 +99,14 @@ public class CategoryModel {
 
 	public void setDecadeList(ArrayList<Integer> decadeList) {
 		this.decadeList = decadeList;
+	}
+
+	public CategoryScoreModel getCategoryScoreModel() {
+		return categoryScoreModel;
+	}
+
+	public void setCategoryScoreModel(CategoryScoreModel categoryScoreModel) {
+		this.categoryScoreModel = categoryScoreModel;
 	}
 
 }

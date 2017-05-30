@@ -9,8 +9,9 @@ public class HomeController {
 	// testtt
 	@RequestMapping("/")
 	public String getHomePage() {
-		return "redirect:/woo/categories";
+//		return "redirect:/woo/categories";
 //		return "redirect:/woo/questionRandom/1/5";
 //		return "index2";
+		return "redirect:/woo/login";
 	}
 }

@@ -1,4 +1,4 @@
-package com.woo.service;
+package com.woo.service.impl;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,19 +7,24 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
+import com.woo.service.types.FileSystemStorageService;
+
 @Service
-public class FileSystemStorageService {
+public class FileSystemStorageServiceImpl implements FileSystemStorageService {
 
 	private Path rootLocation;
+	@Value("${rootLocationValue}")
+	private String rootLocationValue = "C:\\Users\\eemre\\Desktop\\DB\\upload-dir";
 
 	@Autowired
-	public FileSystemStorageService() {
+	public FileSystemStorageServiceImpl() {
 		try {
-			rootLocation = Paths.get("C:\\Users\\eemre\\Desktop\\DB\\upload-dir");
+			rootLocation = Paths.get(rootLocationValue);
 			boolean exists = Files.exists(rootLocation);
 			if (!exists) {
 				Files.createDirectory(rootLocation);
@@ -29,6 +34,7 @@ public class FileSystemStorageService {
 		}
 	}
 
+	@Override
 	public ArrayList<String> getImgResourceFileList() throws IOException {
 		ArrayList<String> list = new ArrayList<String>();
 		Files.walk(rootLocation).forEach(filePath -> {
@@ -43,6 +49,7 @@ public class FileSystemStorageService {
 		return list;
 	}
 
+	@Override
 	public Resource getFile(Path path, String filename) {
 		try {
 			Path file = load(path, filename);
@@ -62,6 +69,7 @@ public class FileSystemStorageService {
 		return null;
 	}
 
+	@Override
 	public void deleteFile(Path path) {
 		try {
 			Files.delete(path);
@@ -70,10 +78,12 @@ public class FileSystemStorageService {
 		}
 	}
 
+	@Override
 	public Path load(Path path, String filename) {
 		return path.resolve(filename);
 	}
 
+	@Override
 	public void createFileDirectory() {
 		try {
 			String category = "upload-dir\\person";

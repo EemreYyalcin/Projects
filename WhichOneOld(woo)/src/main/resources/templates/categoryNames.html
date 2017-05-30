@@ -91,10 +91,21 @@
 							<h3>
 								<span th:text="${category.decadeList}"></span>
 							</h3>
-							<h3>
-								<span th:text="${category.lastUpdateDate}"></span>
-							</h3>
-							
+							<div class="container">
+								<div class="progress active">
+									<div
+										class="progress-bar progress-bar-success progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.veryHard.truePercentage}+'%;'"
+										th:utext="'TRUE ( ' + ${score.veryHard.truePercentage}+ '% )'"></div>
+									<div
+										class="progress-bar progress-bar-danger progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.veryHard.falsePercentage}+'%;'"
+										th:utext="'FALSE ( ' + ${score.veryHard.falsePercentage}+'% )'"></div>
+								</div>
+							</div>
+
 						</td>
 					</tr>
 				</tbody>

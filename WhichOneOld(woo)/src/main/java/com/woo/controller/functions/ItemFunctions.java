@@ -2,7 +2,7 @@ package com.woo.controller.functions;
 
 import com.woo.domain.Category;
 import com.woo.domain.Item;
-import com.woo.service.ItemServiceImpl;
+import com.woo.service.impl.ItemServiceImpl;
 import com.woo.utils.LogMessage;
 import com.woo.utils.Utils;
 

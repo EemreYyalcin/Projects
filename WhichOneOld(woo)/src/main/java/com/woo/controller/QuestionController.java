@@ -13,9 +13,9 @@ import com.woo.domain.Category;
 import com.woo.domain.Question;
 import com.woo.model.AnswerModel;
 import com.woo.model.QuestionModel;
-import com.woo.service.ItemServiceImpl;
-import com.woo.service.QuestionScoreServiceImpl;
-import com.woo.service.QuestionServiceImpl;
+import com.woo.service.impl.ItemServiceImpl;
+import com.woo.service.impl.QuestionScoreServiceImpl;
+import com.woo.service.impl.QuestionServiceImpl;
 import com.woo.utils.LogMessage;
 
 @Controller
@@ -48,8 +48,6 @@ public class QuestionController {
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		view.addAttribute("questionModel", questionModel);
 		view.addAttribute("answerModel", answerModel);
-		view.addAttribute("model", "60");
-		view.addAttribute("percent", "30");
 		return "question";
 	}
 

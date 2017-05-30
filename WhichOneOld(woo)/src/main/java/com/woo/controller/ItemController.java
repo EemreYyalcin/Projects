@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.woo.domain.Item;
-import com.woo.service.ItemServiceImpl;
+import com.woo.service.impl.ItemServiceImpl;
 import com.woo.utils.LogMessage;
 
 @Controller

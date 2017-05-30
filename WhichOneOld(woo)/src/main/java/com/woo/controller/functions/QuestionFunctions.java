@@ -10,9 +10,9 @@ import com.woo.domain.QuestionScore;
 import com.woo.model.AnswerModel;
 import com.woo.model.LevelModel;
 import com.woo.model.QuestionModel;
-import com.woo.service.ItemServiceImpl;
-import com.woo.service.QuestionScoreServiceImpl;
-import com.woo.service.QuestionServiceImpl;
+import com.woo.service.impl.ItemServiceImpl;
+import com.woo.service.impl.QuestionScoreServiceImpl;
+import com.woo.service.impl.QuestionServiceImpl;
 import com.woo.utils.LogMessage;
 import com.woo.utils.Utils;
 
