@@ -104,6 +104,54 @@
 										th:style="'width:'+ ${score.veryHard.falsePercentage}+'%;'"
 										th:utext="'FALSE ( ' + ${score.veryHard.falsePercentage}+'% )'"></div>
 								</div>
+								<div class="progress active">
+									<div
+										class="progress-bar progress-bar-success progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.hard.truePercentage}+'%;'"
+										th:utext="'TRUE ( ' + ${score.hard.truePercentage}+ '% )'"></div>
+									<div
+										class="progress-bar progress-bar-danger progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.hard.falsePercentage}+'%;'"
+										th:utext="'FALSE ( ' + ${score.hard.falsePercentage}+'% )'"></div>
+								</div>
+								<div class="progress active">
+									<div
+										class="progress-bar progress-bar-success progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.medium.truePercentage}+'%;'"
+										th:utext="'TRUE ( ' + ${score.medium.truePercentage}+ '% )'"></div>
+									<div
+										class="progress-bar progress-bar-danger progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.medium.falsePercentage}+'%;'"
+										th:utext="'FALSE ( ' + ${score.medium.falsePercentage}+'% )'"></div>
+								</div>
+								<div class="progress active">
+									<div
+										class="progress-bar progress-bar-success progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.easy.truePercentage}+'%;'"
+										th:utext="'TRUE ( ' + ${score.easy.truePercentage}+ '% )'"></div>
+									<div
+										class="progress-bar progress-bar-danger progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.easy.falsePercentage}+'%;'"
+										th:utext="'FALSE ( ' + ${score.easy.falsePercentage}+'% )'"></div>
+								</div>
+								<div class="progress active">
+									<div
+										class="progress-bar progress-bar-success progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.veryEasy.truePercentage}+'%;'"
+										th:utext="'TRUE ( ' + ${score.veryEasy.truePercentage}+ '% )'"></div>
+									<div
+										class="progress-bar progress-bar-danger progress-bar-striped"
+										role="progressbar"
+										th:style="'width:'+ ${score.veryEasy.falsePercentage}+'%;'"
+										th:utext="'FALSE ( ' + ${score.veryEasy.falsePercentage}+'% )'"></div>
+								</div>
 							</div>
 
 						</td>

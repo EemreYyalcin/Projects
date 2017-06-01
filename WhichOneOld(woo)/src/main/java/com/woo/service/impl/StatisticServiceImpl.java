@@ -14,6 +14,11 @@ public class StatisticServiceImpl implements StatisticService{
 	private StatisticRepository statisticRepository;
 	
 	@Override
+	public Statistic addStatistic(Statistic statistic){
+		return statisticRepository.save(statistic);
+	}
+	
+	@Override
 	public Statistic getStatisticByUserId(long userId) {
 		return statisticRepository.findOne(userId);
 	}

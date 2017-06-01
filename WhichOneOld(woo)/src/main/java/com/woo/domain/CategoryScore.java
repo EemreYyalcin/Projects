@@ -1,7 +1,6 @@
 package com.woo.domain;
 
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -27,8 +25,9 @@ public class CategoryScore {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "SCORE_ID", nullable = false)
 	private Score score;
-	@ManyToMany(mappedBy = "categoryScoreList")
-	private Set<Statistic> statistics;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "STATISTIC_ID", nullable = false)
+	private Statistic statistic;
 	@Column(name = "LASTUPDATEDATE")
 	private Date lastUpdateDate;
 
@@ -64,12 +63,12 @@ public class CategoryScore {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public Set<Statistic> getStatistics() {
-		return statistics;
+	public Statistic getStatistic() {
+		return statistic;
 	}
 
-	public void setStatistics(Set<Statistic> statistics) {
-		this.statistics = statistics;
+	public void setStatistic(Statistic statistic) {
+		this.statistic = statistic;
 	}
 
 }

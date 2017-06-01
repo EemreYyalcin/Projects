@@ -2,9 +2,11 @@ package com.woo.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -22,7 +24,8 @@ public class Contact {
 	private String name;
 	@Column(name = "SURNAME")
 	private String surname;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "STATISTIC_ID")
 	private Statistic statistic;
 
 	public long getId() {

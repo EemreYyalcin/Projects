@@ -3,27 +3,22 @@ package com.woo.ejb;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.woo.domain.Contact;
+
 @SessionScope
 @Component
 public class UserProperties {
 
-	private String username = "demo";
-	private long userId = -1;
+	private Contact contact;
 
-	public String getUsername() {
-		return username;
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
-
-	public void setUserId(long id) {
-		this.userId = id;
-	}
-
-	public long getUserId() {
-		return userId;
-	}
-
+	
+	
+	
 }

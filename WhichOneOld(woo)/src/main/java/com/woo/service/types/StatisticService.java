@@ -6,4 +6,6 @@ public interface StatisticService {
 
 	Statistic getStatisticByUserId(long userId);
 
+	Statistic addStatistic(Statistic statistic);
+
 }

@@ -33,7 +33,7 @@ public class CategoryController {
 
 	@GetMapping("/woo/categories")
 	public ModelAndView getCategoryNamesAndImages() {
-		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", CategoryFunctions.getCategoriesByName(categoryService.getCategories(), itemService, categoryService, categoryScoreService, userProperties.getUserId()));
+		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", CategoryFunctions.getCategoriesByName(categoryService.getCategories(), itemService, categoryService, categoryScoreService, userProperties.getContact()));
 		return view;
 	}
 

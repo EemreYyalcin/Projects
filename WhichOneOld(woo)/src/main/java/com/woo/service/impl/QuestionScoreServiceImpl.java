@@ -13,19 +13,26 @@ public class QuestionScoreServiceImpl implements QuestionScoreService {
 
 	@Autowired
 	private QuestionScoreRepository questionScoreRepository;
+
 	@Override
 	public void addQuestionScore(QuestionScore questionScore) {
 		questionScoreRepository.save(questionScore);
 	}
+
 	@Override
 	public void updateQuestionResult(Question question, boolean result) {
-		QuestionScore questionScore = question.getScore();
-		if (result) {
-			questionScore.setTrueCount(questionScore.getTrueCount() + 1);
-		} else {
-			questionScore.setFalseCount(questionScore.getFalseCount() + 1);
-		}
-		addQuestionScore(questionScore);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				QuestionScore questionScore = question.getScore();
+				if (result) {
+					questionScore.setTrueCount(questionScore.getTrueCount() + 1);
+				} else {
+					questionScore.setFalseCount(questionScore.getFalseCount() + 1);
+				}
+				addQuestionScore(questionScore);
+			}
+		}).start();;
 
 	}
 }

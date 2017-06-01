@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.woo.domain.Category;
+import com.woo.domain.Contact;
 import com.woo.domain.Item;
 import com.woo.model.CategoryModel;
 import com.woo.service.impl.CategoryScoreServiceImpl;
@@ -15,7 +16,7 @@ public class CategoryFunctions {
 
 	public static ArrayList<CategoryModel> getCategoriesByName(Iterable<Category> categories,
 			ItemServiceImpl itemService, CategoryServiceImpl categoryService,
-			CategoryScoreServiceImpl categoryScoreService, long userId) {
+			CategoryScoreServiceImpl categoryScoreService, Contact contact) {
 		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 		Properties categoryNames = new Properties();
 		for (Category category : categories) {
@@ -27,7 +28,7 @@ public class CategoryFunctions {
 			categoryModel.setLastUpdateDate(categoryService.getLastUpdateDate(category.getName()));
 			Item randomItem = ItemFunctions.getRandomItem(itemService, category);
 			categoryModel.setCategoryClickUrl("/woo/category/");
-			categoryModel.setCategoryScoreModel(categoryScoreService.getTotalCategoryScore(userId, category.getName()));
+			categoryModel.setCategoryScoreModel(categoryScoreService.getTotalCategoryScore(contact, category.getName()));
 			if (randomItem == null || randomItem.getId() == 0) {
 				LogMessage.error("Wrong Item Code:Patika");
 				continue;

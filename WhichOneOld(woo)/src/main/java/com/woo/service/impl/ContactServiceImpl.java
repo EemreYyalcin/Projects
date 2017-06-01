@@ -18,12 +18,11 @@ public class ContactServiceImpl implements ContactService{
 		return contactRepository.findByEmail(email);
 	}
 	@Override
-	public boolean addContact(Contact contact) {
+	public Contact addContact(Contact contact) {
 		try {
-			contactRepository.save(contact);
-			return true;
+			return contactRepository.save(contact);
 		} catch (Exception e) {
-			return false;
+			return null;
 		}
 	}
 

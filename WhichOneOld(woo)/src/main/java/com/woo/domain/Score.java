@@ -17,6 +17,17 @@ public class Score {
 	@Column(name = "SCORE_ID", nullable = false, updatable = false)
 	private long id;
 
+	public Score(boolean tempValue) {
+		veryHardScore = new Ratio(0, 0);
+		hardScore = new Ratio(0, 0);
+		mediumScore = new Ratio(0, 0);
+		easyScore = new Ratio(0, 0);
+		veryEasyScore = new Ratio(0, 0);
+	}
+
+	public Score() {
+	}
+
 	@Embedded
 	// rename the basic mappings
 	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "VERYHARD_TRUECOUNT")),
@@ -91,4 +102,5 @@ public class Score {
 		this.veryEasyScore = veryEasyScore;
 	}
 
+	
 }

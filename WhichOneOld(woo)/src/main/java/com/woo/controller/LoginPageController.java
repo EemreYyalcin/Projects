@@ -39,8 +39,7 @@ public class LoginPageController {
 		if (bindingResult.hasErrors()) {
 			return "login";
 		}
-		userProperties.setUsername(contact.getEmail());
-		userProperties.setUserId(contactService.getContactByEmail(contact.getEmail()).getId());
+		userProperties.setContact(contactService.getContactByEmail(contact.getEmail()));
 
 		return "redirect:/woo/categories";
 	}

@@ -6,6 +6,6 @@ public interface ContactService {
 
 	Contact getContactByEmail(String email);
 
-	boolean addContact(Contact contact);
+	Contact addContact(Contact contact);
 
 }

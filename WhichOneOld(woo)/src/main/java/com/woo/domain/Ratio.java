@@ -8,14 +8,15 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Access(AccessType.FIELD)
 public class Ratio {
-	
+
 	public Ratio(int trueCount, int falseCount) {
 		this.trueCount = trueCount;
 		this.falseCount = falseCount;
 	}
-	
-	public Ratio() {}
-	
+
+	public Ratio() {
+	}
+
 	@Column(name = "TRUECOUNT")
 	private int trueCount;
 
@@ -36,6 +37,14 @@ public class Ratio {
 
 	public void setFalseCount(int falseCount) {
 		this.falseCount = falseCount;
+	}
+
+	public void increaseTrueCount() {
+		this.trueCount++;
+	}
+
+	public void increaseFalseCount() {
+		this.falseCount++;
 	}
 
 }
