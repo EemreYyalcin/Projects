@@ -5,7 +5,9 @@ import java.util.Properties;
 public class Side {
 
 	private Point previousPoint;
+
 	private Point currentPoint;
+
 	private Properties map = new Properties();
 
 	public Side() {
@@ -16,7 +18,7 @@ public class Side {
 
 	public static Side getSide(int mapCount) {
 		Side side = new Side();
-		while (side.getCurrentPoint().getMapCount() < mapCount){
+		while (side.getCurrentPoint().getMapCount() < mapCount) {
 			side = side.step(side);
 		}
 		return side;
@@ -44,37 +46,44 @@ public class Side {
 			if (getMap().get((new Point(side.getCurrentPoint().getX(), side.getCurrentPoint().getY() + 1, side.getCurrentPoint().getMapCount())).toString()) == null) {
 				// Turn Left
 				side.setCurrentPoint(new Point(side.getCurrentPoint().getX(), side.getCurrentPoint().getY() + 1, side.getCurrentPoint().getMapCount() + 1));
-			} else {
+			}
+			else {
 				// Keep Going
 				side.setCurrentPoint(new Point(side.getCurrentPoint().getX() + 1, side.getCurrentPoint().getY(), side.getCurrentPoint().getMapCount() + 1));
 
 			}
-		} else if (getDirection(side) == Direction.WEST) {
+		}
+		else if (getDirection(side) == Direction.WEST) {
 			side.setPreviousPoint(side.getCurrentPoint());
 			if (getMap().get((new Point(side.getCurrentPoint().getX(), side.getCurrentPoint().getY() - 1, side.getCurrentPoint().getMapCount())).toString()) == null) {
 				// Turn Left
 				side.setCurrentPoint(new Point(side.getCurrentPoint().getX(), side.getCurrentPoint().getY() - 1, side.getCurrentPoint().getMapCount() + 1));
-			} else {
+			}
+			else {
 				// Go head
 				side.setCurrentPoint(new Point(side.getCurrentPoint().getX() - 1, side.getCurrentPoint().getY(), side.getCurrentPoint().getMapCount() + 1));
 
 			}
-		} else if (getDirection(side) == Direction.NORTH) {
+		}
+		else if (getDirection(side) == Direction.NORTH) {
 			side.setPreviousPoint(side.getCurrentPoint());
 			if (getMap().get((new Point(side.getCurrentPoint().getX() - 1, side.getCurrentPoint().getY(), side.getCurrentPoint().getMapCount())).toString()) == null) {
 				// Turn Left
 				side.setCurrentPoint(new Point(side.getCurrentPoint().getX() - 1, side.getCurrentPoint().getY(), side.getCurrentPoint().getMapCount() + 1));
-			} else {
+			}
+			else {
 				// Go Head
 				side.setCurrentPoint(new Point(side.getCurrentPoint().getX(), side.getCurrentPoint().getY() + 1, side.getCurrentPoint().getMapCount() + 1));
 			}
 
-		} else if (getDirection(side) == Direction.SOUTH) {
+		}
+		else if (getDirection(side) == Direction.SOUTH) {
 			side.setPreviousPoint(side.getCurrentPoint());
 			if (getMap().get((new Point(side.getCurrentPoint().getX() + 1, side.getCurrentPoint().getY(), side.getCurrentPoint().getMapCount())).toString()) == null) {
 				// Turn Left
 				side.setCurrentPoint(new Point(side.getCurrentPoint().getX() + 1, side.getCurrentPoint().getY(), side.getCurrentPoint().getMapCount() + 1));
-			} else {
+			}
+			else {
 				// Go Head
 				side.setCurrentPoint(new Point(side.getCurrentPoint().getX(), side.getCurrentPoint().getY() - 1, side.getCurrentPoint().getMapCount() + 1));
 			}
@@ -92,43 +101,51 @@ public class Side {
 					return null;
 				}
 				return point;
-			} else {
+			}
+			else {
 				return null;
 			}
-		} else if (direction == Direction.WEST) {
+		}
+		else if (direction == Direction.WEST) {
 			Point point = (Point) side.getMap().get((new Point(side.getCurrentPoint().getX() - 1, side.getCurrentPoint().getY(), side.getCurrentPoint().getMapCount()).toString()));
 			if (point != null) {
 				if (point.getMapCount() > side.getCurrentPoint().getMapCount()) {
 					return null;
 				}
 				return point;
-			} else {
+			}
+			else {
 				return null;
 			}
 
-		} else if (direction == Direction.NORTH) {
+		}
+		else if (direction == Direction.NORTH) {
 			Point point = (Point) side.getMap().get((new Point(side.getCurrentPoint().getX(), side.getCurrentPoint().getY() + 1, side.getCurrentPoint().getMapCount()).toString()));
 			if (point != null) {
 				if (point.getMapCount() > side.getCurrentPoint().getMapCount()) {
 					return null;
 				}
 				return point;
-			} else {
+			}
+			else {
 				return null;
 			}
 
-		} else if (direction == Direction.SOUTH) {
+		}
+		else if (direction == Direction.SOUTH) {
 			Point point = (Point) side.getMap().get((new Point(side.getCurrentPoint().getX(), side.getCurrentPoint().getY() - 1, side.getCurrentPoint().getMapCount()).toString()));
 			if (point != null) {
 				if (point.getMapCount() > side.getCurrentPoint().getMapCount()) {
 					return null;
 				}
 				return point;
-			} else {
+			}
+			else {
 				return null;
 			}
 
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -138,17 +155,21 @@ public class Side {
 			int yDifference = side.getCurrentPoint().getY() - side.getPreviousPoint().getY();
 			if (yDifference > 0) {
 				return Direction.NORTH;
-			} else {
+			}
+			else {
 				return Direction.SOUTH;
 			}
-		} else if (side.getCurrentPoint().getY() == side.getPreviousPoint().getY()) {
+		}
+		else if (side.getCurrentPoint().getY() == side.getPreviousPoint().getY()) {
 			int xDifference = side.getCurrentPoint().getX() - side.getPreviousPoint().getX();
 			if (xDifference > 0) {
 				return Direction.EARTH;
-			} else {
+			}
+			else {
 				return Direction.WEST;
 			}
-		} else {
+		}
+		else {
 			return Direction.STATIC;
 		}
 	}

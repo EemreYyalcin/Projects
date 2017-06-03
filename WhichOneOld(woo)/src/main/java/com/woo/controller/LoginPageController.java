@@ -23,8 +23,10 @@ public class LoginPageController {
 
 	@Autowired
 	private LoginValidation loginValidation;
+
 	@Autowired
 	private UserProperties userProperties;
+
 	@Autowired
 	private ContactServiceImpl contactService;
 
@@ -34,8 +36,7 @@ public class LoginPageController {
 	}
 
 	@RequestMapping(value = "/woo/login", method = RequestMethod.POST)
-	public String getLogin(@Valid @ModelAttribute("contact") Contact contact, BindingResult bindingResult,
-			Model model) {
+	public String getLogin(@Valid @ModelAttribute("contact") Contact contact, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "login";
 		}

@@ -18,7 +18,5 @@ public class UserProperties {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
-	
-	
-	
+
 }

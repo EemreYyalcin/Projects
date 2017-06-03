@@ -17,16 +17,21 @@ public class Item {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ITEM_ID", nullable = false, updatable = false)
 	private long id;
+
 	@Column(name = "FILENAME", nullable = false, updatable = false, unique = true)
 	private String filename;
+
 	@Lob
 	@Column(name = "CONTENT", nullable = false)
 	private byte[] content;
+
 	@Column(name = "YEAR", nullable = false)
 	private int year;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CATEGORY_ID", nullable = false)
 	private Category category;
+
 	@Column(name = "MAPCOUNT")
 	private int mapCount;
 
@@ -83,5 +88,4 @@ public class Item {
 		return "Item [id=" + id + ", filename=" + filename + ", year=" + year + ", category=" + category + ", mapCount=" + mapCount + "]";
 	}
 
-	
 }

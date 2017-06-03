@@ -13,4 +13,6 @@ public interface CategoryScoreService {
 
 	void updateCategoryScoreTable(Category category, int level, Contact contact, boolean b);
 
+	CategoryScoreModel getCategoryDecadeScoreModel(Contact contact, Category category);
+
 }

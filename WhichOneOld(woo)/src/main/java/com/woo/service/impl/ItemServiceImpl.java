@@ -9,7 +9,7 @@ import com.woo.domain.Category;
 import com.woo.domain.Item;
 import com.woo.repository.ItemRepository;
 import com.woo.service.types.ItemService;
-import com.woo.utils.LogMessage;
+import com.woo.utils.log.LogMessage;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -20,22 +20,27 @@ public class ItemServiceImpl implements ItemService {
 	public ItemServiceImpl(ItemRepository itemRepository) {
 		this.itemRepository = itemRepository;
 	}
+
 	@Override
-	public void addItem(Item item) {
-		itemRepository.save(item);
+	public Item addItem(Item item) {
+		return itemRepository.save(item);
 	}
+
 	@Override
 	public Iterable<Item> getItems() {
 		return itemRepository.findAll();
 	}
+
 	@Override
 	public void deleteItemsById(long id) {
 		itemRepository.delete(id);
 	}
+
 	@Override
 	public Item getItemById(long id) {
 		return itemRepository.findById(id);
 	}
+
 	@Override
 	public Item getItemByCategoryAndMapCount(Category category, int mapCount) {
 		ArrayList<Item> list = getItemByCategoryAndMapCountList(category, mapCount);
@@ -45,17 +50,21 @@ public class ItemServiceImpl implements ItemService {
 		}
 		return list.get(0);
 	}
+
 	private ArrayList<Item> getItemByCategoryAndMapCountList(Category category, int mapCount) {
 		return itemRepository.findByCategoryAndMapCount(category, mapCount);
 	}
+
 	@Override
 	public Item getItemByFilename(String filename) {
 		return itemRepository.findByFilenameLike(filename);
 	}
+
 	@Override
 	public long getRowCount() {
 		return itemRepository.count();
 	}
+
 	@Override
 	public void addItemFromFile(Item item) {
 		itemRepository.save(item);

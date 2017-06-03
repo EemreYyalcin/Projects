@@ -1,4 +1,4 @@
-package com.woo.utils;
+package com.woo.core.generate;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -9,9 +9,12 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import com.woo.utils.log.LogMessage;
+
 public class ImageCodec {
 
 	private static final int IMG_WIDTH = 1024;
+
 	private static final int IMG_HEIGHT = 768;
 
 	public static byte[] resizeImageConvert(File image) {
@@ -21,7 +24,8 @@ public class ImageCodec {
 		}
 		try {
 			BufferedImage originalImage = ImageIO.read(image);
-//			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+			// int type = originalImage.getType() == 0 ?
+			// BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 
 			// BufferedImage resizeImageJpg = resizeImage(originalImage, type);
 			// ImageIO.write(resizeImageJpg, "jpg", resizeFile);
@@ -29,15 +33,17 @@ public class ImageCodec {
 			if (originalImage.getWidth() != IMG_WIDTH || originalImage.getHeight() != IMG_HEIGHT) {
 				return null;
 			}
-			
+
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 			ImageIO.write(originalImage, "jpg", baos);
-//			ImageIO.write(resizeImageHintJpg, "jpg", new File("c:\\Emre\\Temp\\" + image.getName() + "i.jpg"));
+			// ImageIO.write(resizeImageHintJpg, "jpg", new
+			// File("c:\\Emre\\Temp\\" + image.getName() + "i.jpg"));
 			baos.flush();
 			resizeFile = baos.toByteArray();
 			baos.close();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			LogMessage.logx("Image Converter Fail! Filename:" + image.getName());
 			e.printStackTrace();
 		}

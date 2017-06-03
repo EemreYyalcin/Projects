@@ -1,10 +1,11 @@
-package com.woo.utils;
+package com.woo.core.generate;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.woo.core.map.PointMap;
 import com.woo.core.map.Side;
+import com.woo.core.stage.Level;
 import com.woo.domain.Category;
 import com.woo.domain.Item;
 import com.woo.domain.Question;
@@ -13,11 +14,11 @@ import com.woo.service.impl.CategoryServiceImpl;
 import com.woo.service.impl.ItemServiceImpl;
 import com.woo.service.impl.QuestionScoreServiceImpl;
 import com.woo.service.impl.QuestionServiceImpl;
+import com.woo.utils.log.LogMessage;
 
 public class GenerateQuestion {
 
-	public static void createQuestion(CategoryServiceImpl categoryService, ItemServiceImpl itemService,
-			QuestionScoreServiceImpl questionScoreService, QuestionServiceImpl questionService) {
+	public static void createQuestion(CategoryServiceImpl categoryService, ItemServiceImpl itemService, QuestionScoreServiceImpl questionScoreService, QuestionServiceImpl questionService) {
 
 		Iterable<Category> categoryList = categoryService.getCategories();
 		if (categoryList == null || !categoryList.iterator().hasNext()) {
@@ -52,7 +53,8 @@ public class GenerateQuestion {
 					if (j % 2 == 0) {
 						question.setItemA(itemB);
 						question.setItemB(itemA);
-					} else {
+					}
+					else {
 						question.setItemA(itemA);
 						question.setItemB(itemB);
 					}

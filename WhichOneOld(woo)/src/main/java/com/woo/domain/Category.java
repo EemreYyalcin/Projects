@@ -19,20 +19,28 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "CATEGORY_ID", nullable = false, updatable = false)
 	private long id;
+
 	@Column(name = "NAME", nullable = false, updatable = false)
 	private String name;
+
 	@Column(name = "LASTUPDATEDATE")
 	private Date lastUpdateDate;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	private Set<Question> questions;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	private Set<Item> items;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	private Set<CategoryScore> categoryScores;
+
 	@Column(name = "DECADE", nullable = false)
 	private int decade;
+
 	@Column(name = "MAPCOUNTITEM")
 	private int mapCountItem;
+
 	@Column(name = "MAPCOUNTQUESTION")
 	private int mapCountQuestion;
 
@@ -121,8 +129,7 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", decade=" + decade + ", mapCountItem=" + mapCountItem
-				+ ", mapCountQuestion=" + mapCountQuestion + "]";
+		return "Category [id=" + id + ", name=" + name + ", decade=" + decade + ", mapCountItem=" + mapCountItem + ", mapCountQuestion=" + mapCountQuestion + "]";
 	}
 
 	public Set<CategoryScore> getCategoryScores() {

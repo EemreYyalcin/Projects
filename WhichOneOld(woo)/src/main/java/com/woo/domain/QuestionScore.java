@@ -15,15 +15,19 @@ public class QuestionScore {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "QUESTIONSCORE_ID", nullable = false, updatable = false)
 	private long id;
+
 	@Column(name = "TRUECOUNT")
 	private int trueCount;
+
 	@Column(name = "FALSECOUNT")
 	private int falseCount;
+
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "score")
 	private Question question;
 
-	public QuestionScore() {}
-	
+	public QuestionScore() {
+	}
+
 	public QuestionScore(int trueCount, int falseCount, Question question) {
 		this.trueCount = trueCount;
 		this.falseCount = falseCount;

@@ -5,23 +5,29 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.woo.domain.Category;
-import com.woo.utils.LogMessage;
+import com.woo.utils.log.LogMessage;
 
 public class CategoryModel {
 
 	private String categoryName;
+
 	private long categoryId;
+
 	private int decade;
+
 	private String lastUpdateDate;
+
 	private String categoryClickUrl;
+
 	private String imageResource;
+
 	private ArrayList<Integer> decadeList;
+
 	private CategoryScoreModel categoryScoreModel;
 
 	public static CategoryModel getCategoryModel(Category category) {
 		CategoryModel model = new CategoryModel();
-		model.setCategoryId(category.getId()).setCategoryName(category.getName()).setDecade(category.getDecade())
-				.setLastUpdateDate(category.getLastUpdateDate());
+		model.setCategoryId(category.getId()).setCategoryName(category.getName()).setDecade(category.getDecade()).setLastUpdateDate(category.getLastUpdateDate());
 		return model;
 	}
 
@@ -64,7 +70,8 @@ public class CategoryModel {
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm");
 			this.lastUpdateDate = sdf.format(lastUpdateDate);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return this;

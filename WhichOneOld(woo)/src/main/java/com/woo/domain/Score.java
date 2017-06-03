@@ -30,28 +30,27 @@ public class Score {
 
 	@Embedded
 	// rename the basic mappings
-	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "VERYHARD_TRUECOUNT")),
-			@AttributeOverride(name = "falseCount", column = @Column(name = "VERYHARD_FALSECOUNT")) })
+	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "VERYHARD_TRUECOUNT")), @AttributeOverride(name = "falseCount", column = @Column(name = "VERYHARD_FALSECOUNT")) })
 	private Ratio veryHardScore;
+
 	@Embedded
 	// rename the basic mappings
-	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "HARD_TRUECOUNT")),
-			@AttributeOverride(name = "falseCount", column = @Column(name = "HARD_FALSECOUNT")) })
+	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "HARD_TRUECOUNT")), @AttributeOverride(name = "falseCount", column = @Column(name = "HARD_FALSECOUNT")) })
 	private Ratio hardScore;
+
 	@Embedded
 	// rename the basic mappings
-	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "MEDIUM_TRUECOUNT")),
-			@AttributeOverride(name = "falseCount", column = @Column(name = "MEDIUM_FALSECOUNT")) })
+	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "MEDIUM_TRUECOUNT")), @AttributeOverride(name = "falseCount", column = @Column(name = "MEDIUM_FALSECOUNT")) })
 	private Ratio mediumScore;
+
 	@Embedded
 	// rename the basic mappings
-	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "EASY_TRUECOUNT")),
-			@AttributeOverride(name = "falseCount", column = @Column(name = "EASY_FALSECOUNT")) })
+	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "EASY_TRUECOUNT")), @AttributeOverride(name = "falseCount", column = @Column(name = "EASY_FALSECOUNT")) })
 	private Ratio easyScore;
+
 	@Embedded
 	// rename the basic mappings
-	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "VERYEASY_TRUECOUNT")),
-			@AttributeOverride(name = "falseCount", column = @Column(name = "VERYEASY_FALSECOUNT")) })
+	@AttributeOverrides({ @AttributeOverride(name = "trueCount", column = @Column(name = "VERYEASY_TRUECOUNT")), @AttributeOverride(name = "falseCount", column = @Column(name = "VERYEASY_FALSECOUNT")) })
 	private Ratio veryEasyScore;
 
 	public long getId() {
@@ -102,5 +101,4 @@ public class Score {
 		this.veryEasyScore = veryEasyScore;
 	}
 
-	
 }

@@ -27,12 +27,14 @@ public class QuestionScoreServiceImpl implements QuestionScoreService {
 				QuestionScore questionScore = question.getScore();
 				if (result) {
 					questionScore.setTrueCount(questionScore.getTrueCount() + 1);
-				} else {
+				}
+				else {
 					questionScore.setFalseCount(questionScore.getFalseCount() + 1);
 				}
 				addQuestionScore(questionScore);
 			}
-		}).start();;
+		}).start();
+		;
 
 	}
 }

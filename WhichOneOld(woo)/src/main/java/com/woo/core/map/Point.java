@@ -3,7 +3,9 @@ package com.woo.core.map;
 public class Point {
 
 	private int x;
+
 	private int y;
+
 	private int mapCount;
 
 	public Point(int x, int y, int mapCount) {

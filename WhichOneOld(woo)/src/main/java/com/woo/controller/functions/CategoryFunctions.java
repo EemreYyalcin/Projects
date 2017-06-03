@@ -10,13 +10,11 @@ import com.woo.model.CategoryModel;
 import com.woo.service.impl.CategoryScoreServiceImpl;
 import com.woo.service.impl.CategoryServiceImpl;
 import com.woo.service.impl.ItemServiceImpl;
-import com.woo.utils.LogMessage;
+import com.woo.utils.log.LogMessage;
 
 public class CategoryFunctions {
 
-	public static ArrayList<CategoryModel> getCategoriesByName(Iterable<Category> categories,
-			ItemServiceImpl itemService, CategoryServiceImpl categoryService,
-			CategoryScoreServiceImpl categoryScoreService, Contact contact) {
+	public static ArrayList<CategoryModel> getCategoriesByName(Iterable<Category> categories, ItemServiceImpl itemService, CategoryServiceImpl categoryService, CategoryScoreServiceImpl categoryScoreService, Contact contact) {
 		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 		Properties categoryNames = new Properties();
 		for (Category category : categories) {
@@ -48,8 +46,7 @@ public class CategoryFunctions {
 		return categoryModels;
 	}
 
-	public static ArrayList<CategoryModel> getCategoriesByDecade(ArrayList<Category> categories,
-			ItemServiceImpl itemService) {
+	public static ArrayList<CategoryModel> getCategoriesByDecade(ArrayList<Category> categories, ItemServiceImpl itemService, CategoryScoreServiceImpl categoryScoreService, Contact contact) {
 		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 		LogMessage.logx("categories:" + categories.toString());
 		for (Category category : categories) {
@@ -59,6 +56,7 @@ public class CategoryFunctions {
 			categoryModel.setDecade(category.getDecade());
 			categoryModel.setLastUpdateDate(category.getLastUpdateDate());
 			categoryModel.setCategoryClickUrl("/woo/question/getlevel/");
+			categoryModel.setCategoryScoreModel(categoryScoreService.getCategoryDecadeScoreModel(contact, category));
 			Item randomItem = ItemFunctions.getRandomItem(itemService, category);
 			if (randomItem == null || randomItem.getId() == 0) {
 				LogMessage.error("Wrong Item Code:Lana");

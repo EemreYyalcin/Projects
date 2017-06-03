@@ -5,7 +5,7 @@ import com.woo.domain.Item;
 
 public interface ItemService {
 
-	void addItem(Item item);
+	Item addItem(Item item);
 
 	Iterable<Item> getItems();
 

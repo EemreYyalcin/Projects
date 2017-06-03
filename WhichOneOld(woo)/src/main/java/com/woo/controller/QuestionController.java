@@ -18,21 +18,23 @@ import com.woo.service.impl.CategoryScoreServiceImpl;
 import com.woo.service.impl.ItemServiceImpl;
 import com.woo.service.impl.QuestionScoreServiceImpl;
 import com.woo.service.impl.QuestionServiceImpl;
-import com.woo.utils.LogMessage;
+import com.woo.utils.log.LogMessage;
 
 @Controller
 public class QuestionController {
 
 	private QuestionServiceImpl questionService;
+
 	private ItemServiceImpl itemService;
+
 	private QuestionScoreServiceImpl questionScoreService;
+
 	private UserProperties userProperties;
+
 	private CategoryScoreServiceImpl categoryScoreService;
 
 	@Autowired
-	public QuestionController(QuestionServiceImpl questionService, ItemServiceImpl itemService,
-			QuestionScoreServiceImpl questionScoreService, UserProperties userProperties,
-			CategoryScoreServiceImpl categoryScoreService) {
+	public QuestionController(QuestionServiceImpl questionService, ItemServiceImpl itemService, QuestionScoreServiceImpl questionScoreService, UserProperties userProperties, CategoryScoreServiceImpl categoryScoreService) {
 		this.questionService = questionService;
 		this.itemService = itemService;
 		this.questionScoreService = questionScoreService;
@@ -41,20 +43,16 @@ public class QuestionController {
 	}
 
 	@RequestMapping("/woo/questionRandom/{categoryId}/{level}")
-	public String getQuestionRandom(@PathVariable("categoryId") Category category, @PathVariable("level") int level,
-			Model view) {
+	public String getQuestionRandom(@PathVariable("categoryId") Category category, @PathVariable("level") int level, Model view) {
 		Question question = QuestionFunctions.getRandomQuestion(questionService, category, level);
 		if (question == null) {
 			return "errorpagenoquestion";
 		}
 		QuestionModel questionModel = QuestionModel.getQuestionModel(question);
-		questionModel.setItemAClickNext(
-				"/woo/question/random/clickA/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
-		questionModel.setItemBClickNext(
-				"/woo/question/random/clickB/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
+		questionModel.setItemAClickNext("/woo/question/random/clickA/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
+		questionModel.setItemBClickNext("/woo/question/random/clickB/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
 		if (level == 5) {
-			questionModel.setItemCClickNext("/woo/question/random/clickC/" + questionModel.getQuestionId() + "/"
-					+ category.getId() + "/" + level);
+			questionModel.setItemCClickNext("/woo/question/random/clickC/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
 		}
 		QuestionFunctions.setPercentageValue(questionModel, question, questionScoreService);
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
@@ -64,9 +62,7 @@ public class QuestionController {
 	}
 
 	@RequestMapping("/woo/question/random/clickA/{questionId}/{categoryId}/{level}")
-	public String clickItemA(@PathVariable("questionId") Question question, Model model,
-			@PathVariable("categoryId") Category category, @PathVariable("level") int level)
-			throws InterruptedException {
+	public String clickItemA(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level) throws InterruptedException {
 		LogMessage.logx("A Clicked");
 		String nextQuestion = "redirect:/woo/questionRandom/" + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
@@ -91,9 +87,7 @@ public class QuestionController {
 	}
 
 	@RequestMapping("/woo/question/random/clickB/{questionId}/{categoryId}/{level}")
-	public String clickItemB(@PathVariable("questionId") Question question, Model model,
-			@PathVariable("categoryId") Category category, @PathVariable("level") int level)
-			throws InterruptedException {
+	public String clickItemB(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level) throws InterruptedException {
 		LogMessage.logx("B Clicked");
 		String nextQuestion = "redirect:/woo/questionRandom/" + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
@@ -118,9 +112,7 @@ public class QuestionController {
 	}
 
 	@RequestMapping("/woo/question/random/clickC/{questionId}/{categoryId}/{level}")
-	public String clickItemC(@PathVariable("questionId") Question question, Model model,
-			@PathVariable("categoryId") Category category, @PathVariable("level") int level)
-			throws InterruptedException {
+	public String clickItemC(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level) throws InterruptedException {
 		LogMessage.logx("C Clicked");
 		String nextQuestion = "redirect:/woo/questionRandom/" + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
@@ -144,8 +136,7 @@ public class QuestionController {
 
 	@RequestMapping("/woo/question/getlevel/{categoryId}")
 	public ModelAndView getLevels(@PathVariable("categoryId") Long categoryId) {
-		ModelAndView view = new ModelAndView("selectLevel", "levels",
-				QuestionFunctions.getLevels(itemService, Link.randomQuestion + categoryId + "/"));
+		ModelAndView view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(itemService, Link.randomQuestion + categoryId + "/"));
 		return view;
 	}
 

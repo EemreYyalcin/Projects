@@ -8,12 +8,16 @@ public class ContactModel {
 
 	@NotEmpty
 	private String email;
+
 	@NotEmpty
 	private String password;
+
 	@NotEmpty
 	private String confirmPassword;
+
 	@NotEmpty
 	private String name;
+
 	@NotEmpty
 	private String surname;
 

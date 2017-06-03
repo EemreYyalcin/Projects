@@ -12,19 +12,21 @@ import com.woo.ejb.UserProperties;
 import com.woo.service.impl.CategoryScoreServiceImpl;
 import com.woo.service.impl.CategoryServiceImpl;
 import com.woo.service.impl.ItemServiceImpl;
-import com.woo.utils.LogMessage;
+import com.woo.utils.log.LogMessage;
 
 @Controller
 public class CategoryController {
 
 	private CategoryServiceImpl categoryService;
+
 	private ItemServiceImpl itemService;
+
 	private CategoryScoreServiceImpl categoryScoreService;
 
 	private UserProperties userProperties;
 
 	@Autowired
-	public CategoryController(CategoryServiceImpl categoryServiceImpl, ItemServiceImpl itemServiceImpl, UserProperties userProperties,CategoryScoreServiceImpl categoryScoreService) {
+	public CategoryController(CategoryServiceImpl categoryServiceImpl, ItemServiceImpl itemServiceImpl, UserProperties userProperties, CategoryScoreServiceImpl categoryScoreService) {
 		this.categoryService = categoryServiceImpl;
 		this.itemService = itemServiceImpl;
 		this.userProperties = userProperties;
@@ -44,7 +46,7 @@ public class CategoryController {
 			return null;
 		}
 		LogMessage.logx("categoryçgetname " + category.getName() + " " + category.getId());
-		ModelAndView view = new ModelAndView("categoryDecadesAndImages", "categoryDecades", CategoryFunctions.getCategoriesByDecade(categoryService.getCategoriesByName(category.getName()), itemService));
+		ModelAndView view = new ModelAndView("categoryDecadesAndImages", "categoryDecades", CategoryFunctions.getCategoriesByDecade(categoryService.getCategoriesByName(category.getName()), itemService, categoryScoreService, userProperties.getContact()));
 		return view;
 	}
 

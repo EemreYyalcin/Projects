@@ -17,18 +17,23 @@ public class Question {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "QUESTION_ID", nullable = false, updatable = false)
 	private long id;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ITEMA_ID", nullable = false)
 	private Item itemA;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ITEMB_ID", nullable = false)
 	private Item itemB;
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "QUESTIONSCORE_ID")
 	private QuestionScore score;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CATEGORY_ID", nullable = false)
 	private Category category;
+
 	@Column(name = "LEVEL", nullable = false)
 	private int level;
 

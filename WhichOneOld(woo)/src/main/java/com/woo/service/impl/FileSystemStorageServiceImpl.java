@@ -7,29 +7,28 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
+import com.woo.core.attributes.Link;
 import com.woo.service.types.FileSystemStorageService;
 
 @Service
 public class FileSystemStorageServiceImpl implements FileSystemStorageService {
 
 	private Path rootLocation;
-	@Value("${rootLocationValue}")
-	private String rootLocationValue = "C:\\Users\\eemre\\Desktop\\DB\\upload-dir";
 
 	@Autowired
 	public FileSystemStorageServiceImpl() {
 		try {
-			rootLocation = Paths.get(rootLocationValue);
+			rootLocation = Paths.get(Link.rootLocationValue);
 			boolean exists = Files.exists(rootLocation);
 			if (!exists) {
 				Files.createDirectory(rootLocation);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -59,10 +58,12 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageService {
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
-			} else {
+			}
+			else {
 				System.out.println("File not exist or readable filename:" + filename);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println("Exception Here");
 			e.printStackTrace();
 		}
@@ -73,7 +74,8 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageService {
 	public void deleteFile(Path path) {
 		try {
 			Files.delete(path);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -101,7 +103,8 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageService {
 
 			}
 
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

@@ -5,7 +5,9 @@ import com.woo.domain.CategoryScore;
 public class CategoryScoreModel {
 
 	private ScoreModel scoreModel;
+
 	private int status;
+
 	private int totalQuestionCount;
 
 	public ScoreModel getScoreModel() {
@@ -39,7 +41,8 @@ public class CategoryScoreModel {
 		int totalAnswered = categoryScoreModel.getScoreModel().getTotalCount() + getScoreModel().getTotalCount();
 		if (totalQuestionCount <= 0) {
 			tempModel.setStatus(0);
-		} else {
+		}
+		else {
 			float percentage = ((totalAnswered * 100) / totalQuestionCount);
 			tempModel.setStatus((int) percentage);
 		}
@@ -57,7 +60,15 @@ public class CategoryScoreModel {
 		int totalAnswered = categoryScoreModel.getScoreModel().getTotalCount();
 		categoryScoreModel.setTotalQuestionCount(totalQuestionCount);
 		float percentage = ((totalAnswered * 100) / totalQuestionCount);
-		categoryScoreModel.setStatus((int)percentage);
+		categoryScoreModel.setStatus((int) percentage);
+		return categoryScoreModel;
+	}
+
+	public static CategoryScoreModel getEmptyCategoryScoreModel(int questionCount) {
+		CategoryScoreModel categoryScoreModel = new CategoryScoreModel();
+		categoryScoreModel.setScoreModel(new ScoreModel(null));
+		categoryScoreModel.setStatus(0);
+		categoryScoreModel.setTotalQuestionCount(questionCount);
 		return categoryScoreModel;
 	}
 

@@ -24,7 +24,9 @@ import com.woo.validator.RegisterValidation;
 public class RegisterPageController {
 
 	private ContactServiceImpl contactService;
+
 	private RegisterValidation registerValidation;
+
 	private StatisticServiceImpl statisticService;
 
 	@Autowired
@@ -33,7 +35,6 @@ public class RegisterPageController {
 		this.registerValidation = registerValidation;
 		this.statisticService = statisticService;
 	}
-	
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -46,8 +47,7 @@ public class RegisterPageController {
 	}
 
 	@RequestMapping(value = "/woo/register", method = RequestMethod.POST)
-	public String handleRegisterForm(@Valid @ModelAttribute("contactModel") ContactModel contactModel,
-			BindingResult bindingResult, Model model) {
+	public String handleRegisterForm(@Valid @ModelAttribute("contactModel") ContactModel contactModel, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "register";
 		}
@@ -58,7 +58,7 @@ public class RegisterPageController {
 			model.addAttribute("errorRegister", "Contact is not being added!");
 			return "register";
 		}
-		
+
 		return "redirect:/woo/login";
 	}
 

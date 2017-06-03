@@ -1,4 +1,4 @@
-package com.woo.utils;
+package com.woo.core.stage;
 
 import com.woo.domain.Ratio;
 import com.woo.domain.Score;
@@ -9,13 +9,17 @@ public class Level {
 		int n = fabs(difference);
 		if (n <= 1) {
 			return 5;
-		} else if (n == 2) {
+		}
+		else if (n == 2) {
 			return 4;
-		} else if (n <= 4) {
+		}
+		else if (n <= 4) {
 			return 3;
-		} else if (n <= 6) {
+		}
+		else if (n <= 6) {
 			return 2;
-		} else {
+		}
+		else {
 			return 1;
 		}
 	}

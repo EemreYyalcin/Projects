@@ -16,14 +16,19 @@ public class Contact {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "CONTACT_ID", nullable = false, updatable = false)
 	private long id;
+
 	@Column(name = "EMAIL", nullable = false, unique = true)
 	private String email;
+
 	@Column(name = "PASSWORD", nullable = false)
 	private String password;
+
 	@Column(name = "NAME")
 	private String name;
+
 	@Column(name = "SURNAME")
 	private String surname;
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "STATISTIC_ID")
 	private Statistic statistic;

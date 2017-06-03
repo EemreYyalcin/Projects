@@ -3,8 +3,11 @@ package com.woo.model;
 public class LevelModel {
 
 	private String name;
+
 	private int level;
+
 	private String nextUrl;
+
 	private String imageUrl;
 
 	public LevelModel(String name, int level, String nextUrl, String imageUrl) {

@@ -3,7 +3,9 @@ package com.woo.model;
 public class AnswerModel {
 
 	private boolean answerA = false;
+
 	private boolean answerB = false;
+
 	private boolean answerC = false;
 
 	public boolean isAnswerA() {

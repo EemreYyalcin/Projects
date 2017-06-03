@@ -13,8 +13,8 @@ import com.woo.model.QuestionModel;
 import com.woo.service.impl.ItemServiceImpl;
 import com.woo.service.impl.QuestionScoreServiceImpl;
 import com.woo.service.impl.QuestionServiceImpl;
-import com.woo.utils.LogMessage;
-import com.woo.utils.Utils;
+import com.woo.utils.generater.GenerateRandom;
+import com.woo.utils.log.LogMessage;
 
 public class QuestionFunctions {
 
@@ -24,7 +24,7 @@ public class QuestionFunctions {
 			LogMessage.error("No Questions!! Code:Accessor");
 			return null;
 		}
-		int randomValue = Utils.getRandomInt(0, questions.size());
+		int randomValue = GenerateRandom.getRandomInt(0, questions.size());
 		return questions.get(randomValue);
 	}
 
@@ -38,7 +38,8 @@ public class QuestionFunctions {
 			item = itemService.getItemByFilename(names[i]);
 			if (item == null || item.getId() == 0) {
 				suffix = "1";
-			} else {
+			}
+			else {
 				suffix = item.getId() + "";
 			}
 			list.add(new LevelModel(names[i], i + 1, nextUrl, Link.imageSource + suffix));
@@ -55,12 +56,15 @@ public class QuestionFunctions {
 		try {
 			if (question.getItemA().getYear() < question.getItemB().getYear()) {
 				option = 1;
-			} else if (question.getItemA().getYear() > question.getItemB().getYear()) {
+			}
+			else if (question.getItemA().getYear() > question.getItemB().getYear()) {
 				option = 2;
-			} else {
+			}
+			else {
 				option = 3;
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			LogMessage.error("Answer Question Error. Code:WARN");
 			e.printStackTrace();
 		}
@@ -72,9 +76,11 @@ public class QuestionFunctions {
 		AnswerModel answerModel = new AnswerModel();
 		if (option == 1) {
 			answerModel.setAnswerA();
-		} else if (option == 2) {
+		}
+		else if (option == 2) {
 			answerModel.setAnswerB();
-		} else {
+		}
+		else {
 			answerModel.setAnswerC();
 		}
 
@@ -92,26 +98,29 @@ public class QuestionFunctions {
 		int falseCount = question.getScore().getFalseCount();
 		int totalCount = trueCount + falseCount;
 		if (totalCount == 0) {
-			trueCount = Utils.getRandomInt(1, 7);
-			falseCount = Utils.getRandomInt(1, 7);
+			trueCount = GenerateRandom.getRandomInt(1, 7);
+			falseCount = GenerateRandom.getRandomInt(1, 7);
 			totalCount = trueCount + falseCount;
 			questionScoreService.addQuestionScore(new QuestionScore(trueCount, falseCount, question));
 		}
-		float truePercentage = ((float)trueCount / totalCount) * 100;
-		int falsePercentage = 100 - (int)truePercentage;
+		float truePercentage = ((float) trueCount / totalCount) * 100;
+		int falsePercentage = 100 - (int) truePercentage;
 		questionModel.setFalsePercentage(falsePercentage);
-		questionModel.setTruePercentage((int)truePercentage);
+		questionModel.setTruePercentage((int) truePercentage);
 		float totalPercentage = 0;
 		if (totalCount < 100) {
 			totalPercentage = totalCount;
-		}else if (totalCount < 500) {
-			totalPercentage = ((float)((float)totalCount / (500))) * 100;
-		}else if (totalCount < 1000) {
-			totalPercentage = ((float)((float)totalCount / (1000))) * 100;			
-		}else if (totalCount < 10000) {
-			totalPercentage = ((float)((float)totalCount / (10000))) * 100;
 		}
-		questionModel.setTotalPercentage((int)totalPercentage);
+		else if (totalCount < 500) {
+			totalPercentage = ((float) ((float) totalCount / (500))) * 100;
+		}
+		else if (totalCount < 1000) {
+			totalPercentage = ((float) ((float) totalCount / (1000))) * 100;
+		}
+		else if (totalCount < 10000) {
+			totalPercentage = ((float) ((float) totalCount / (10000))) * 100;
+		}
+		questionModel.setTotalPercentage((int) totalPercentage);
 	}
 
 }

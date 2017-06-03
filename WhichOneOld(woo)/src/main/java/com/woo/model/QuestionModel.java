@@ -9,22 +9,32 @@ import com.woo.domain.QuestionScore;
 public class QuestionModel {
 
 	private long questionId;
+
 	private Item itemA;
+
 	private Item itemB;
+
 	private QuestionScore score;
+
 	private int level;
+
 	private Category category;
+
 	private String imageResource;
+
 	private String itemAClickNext;
+
 	private String itemBClickNext;
+
 	private String itemCClickNext;
+
 	private int waitingTime = 2;
+
 	private int totalPercentage;
+
 	private int truePercentage;
+
 	private int falsePercentage;
-	
-	
-	
 
 	public static QuestionModel getQuestionModel(Question question) {
 		QuestionModel model = new QuestionModel();

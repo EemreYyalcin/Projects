@@ -8,16 +8,16 @@ import com.woo.repository.StatisticRepository;
 import com.woo.service.types.StatisticService;
 
 @Service
-public class StatisticServiceImpl implements StatisticService{
+public class StatisticServiceImpl implements StatisticService {
 
 	@Autowired
 	private StatisticRepository statisticRepository;
-	
+
 	@Override
-	public Statistic addStatistic(Statistic statistic){
+	public Statistic addStatistic(Statistic statistic) {
 		return statisticRepository.save(statistic);
 	}
-	
+
 	@Override
 	public Statistic getStatisticByUserId(long userId) {
 		return statisticRepository.findOne(userId);

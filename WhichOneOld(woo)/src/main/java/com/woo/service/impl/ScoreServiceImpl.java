@@ -12,11 +12,9 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Autowired
 	private ScoreRepository scoreRepository;
-	
-	public Score addScore(Score score){
+
+	public Score addScore(Score score) {
 		return scoreRepository.save(score);
 	}
-	
-	
-	
+
 }

@@ -5,9 +5,13 @@ import com.woo.domain.Score;
 public class ScoreModel {
 
 	private RatioModel veryHardRatio;
+
 	private RatioModel hardRatio;
+
 	private RatioModel mediumRatio;
+
 	private RatioModel easyRatio;
+
 	private RatioModel veyEasyRatio;
 
 	public ScoreModel() {
@@ -75,8 +79,7 @@ public class ScoreModel {
 	}
 
 	public int getTotalCount() {
-		return veryHardRatio.getTotalCount() + hardRatio.getTotalCount() + mediumRatio.getTotalCount()
-				+ easyRatio.getTotalCount() + veyEasyRatio.getTotalCount();
+		return veryHardRatio.getTotalCount() + hardRatio.getTotalCount() + mediumRatio.getTotalCount() + easyRatio.getTotalCount() + veyEasyRatio.getTotalCount();
 	}
 
 	public ScoreModel addScoreModel(ScoreModel score) {

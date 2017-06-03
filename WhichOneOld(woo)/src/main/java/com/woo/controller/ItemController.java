@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.woo.domain.Item;
 import com.woo.service.impl.ItemServiceImpl;
-import com.woo.utils.LogMessage;
+import com.woo.utils.log.LogMessage;
 
 @Controller
 public class ItemController {

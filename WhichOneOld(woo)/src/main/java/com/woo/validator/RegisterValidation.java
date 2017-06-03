@@ -31,15 +31,15 @@ public class RegisterValidation implements Validator {
 	}
 
 	private void validateContact(Errors errors, ContactModel contactModel) {
-		
+
 		if (!contactModel.getEmail().contains("@")) {
 			errors.reject("email", "Email can not use");
 		}
-		
+
 		if (!contactModel.getPassword().equals(contactModel.getConfirmPassword())) {
 			errors.reject("password", "Passwords not equal !");
 		}
-		
+
 		if (contactService.getContactByEmail(contactModel.getEmail()) != null) {
 			errors.reject("email", "User with usernamealready exists");
 		}

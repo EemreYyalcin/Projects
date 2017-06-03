@@ -5,8 +5,11 @@ import com.woo.domain.Ratio;
 public class RatioModel {
 
 	private int trueCount;
+
 	private int falseCount;
+
 	private int truePercentage;
+
 	private int falsePercentage;
 
 	public RatioModel() {

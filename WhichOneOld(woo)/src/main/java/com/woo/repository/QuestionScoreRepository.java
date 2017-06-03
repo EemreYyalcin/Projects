@@ -8,5 +8,4 @@ import com.woo.domain.QuestionScore;
 @Repository
 public interface QuestionScoreRepository extends CrudRepository<QuestionScore, Long> {
 
-
 }

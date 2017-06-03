@@ -19,15 +19,19 @@ public class CategoryScore {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "CATEGORYSCORE_ID", nullable = false, updatable = false)
 	private long id;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CATEGORY_ID", nullable = false)
 	private Category category;
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "SCORE_ID", nullable = false)
 	private Score score;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "STATISTIC_ID", nullable = false)
 	private Statistic statistic;
+
 	@Column(name = "LASTUPDATEDATE")
 	private Date lastUpdateDate;
 

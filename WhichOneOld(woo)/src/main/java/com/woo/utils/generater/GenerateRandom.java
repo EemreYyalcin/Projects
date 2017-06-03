@@ -1,9 +1,9 @@
-package com.woo.utils;
+package com.woo.utils.generater;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Utils {
+public class GenerateRandom {
 
 	public static ArrayList<Integer> getRandomList(int fromIndex, int toIndex) {
 
@@ -16,7 +16,8 @@ public class Utils {
 			int founded = temp + fromIndex;
 			if (list.contains(new Integer(founded))) {
 				continue;
-			} else {
+			}
+			else {
 				list.add(founded);
 				count++;
 			}
@@ -31,4 +32,14 @@ public class Utils {
 		}
 		return rand.nextInt(toIndex - fromIndex) + fromIndex;
 	}
+
+	public static ArrayList<String> getRandomList(ArrayList<String> list) {
+		ArrayList<Integer> randomList = GenerateRandom.getRandomList(0, list.size());
+		ArrayList<String> decadeRandomItems = new ArrayList<>();
+		for (int i = 0; i < randomList.size(); i++) {
+			decadeRandomItems.add(list.get(randomList.get(i)));
+		}
+		return decadeRandomItems;
+	}
+
 }
