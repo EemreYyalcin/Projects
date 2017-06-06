@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 import com.woo.core.attributes.Link;
 import com.woo.domain.Category;
+import com.woo.domain.CategoryScore;
 import com.woo.domain.Item;
 import com.woo.domain.Question;
 import com.woo.domain.QuestionScore;
 import com.woo.model.AnswerModel;
+import com.woo.model.CategoryScoreModel;
 import com.woo.model.LevelModel;
 import com.woo.model.QuestionModel;
+import com.woo.model.RatioModel;
 import com.woo.service.impl.ItemServiceImpl;
 import com.woo.service.impl.QuestionScoreServiceImpl;
 import com.woo.service.impl.QuestionServiceImpl;
@@ -28,13 +31,24 @@ public class QuestionFunctions {
 		return questions.get(randomValue);
 	}
 
-	public static ArrayList<LevelModel> getLevels(ItemServiceImpl itemService, String nextUrl) {
+	public static ArrayList<LevelModel> getLevels(ItemServiceImpl itemService, String nextUrl, CategoryScore categoryScore, boolean isRandom) {
 
-		String[] names = { "VERY EASY", "EASY", "NORMAL", "HARD", "VERY HARD" };
+		CategoryScoreModel categoryScoreModel;
+		if (categoryScore == null) {
+			categoryScoreModel = CategoryScoreModel.getEmptyCategoryScoreModel(0);
+		}
+		else {
+			categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore);
+		}
+
+		String[] names = { "VERY EASY", "EASY", "MEDIUM", "HARD", "VERY HARD" };
 		ArrayList<LevelModel> list = new ArrayList<>();
 		Item item;
 		String suffix = "1";
+
 		for (int i = 0; i < names.length; i++) {
+			RatioModel ratioModel = null;
+			int pageId = 0;
 			item = itemService.getItemByFilename(names[i]);
 			if (item == null || item.getId() == 0) {
 				suffix = "1";
@@ -42,7 +56,33 @@ public class QuestionFunctions {
 			else {
 				suffix = item.getId() + "";
 			}
-			list.add(new LevelModel(names[i], i + 1, nextUrl, Link.imageSource + suffix));
+			switch (i) {
+			case 0:
+				ratioModel = categoryScoreModel.getScoreModel().getVeryEasyRatio();
+				pageId = categoryScore.getVeryEasyPageId();
+				break;
+			case 1:
+				ratioModel = categoryScoreModel.getScoreModel().getEasyRatio();
+				pageId = categoryScore.getEasyPageId();
+				break;
+			case 2:
+				ratioModel = categoryScoreModel.getScoreModel().getMediumRatio();
+				pageId = categoryScore.getMediumPageId();
+				break;
+			case 3:
+				ratioModel = categoryScoreModel.getScoreModel().getHardRatio();
+				pageId = categoryScore.getHardPageId();
+				break;
+			case 4:
+				ratioModel = categoryScoreModel.getScoreModel().getVeryHardRatio();
+				pageId = categoryScore.getVeryHardPageId();
+				break;
+			}
+			if (isRandom) {
+				list.add(new LevelModel(names[i], nextUrl + "/" + (i + 1), Link.imageSource + suffix, ratioModel));								
+			}else{
+				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), Link.imageSource + suffix, ratioModel));				
+			}
 		}
 		return list;
 	}

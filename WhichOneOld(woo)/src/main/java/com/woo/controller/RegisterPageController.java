@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.woo.domain.Contact;
 import com.woo.domain.Statistic;
+import com.woo.ejb.UserProperties;
 import com.woo.model.ContactModel;
 import com.woo.service.impl.ContactServiceImpl;
 import com.woo.service.impl.StatisticServiceImpl;
@@ -28,12 +29,16 @@ public class RegisterPageController {
 	private RegisterValidation registerValidation;
 
 	private StatisticServiceImpl statisticService;
+	
+	private UserProperties userProperties;
+
 
 	@Autowired
-	public RegisterPageController(ContactServiceImpl contactService, RegisterValidation registerValidation, StatisticServiceImpl statisticService) {
+	public RegisterPageController(ContactServiceImpl contactService, RegisterValidation registerValidation, StatisticServiceImpl statisticService, UserProperties userProperties) {
 		this.contactService = contactService;
 		this.registerValidation = registerValidation;
 		this.statisticService = statisticService;
+		this.userProperties = userProperties;
 	}
 
 	@InitBinder
@@ -58,8 +63,9 @@ public class RegisterPageController {
 			model.addAttribute("errorRegister", "Contact is not being added!");
 			return "register";
 		}
-
-		return "redirect:/woo/login";
+		
+		userProperties.setContact(contactSaved);
+		return "redirect:/woo/categories";
 	}
 
 }

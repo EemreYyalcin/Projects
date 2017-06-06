@@ -20,6 +20,10 @@ public class CategoryScore {
 	@Column(name = "CATEGORYSCORE_ID", nullable = false, updatable = false)
 	private long id;
 
+	public CategoryScore() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CATEGORY_ID", nullable = false)
 	private Category category;
@@ -34,6 +38,21 @@ public class CategoryScore {
 
 	@Column(name = "LASTUPDATEDATE")
 	private Date lastUpdateDate;
+
+	@Column(name = "VERYEASYPAGEID", nullable = false, columnDefinition = "int default 0")
+	private int veryEasyPageId = 0;
+
+	@Column(name = "EASYPAGEID", nullable = false, columnDefinition = "int default 0")
+	private int easyPageId = 0;
+
+	@Column(name = "MEDIUMPAGEID", nullable = false, columnDefinition = "int default 0")
+	private int mediumPageId = 0;
+
+	@Column(name = "HARDPAGEID", nullable = false, columnDefinition = "int default 0")
+	private int hardPageId = 0;
+
+	@Column(name = "VERYHARDPAGEID", nullable = false, columnDefinition = "int default 0")
+	private int veryHardPageId = 0;
 
 	public long getId() {
 		return id;
@@ -75,4 +94,64 @@ public class CategoryScore {
 		this.statistic = statistic;
 	}
 
+	public int getVeryEasyPageId() {
+		return veryEasyPageId;
+	}
+
+	public void setVeryEasyPageId(int veryEasyPageId) {
+		this.veryEasyPageId = veryEasyPageId;
+	}
+
+	public int getEasyPageId() {
+		return easyPageId;
+	}
+
+	public void setEasyPageId(int easyPageId) {
+		this.easyPageId = easyPageId;
+	}
+
+	public int getMediumPageId() {
+		return mediumPageId;
+	}
+
+	public void setMediumPageId(int mediumPageId) {
+		this.mediumPageId = mediumPageId;
+	}
+
+	public int getHardPageId() {
+		return hardPageId;
+	}
+
+	public void setHardPageId(int hardPageId) {
+		this.hardPageId = hardPageId;
+	}
+
+	public int getVeryHardPageId() {
+		return veryHardPageId;
+	}
+
+	public void setVeryHardPageId(int veryHardPageId) {
+		this.veryHardPageId = veryHardPageId;
+	}
+
+	public void increasePageId(int level) {
+
+		switch (level) {
+		case 1:
+			veryEasyPageId++;
+			break;
+		case 2:
+			easyPageId++;
+			break;
+		case 3:
+			mediumPageId++;
+			break;
+		case 4:
+			hardPageId++;
+			break;
+		case 5:
+			veryHardPageId++;
+			break;
+		}
+	}
 }

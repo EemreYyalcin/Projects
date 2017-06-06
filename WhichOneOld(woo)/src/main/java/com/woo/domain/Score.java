@@ -17,15 +17,12 @@ public class Score {
 	@Column(name = "SCORE_ID", nullable = false, updatable = false)
 	private long id;
 
-	public Score(boolean tempValue) {
-		veryHardScore = new Ratio(0, 0);
-		hardScore = new Ratio(0, 0);
-		mediumScore = new Ratio(0, 0);
-		easyScore = new Ratio(0, 0);
-		veryEasyScore = new Ratio(0, 0);
-	}
-
 	public Score() {
+		veryHardScore = new Ratio(1, 1);
+		hardScore = new Ratio(1, 1);
+		mediumScore = new Ratio(1, 1);
+		easyScore = new Ratio(1, 1);
+		veryEasyScore = new Ratio(1, 1);
 	}
 
 	@Embedded

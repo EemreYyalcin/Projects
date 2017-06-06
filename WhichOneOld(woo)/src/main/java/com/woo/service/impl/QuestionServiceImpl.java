@@ -3,6 +3,7 @@ package com.woo.service.impl;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.woo.domain.Category;
@@ -49,6 +50,15 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public ArrayList<Question> getQuestionByCategoryAndLevel(Category category, int level) {
 		return questionRepository.findByCategoryAndLevel(category, level);
+	}
+
+	@Override
+	public Question getQuestionByCategoryAndLevelWithPage(Category category, int level, Pageable pageable) {
+		ArrayList<Question> questions = questionRepository.findByCategoryAndLevel(category, level, pageable);
+		if (questions == null || questions.size() == 0) {
+			return null;
+		}
+		return questions.get(0);
 	}
 
 }

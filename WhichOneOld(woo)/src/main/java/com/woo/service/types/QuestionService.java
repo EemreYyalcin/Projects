@@ -2,6 +2,8 @@ package com.woo.service.types;
 
 import java.util.ArrayList;
 
+import org.springframework.data.domain.Pageable;
+
 import com.woo.domain.Category;
 import com.woo.domain.Item;
 import com.woo.domain.Question;
@@ -19,5 +21,7 @@ public interface QuestionService {
 	Question getQuestionByItemAndItem(Item itemA, Item itemB);
 
 	ArrayList<Question> getQuestionByCategoryAndLevel(Category category, int level);
+
+	Question getQuestionByCategoryAndLevelWithPage(Category category, int level, Pageable pageable);
 
 }

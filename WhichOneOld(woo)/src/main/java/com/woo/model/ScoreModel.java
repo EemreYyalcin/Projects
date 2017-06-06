@@ -12,25 +12,25 @@ public class ScoreModel {
 
 	private RatioModel easyRatio;
 
-	private RatioModel veyEasyRatio;
+	private RatioModel veryEasyRatio;
 
 	public ScoreModel() {
 	}
 
 	public ScoreModel(Score score) {
 		if (score == null) {
-			this.veryHardRatio = new RatioModel(0, 0);
-			this.hardRatio = new RatioModel(0, 0);
-			this.mediumRatio = new RatioModel(0, 0);
-			this.easyRatio = new RatioModel(0, 0);
-			this.veyEasyRatio = new RatioModel(0, 0);
+			this.veryHardRatio = new RatioModel(1, 1);
+			this.hardRatio = new RatioModel(1, 1);
+			this.mediumRatio = new RatioModel(1, 1);
+			this.easyRatio = new RatioModel(1, 1);
+			this.veryEasyRatio = new RatioModel(1, 1);
 			return;
 		}
 		this.veryHardRatio = new RatioModel(score.getVeryHardScore());
 		this.hardRatio = new RatioModel(score.getHardScore());
 		this.mediumRatio = new RatioModel(score.getMediumScore());
 		this.easyRatio = new RatioModel(score.getEasyScore());
-		this.veyEasyRatio = new RatioModel(score.getVeryEasyScore());
+		this.veryEasyRatio = new RatioModel(score.getVeryEasyScore());
 	}
 
 	public RatioModel getVeryHardRatio() {
@@ -69,17 +69,17 @@ public class ScoreModel {
 		return this;
 	}
 
-	public RatioModel getVeyEasyRatio() {
-		return veyEasyRatio;
+	public RatioModel getVeryEasyRatio() {
+		return veryEasyRatio;
 	}
 
-	public ScoreModel setVeyEasyRatio(RatioModel veyEasyRatio) {
-		this.veyEasyRatio = veyEasyRatio;
+	public ScoreModel setVeryEasyRatio(RatioModel veryEasyRatio) {
+		this.veryEasyRatio = veryEasyRatio;
 		return this;
 	}
 
 	public int getTotalCount() {
-		return veryHardRatio.getTotalCount() + hardRatio.getTotalCount() + mediumRatio.getTotalCount() + easyRatio.getTotalCount() + veyEasyRatio.getTotalCount();
+		return veryHardRatio.getTotalCount() + hardRatio.getTotalCount() + mediumRatio.getTotalCount() + easyRatio.getTotalCount() + veryEasyRatio.getTotalCount();
 	}
 
 	public ScoreModel addScoreModel(ScoreModel score) {
@@ -88,7 +88,7 @@ public class ScoreModel {
 		scoreModel.setHardRatio(score.getHardRatio().addRatioModel(getHardRatio()));
 		scoreModel.setMediumRatio(score.getMediumRatio().addRatioModel(getMediumRatio()));
 		scoreModel.setEasyRatio(score.getEasyRatio().addRatioModel(getEasyRatio()));
-		scoreModel.setVeyEasyRatio(score.getVeyEasyRatio().addRatioModel(getVeyEasyRatio()));
+		scoreModel.setVeryEasyRatio(score.getVeryEasyRatio().addRatioModel(getVeryEasyRatio()));
 		return scoreModel;
 	}
 
@@ -101,7 +101,7 @@ public class ScoreModel {
 		scoreModel.setHardRatio(RatioModel.getRatioModel(score.getHardScore()));
 		scoreModel.setMediumRatio(RatioModel.getRatioModel(score.getMediumScore()));
 		scoreModel.setEasyRatio(RatioModel.getRatioModel(score.getEasyScore()));
-		scoreModel.setVeyEasyRatio(RatioModel.getRatioModel(score.getVeryEasyScore()));
+		scoreModel.setVeryEasyRatio(RatioModel.getRatioModel(score.getVeryEasyScore()));
 		return scoreModel;
 	}
 

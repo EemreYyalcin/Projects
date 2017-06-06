@@ -11,7 +11,7 @@ public interface CategoryScoreService {
 
 	CategoryScoreModel getTotalCategoryScore(Contact contact, String categoryName);
 
-	void updateCategoryScoreTable(Category category, int level, Contact contact, boolean b);
+	CategoryScore updateCategoryScoreTable(Category category, int level, Contact contact, boolean b);
 
 	CategoryScoreModel getCategoryDecadeScoreModel(Contact contact, Category category);
 

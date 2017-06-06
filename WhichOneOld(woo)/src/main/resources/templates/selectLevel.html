@@ -64,7 +64,7 @@
 			<table class="table">
 				<tbody>
 					<tr th:each="level : ${levels}">
-						<td><a th:href="${level.nextUrl} + ${level.level}"> <img
+						<td><a th:href="${level.nextUrl}"> <img
 								class="img-responsive" th:src="${level.imageUrl}" alt=""
 								height="400" width="400" />
 						</a></td>
@@ -72,6 +72,18 @@
 							<h3>
 								<a th:href="${level.nextUrl}" th:text="${level.name}"></a>
 							</h3>
+							<div class="progress active">
+								<div
+									class="progress-bar progress-bar-success progress-bar-striped"
+									role="progressbar"
+									th:style="'width:'+ ${level.ratioModel.truePercentage}+'%;'"
+									th:utext="'TRUE ( ' + ${level.ratioModel.truePercentage}+ '% )'"></div>
+								<div
+									class="progress-bar progress-bar-danger progress-bar-striped"
+									role="progressbar"
+									th:style="'width:'+ ${level.ratioModel.falsePercentage}+'%;'"
+									th:utext="'FALSE ( ' + ${level.ratioModel.falsePercentage}+'% )'"></div>
+							</div>
 						</td>
 					</tr>
 				</tbody>

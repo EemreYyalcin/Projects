@@ -51,12 +51,17 @@ public class CategoryScoreModel {
 
 	public static CategoryScoreModel getCategoryScoreModel(CategoryScore categoryScore) {
 		CategoryScoreModel categoryScoreModel = new CategoryScoreModel();
+		int totalQuestionCount;
 		if (categoryScore == null) {
 			categoryScoreModel.setScoreModel(ScoreModel.getScoreModel(null));
 			categoryScoreModel.setStatus(0);
+			categoryScoreModel.setScoreModel(ScoreModel.getScoreModel(null));
+			totalQuestionCount = 0;
+		}else {
+			categoryScoreModel.setScoreModel(ScoreModel.getScoreModel(categoryScore.getScore()));
+			totalQuestionCount = categoryScore.getCategory().getMapCountQuestion();
+			
 		}
-		categoryScoreModel.setScoreModel(ScoreModel.getScoreModel(categoryScore.getScore()));
-		int totalQuestionCount = categoryScore.getCategory().getMapCountQuestion();
 		int totalAnswered = categoryScoreModel.getScoreModel().getTotalCount();
 		categoryScoreModel.setTotalQuestionCount(totalQuestionCount);
 		float percentage = ((totalAnswered * 100) / totalQuestionCount);

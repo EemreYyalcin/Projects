@@ -19,10 +19,13 @@ public class Statistic {
 	@Column(name = "STATISTIC_ID", nullable = false, updatable = false)
 	private long id;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "statistic")
+	public Statistic() {
+	}
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "statistic")
 	private List<CategoryScore> categoryScoreList;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "statistic")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "statistic")
 	private Contact contact;
 
 	public long getId() {
