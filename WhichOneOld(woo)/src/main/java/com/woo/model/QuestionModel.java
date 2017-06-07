@@ -38,7 +38,7 @@ public class QuestionModel {
 
 	public static QuestionModel getQuestionModel(Question question) {
 		QuestionModel model = new QuestionModel();
-		model.setCategory(question.getCategory()).setItemA(question.getItemA()).setItemB(question.getItemB()).setLevel(question.getLevel()).setQuestionId(question.getId()).setScore(question.getScore()).setImageResource(Link.imageSource);
+		model.setCategory(question.getCategory()).setItemA(question.getItemA()).setItemB(question.getItemB()).setLevel(question.getLevel()).setQuestionId(question.getId()).setScore(question.getScore()).setImageResource(Link.imageSources);
 		return model;
 	}
 

@@ -3,6 +3,7 @@ package com.woo.controller.functions;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.woo.core.attributes.Link;
 import com.woo.domain.Category;
 import com.woo.domain.Contact;
 import com.woo.domain.Item;
@@ -25,14 +26,14 @@ public class CategoryFunctions {
 			categoryModel.setDecadeList(categoryService.getDecades(category.getName()));
 			categoryModel.setLastUpdateDate(categoryService.getLastUpdateDate(category.getName()));
 			Item randomItem = ItemFunctions.getRandomItem(itemService, category);
-			categoryModel.setCategoryClickUrl("/woo/category/");
+			categoryModel.setCategoryClickUrl(Link.categories);
 			categoryModel.setCategoryScoreModel(categoryScoreService.getTotalCategoryScore(contact, category.getName()));
 			if (randomItem == null || randomItem.getId() == 0) {
 				LogMessage.error("Wrong Item Code:Patika");
 				continue;
 			}
 			if (randomItem != null) {
-				categoryModel.setImageResource("/woo/files/" + randomItem.getId());
+				categoryModel.setImageResource(Link.items + randomItem.getId());
 			}
 			categoryNames.put(category.getName(), categoryModel);
 		}
@@ -55,7 +56,7 @@ public class CategoryFunctions {
 			categoryModel.setCategoryName(category.getName());
 			categoryModel.setDecade(category.getDecade());
 			categoryModel.setLastUpdateDate(category.getLastUpdateDate());
-			categoryModel.setCategoryClickUrl("/woo/question/getlevel/");
+			categoryModel.setCategoryClickUrl(Link.selectLevels);
 			categoryModel.setCategoryScoreModel(categoryScoreService.getCategoryDecadeScoreModel(contact, category));
 			Item randomItem = ItemFunctions.getRandomItem(itemService, category);
 			if (randomItem == null || randomItem.getId() == 0) {
@@ -63,7 +64,7 @@ public class CategoryFunctions {
 				continue;
 			}
 			if (randomItem != null) {
-				categoryModel.setImageResource("/woo/files/" + randomItem.getId());
+				categoryModel.setImageResource(Link.items + randomItem.getId());
 			}
 			categoryModels.add(categoryModel);
 		}

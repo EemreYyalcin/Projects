@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.woo.core.attributes.Link;
 import com.woo.domain.Contact;
 import com.woo.domain.Statistic;
 import com.woo.ejb.UserProperties;
@@ -22,6 +23,7 @@ import com.woo.service.impl.StatisticServiceImpl;
 import com.woo.validator.RegisterValidation;
 
 @Controller
+@RequestMapping(value = "/woo/register")
 public class RegisterPageController {
 
 	private ContactServiceImpl contactService;
@@ -29,9 +31,8 @@ public class RegisterPageController {
 	private RegisterValidation registerValidation;
 
 	private StatisticServiceImpl statisticService;
-	
-	private UserProperties userProperties;
 
+	private UserProperties userProperties;
 
 	@Autowired
 	public RegisterPageController(ContactServiceImpl contactService, RegisterValidation registerValidation, StatisticServiceImpl statisticService, UserProperties userProperties) {
@@ -46,12 +47,15 @@ public class RegisterPageController {
 		binder.addValidators(registerValidation);
 	}
 
-	@RequestMapping(value = "/woo/register", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getRegisterPage() {
-		return new ModelAndView("register", "contactModel", new ContactModel());
+		ModelAndView view = new ModelAndView("register", "contactModel", new ContactModel());
+		view.addObject("login", Link.login);
+		view.addObject("register", Link.register);
+		return view;
 	}
 
-	@RequestMapping(value = "/woo/register", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public String handleRegisterForm(@Valid @ModelAttribute("contactModel") ContactModel contactModel, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "register";
@@ -63,9 +67,9 @@ public class RegisterPageController {
 			model.addAttribute("errorRegister", "Contact is not being added!");
 			return "register";
 		}
-		
+
 		userProperties.setContact(contactSaved);
-		return "redirect:/woo/categories";
+		return "redirect:" + Link.categoryNames;
 	}
 
 }

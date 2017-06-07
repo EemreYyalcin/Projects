@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.woo.core.attributes.Link;
 import com.woo.domain.Contact;
 import com.woo.ejb.UserProperties;
 import com.woo.service.impl.ContactServiceImpl;
@@ -42,7 +43,7 @@ public class LoginPageController {
 		}
 		userProperties.setContact(contactService.getContactByEmail(contact.getEmail()));
 
-		return "redirect:/woo/categories";
+		return "redirect:" + Link.categoryNames;
 	}
 
 	@RequestMapping(value = "/woo/login", method = RequestMethod.GET)

@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.woo.domain.Contact;
 
-public class ContactModel {
+public class ContactModel{
 
 	@NotEmpty
 	private String email;

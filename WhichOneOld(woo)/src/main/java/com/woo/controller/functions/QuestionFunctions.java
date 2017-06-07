@@ -36,6 +36,7 @@ public class QuestionFunctions {
 		CategoryScoreModel categoryScoreModel;
 		if (categoryScore == null) {
 			categoryScoreModel = CategoryScoreModel.getEmptyCategoryScoreModel(0);
+			categoryScore = new CategoryScore();
 		}
 		else {
 			categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore);
@@ -79,9 +80,9 @@ public class QuestionFunctions {
 				break;
 			}
 			if (isRandom) {
-				list.add(new LevelModel(names[i], nextUrl + "/" + (i + 1), Link.imageSource + suffix, ratioModel));								
+				list.add(new LevelModel(names[i], nextUrl + "/" + (i + 1), Link.imageSources + suffix, ratioModel));								
 			}else{
-				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), Link.imageSource + suffix, ratioModel));				
+				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), Link.imageSources + suffix, ratioModel));				
 			}
 		}
 		return list;
