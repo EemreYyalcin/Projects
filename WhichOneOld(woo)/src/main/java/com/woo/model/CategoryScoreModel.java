@@ -51,12 +51,9 @@ public class CategoryScoreModel {
 
 	public static CategoryScoreModel getCategoryScoreModel(CategoryScore categoryScore) {
 		CategoryScoreModel categoryScoreModel = new CategoryScoreModel();
-		int totalQuestionCount;
+		int totalQuestionCount = 1;
 		if (categoryScore == null) {
-			categoryScoreModel.setScoreModel(ScoreModel.getScoreModel(null));
-			categoryScoreModel.setStatus(0);
-			categoryScoreModel.setScoreModel(ScoreModel.getScoreModel(null));
-			totalQuestionCount = 0;
+			return getEmptyCategoryScoreModel(1);
 		}else {
 			categoryScoreModel.setScoreModel(ScoreModel.getScoreModel(categoryScore.getScore()));
 			totalQuestionCount = categoryScore.getCategory().getMapCountQuestion();

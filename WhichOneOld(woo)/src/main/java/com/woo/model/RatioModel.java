@@ -87,5 +87,27 @@ public class RatioModel {
 		}
 		return new RatioModel(ratio.getTrueCount(), ratio.getFalseCount());
 	}
+	
+	
+	public static int setTotalClickPercentage(RatioModel ratioModel) {
+		int totalCount = ratioModel.getTotalCount();
+
+		float totalPercentage = 0;
+		if (totalCount < 100) {
+			totalPercentage = totalCount;
+		}
+		else if (totalCount < 500) {
+			totalPercentage = ((float) ((float) totalCount / (500))) * 100;
+		}
+		else if (totalCount < 1000) {
+			totalPercentage = ((float) ((float) totalCount / (1000))) * 100;
+		}
+		else if (totalCount < 10000) {
+			totalPercentage = ((float) ((float) totalCount / (10000))) * 100;
+		}
+
+		return (int) totalPercentage;
+	}
+
 
 }

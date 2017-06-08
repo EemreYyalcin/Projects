@@ -69,7 +69,7 @@ public class RegisterPageController {
 		}
 
 		userProperties.setContact(contactSaved);
-		return "redirect:" + Link.categoryNames;
+		return "redirect:" + Link.profile;
 	}
 
 }

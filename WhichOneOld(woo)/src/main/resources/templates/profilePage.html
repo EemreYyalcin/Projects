@@ -39,12 +39,12 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a th:href="${homeUrl}">Home</a></li>
-				<li class="active"><a th:href="${categories}">Categories</a></li>
-				<li><a href="#">Question</a></li>
+				<li><a th:href="${profile.home}">Home</a></li>
+				<li><a th:href="${profile.explore}">Explore</a></li>
+				<li><a th:href="${profile.myCategories}">MyCategories</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Profile</a></li>
+				<li><a th:href="${profile.profile}">Profile</a></li>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
@@ -56,7 +56,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">
-			WOO <small th:text="${profile.name}  ${profile.surname}"></small>
+			WOO <small th:text="${profile.name}+${profile.surname}"></small>
 		</h1>
 	</div>
 </div>
@@ -65,118 +65,221 @@
 
 <body>
 
-	<div class="container">
-		<div class="table-responsive">
-			<table class="table">
-				<tbody>
-					<tr>
-						<td>
-							<h2>VeryHard</h2>
-						</td>
-						<td>
-							<div class="container">
-								<div class="progress active">
-									<div
-										class="progress-bar progress-bar-success progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.veryHard.truePercentage}+'%;'"
-										th:utext="'TRUE ( ' + ${score.veryHard.truePercentage}+ '% )'"></div>
-									<div
-										class="progress-bar progress-bar-danger progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.veryHard.falsePercentage}+'%;'"
-										th:utext="'FALSE ( ' + ${score.veryHard.falsePercentage}+'% )'"></div>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<h2>Hard</h2>
-						</td>
-						<td>
-							<div class="container">
-								<div class="progress active">
-									<div
-										class="progress-bar progress-bar-success progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.hard.truePercentage}+'%;'"
-										th:utext="'TRUE ( ' + ${score.hard.truePercentage}+ '% )'"></div>
-									<div
-										class="progress-bar progress-bar-danger progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.hard.falsePercentage}+'%;'"
-										th:utext="'FALSE ( ' + ${score.hard.falsePercentage}+'% )'"></div>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<h2>Medium</h2>
-						</td>
-						<td>
-							<div class="container">
-								<div class="progress active">
-									<div
-										class="progress-bar progress-bar-success progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.medium.truePercentage}+'%;'"
-										th:utext="'TRUE ( ' + ${score.medium.truePercentage}+ '% )'"></div>
-									<div
-										class="progress-bar progress-bar-danger progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.medium.falsePercentage}+'%;'"
-										th:utext="'FALSE ( ' + ${score.medium.falsePercentage}+'% )'"></div>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<h2>Easy</h2>
-						</td>
-						<td>
-							<div class="container">
-								<div class="progress active">
-									<div
-										class="progress-bar progress-bar-success progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.easy.truePercentage}+'%;'"
-										th:utext="'TRUE ( ' + ${score.easy.truePercentage}+ '% )'"></div>
-									<div
-										class="progress-bar progress-bar-danger progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.easy.falsePercentage}+'%;'"
-										th:utext="'FALSE ( ' + ${score.easy.falsePercentage}+'% )'"></div>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<h2>VeryEasy</h2>
-						</td>
-						<td>
-							<div class="container">
-								<div class="progress active">
-									<div
-										class="progress-bar progress-bar-success progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.veryEasy.truePercentage}+'%;'"
-										th:utext="'TRUE ( ' + ${score.veryEasy.truePercentage}+ '% )'"></div>
-									<div
-										class="progress-bar progress-bar-danger progress-bar-striped"
-										role="progressbar"
-										th:style="'width:'+ ${score.veryEasy.falsePercentage}+'%;'"
-										th:utext="'FALSE ( ' + ${score.veryEasy.falsePercentage}+'% )'"></div>
-								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+	<div class="table-responsive">
+		<table class="table">
+			<tbody>
+				<tr class="text-center">
+					<td>
+						<h2>VeryHard</h2>
+					</td>
+					<td>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-success progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.veryHardRatio.truePercentage}+'%;'"
+													th:utext="'TRUE ( ' + ${profile.categoryScoreModel.scoreModel.veryHardRatio.truePercentage}+ '% )'"></div>
+												<div
+													class="progress-bar progress-bar-danger progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.veryHardRatio.falsePercentage}+'%;'"
+													th:utext="'FALSE ( ' + ${profile.categoryScoreModel.scoreModel.veryHardRatio.falsePercentage}+'% )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-info progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.veryHardClickPercentage}+'%;'"
+													th:utext="'CLICK ( ' + ${profile.veryHardClickPercentage} + ' )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr class="text-center">
+					<td>
+						<h2>Hard</h2>
+					</td>
+					<td>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-success progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.hardRatio.truePercentage}+'%;'"
+													th:utext="'TRUE ( ' + ${profile.categoryScoreModel.scoreModel.hardRatio.truePercentage}+ '% )'"></div>
+												<div
+													class="progress-bar progress-bar-danger progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.hardRatio.falsePercentage}+'%;'"
+													th:utext="'FALSE ( ' + ${profile.categoryScoreModel.scoreModel.hardRatio.falsePercentage}+'% )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-info progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.hardClickPercentage}+'%;'"
+													th:utext="'CLICK ( ' + ${profile.hardClickPercentage} + ' )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr class="text-center">
+					<td>
+						<h2>Medium</h2>
+					</td>
+					<td>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-success progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.mediumRatio.truePercentage}+'%;'"
+													th:utext="'TRUE ( ' + ${profile.categoryScoreModel.scoreModel.mediumRatio.truePercentage}+ '% )'"></div>
+												<div
+													class="progress-bar progress-bar-danger progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.mediumRatio.falsePercentage}+'%;'"
+													th:utext="'FALSE ( ' + ${profile.categoryScoreModel.scoreModel.mediumRatio.falsePercentage}+'% )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-info progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.mediumClickPercentage}+'%;'"
+													th:utext="'CLICK ( ' + ${profile.mediumClickPercentage} + ' )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr class="text-center">
+					<td>
+						<h2>Easy</h2>
+					</td>
+					<td>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-success progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.easyRatio.truePercentage}+'%;'"
+													th:utext="'TRUE ( ' + ${profile.categoryScoreModel.scoreModel.easyRatio.truePercentage}+ '% )'"></div>
+												<div
+													class="progress-bar progress-bar-danger progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.easyRatio.falsePercentage}+'%;'"
+													th:utext="'FALSE ( ' + ${profile.categoryScoreModel.scoreModel.easyRatio.falsePercentage}+'% )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-info progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.easyClickPercentage}+'%;'"
+													th:utext="'CLICK ( ' + ${profile.easyClickPercentage} + ' )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr class="text-center">
+					<td>
+						<h2>VeryEasy</h2>
+					</td>
+					<td>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-success progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.veryEasyRatio.truePercentage}+'%;'"
+													th:utext="'TRUE ( ' + ${profile.categoryScoreModel.scoreModel.veryEasyRatio.truePercentage}+ '% )'"></div>
+												<div
+													class="progress-bar progress-bar-danger progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.categoryScoreModel.scoreModel.veryEasyRatio.falsePercentage}+'%;'"
+													th:utext="'FALSE ( ' + ${profile.categoryScoreModel.scoreModel.veryEasyRatio.falsePercentage}+'% )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="container">
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-info progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${profile.veryEasyClickPercentage}+'%;'"
+													th:utext="'CLICK ( ' + ${profile.veryEasyClickPercentage} + ' )'"></div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 

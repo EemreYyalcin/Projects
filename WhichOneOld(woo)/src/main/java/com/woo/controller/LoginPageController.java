@@ -43,7 +43,7 @@ public class LoginPageController {
 		}
 		userProperties.setContact(contactService.getContactByEmail(contact.getEmail()));
 
-		return "redirect:" + Link.categoryNames;
+		return "redirect:" + Link.profile;
 	}
 
 	@RequestMapping(value = "/woo/login", method = RequestMethod.GET)

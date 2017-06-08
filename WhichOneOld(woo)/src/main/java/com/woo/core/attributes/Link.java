@@ -60,9 +60,9 @@ public class Link {
 
 	public static String selectLevels = "/woo/question/getlevel/";
 
-	public static String profile = "";
+	public static String profile = "/woo/profile";
 
-	public static String profiles = "";
+	public static String profiles = "/woo/profile/";
 
 	public static String errorPage = "";
 
@@ -75,5 +75,17 @@ public class Link {
 	public static String item = "/woo/files";
 
 	public static String items = "/woo/files/";
+
+	public static String home = "/";
+
+	public static String homes = "/";
+
+	public static String explore = "/woo/profile/explore";
+
+	public static String explores = "/woo/profile/explore/";
+
+	public static String myCategory = "/woo/profile/mycategory";
+
+	public static String myCategories = "/woo/profile/mycategory/";
 
 }
