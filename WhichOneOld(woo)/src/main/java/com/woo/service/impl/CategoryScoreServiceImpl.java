@@ -1,14 +1,15 @@
 package com.woo.service.impl;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.woo.core.attributes.Codes;
 import com.woo.core.stage.Level;
 import com.woo.domain.Category;
 import com.woo.domain.CategoryScore;
-import com.woo.domain.Contact;
 import com.woo.domain.Ratio;
 import com.woo.domain.Score;
 import com.woo.domain.Statistic;
@@ -22,28 +23,25 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 
 	private CategoryScoreRepository categoryScoreRepository;
 
-	private CategoryServiceImpl categoryService;
-
 	private ScoreServiceImpl scoreService;
 
 	private StatisticServiceImpl statisticService;
 
 	@Autowired
-	public CategoryScoreServiceImpl(CategoryScoreRepository categoryScoreRepository, CategoryServiceImpl categoryService, ScoreServiceImpl scoreService, StatisticServiceImpl statisticService) {
+	public CategoryScoreServiceImpl(CategoryScoreRepository categoryScoreRepository, ScoreServiceImpl scoreService, StatisticServiceImpl statisticService) {
 		this.categoryScoreRepository = categoryScoreRepository;
-		this.categoryService = categoryService;
 		this.scoreService = scoreService;
 		this.statisticService = statisticService;
 
 	}
 
 	@Override
-	public CategoryScore getCategoryScore(Contact contact, Category category) {
-		Statistic statistic = statisticService.getStatisticByUserId(contact.getId());
-		if (statistic.getCategoryList() == null) {
+	public CategoryScore getCategoryScore(long userId, Category category) {
+		Statistic statistic = statisticService.getStatisticByUserId(userId);
+		if (statistic.getCategoryScoreList() == null) {
 			return null;
 		}
-		for (CategoryScore categoryScore : statistic.getCategoryList()) {
+		for (CategoryScore categoryScore : statistic.getCategoryScoreList()) {
 			if (categoryScore.getCategory().getId() == category.getId()) {
 				return categoryScore;
 			}
@@ -52,9 +50,9 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 	}
 
 	@Override
-	public CategoryScoreModel getTotalCategoryScore(Contact contact, String categoryName) {
+	public CategoryScoreModel getTotalCategoryScore(long userId, String categoryName, CategoryServiceImpl categoryService) {
 
-		if (contact == null) {
+		if (userId == Codes.errorIntCode) {
 			return null;
 		}
 		Iterable<Category> categories = categoryService.getCategoriesByName(categoryName);
@@ -62,7 +60,7 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 		int totalQuestionCount = 0;
 		for (Category category : categories) {
 			totalQuestionCount += category.getMapCountQuestion();
-			CategoryScore categoryScore = getCategoryScore(contact, category);
+			CategoryScore categoryScore = getCategoryScore(userId, category);
 			if (categoryScore != null) {
 				if (totalScoreModel == null) {
 					totalScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore);
@@ -79,11 +77,11 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 	}
 
 	@Override
-	public CategoryScoreModel getCategoryDecadeScoreModel(Contact contact, Category category) {
-		if (contact == null) {
+	public CategoryScoreModel getCategoryDecadeScoreModel(long userId, Category category) {
+		if (userId == Codes.errorIntCode) {
 			return null;
 		}
-		CategoryScore categoryScore = getCategoryScore(contact, category);
+		CategoryScore categoryScore = getCategoryScore(userId, category);
 		if (categoryScore == null) {
 			return CategoryScoreModel.getEmptyCategoryScoreModel(category.getMapCountQuestion());
 		}
@@ -91,15 +89,15 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 	}
 
 	@Override
-	public CategoryScore updateCategoryScoreTable(Category category, int level, Contact contact, boolean answer) {
-		CategoryScore categoryScore = getCategoryScore(contact, category);
+	public CategoryScore updateCategoryScoreTable(Category category, int level, long userId, boolean answer) {
+		CategoryScore categoryScore = getCategoryScore(userId, category);
 		Score score = null;
 		LogMessage.logx("CategoryScore " + categoryScore);
 		if (categoryScore == null) {
 			categoryScore = new CategoryScore();
 			categoryScore.setCategory(category);
 			categoryScore.setLastUpdateDate(Calendar.getInstance().getTime());
-			categoryScore.setStatistic(contact.getStatistic());
+			categoryScore.setStatistic(statisticService.getStatisticByUserId(userId));
 			categoryScore.setScore(new Score());
 		}
 		score = categoryScore.getScore();
@@ -115,4 +113,35 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 		categoryScore = categoryScoreRepository.save(categoryScore);
 		return categoryScore;
 	}
+
+	@Override
+	public CategoryScoreModel getTotalScoreProfile(Statistic statistic) {
+
+		if (statistic == null) {
+			return CategoryScoreModel.getEmptyCategoryScoreModel(1);
+		}
+		List<CategoryScore> categoryScores = statistic.getCategoryScoreList();
+		if (categoryScores == null || categoryScores.size() == 0) {
+			return CategoryScoreModel.getEmptyCategoryScoreModel(1);
+		}
+		CategoryScoreModel totalCategoryScoreModel = null;
+		for (CategoryScore categoryScore : categoryScores) {
+			CategoryScoreModel categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore);
+			if (categoryScoreModel == null) {
+				continue;
+			}
+			if (totalCategoryScoreModel == null) {
+				totalCategoryScoreModel = categoryScoreModel;
+				continue;
+			}
+			totalCategoryScoreModel = totalCategoryScoreModel.addCategoryScoreModel(categoryScoreModel);
+		}
+
+		if (totalCategoryScoreModel == null) {
+			return CategoryScoreModel.getEmptyCategoryScoreModel(1);
+		}
+
+		return totalCategoryScoreModel;
+	}
+
 }

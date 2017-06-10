@@ -36,7 +36,7 @@ public class Statistic {
 		this.id = id;
 	}
 
-	public List<CategoryScore> getCategoryList() {
+	public List<CategoryScore> getCategoryScoreList() {
 		return categoryScoreList;
 	}
 

@@ -20,7 +20,7 @@ public class GenerateQuestion {
 
 	public static void createQuestion(CategoryServiceImpl categoryService, ItemServiceImpl itemService, QuestionScoreServiceImpl questionScoreService, QuestionServiceImpl questionService) {
 
-		Iterable<Category> categoryList = categoryService.getCategories();
+		Iterable<Category> categoryList = categoryService.getAllCategories();
 		if (categoryList == null || !categoryList.iterator().hasNext()) {
 			LogMessage.logx("Category is Empty Can not create Question");
 			return;

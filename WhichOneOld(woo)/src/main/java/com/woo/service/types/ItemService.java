@@ -21,4 +21,6 @@ public interface ItemService {
 
 	void addItemFromFile(Item item);
 
+	Item getRandomItem(Category category);
+
 }

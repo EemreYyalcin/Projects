@@ -2,16 +2,17 @@ package com.woo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.woo.controller.functions.CategoryFunctions;
+import com.woo.core.attributes.Codes;
 import com.woo.domain.Category;
 import com.woo.ejb.UserProperties;
-import com.woo.service.impl.CategoryScoreServiceImpl;
+import com.woo.model.ProfileModel;
 import com.woo.service.impl.CategoryServiceImpl;
-import com.woo.service.impl.ItemServiceImpl;
+import com.woo.service.impl.StatisticServiceImpl;
 import com.woo.utils.log.LogMessage;
 
 @Controller
@@ -19,23 +20,21 @@ public class CategoryController {
 
 	private CategoryServiceImpl categoryService;
 
-	private ItemServiceImpl itemService;
-
-	private CategoryScoreServiceImpl categoryScoreService;
-
 	private UserProperties userProperties;
 
+	private StatisticServiceImpl statisticService;
+
 	@Autowired
-	public CategoryController(CategoryServiceImpl categoryServiceImpl, ItemServiceImpl itemServiceImpl, UserProperties userProperties, CategoryScoreServiceImpl categoryScoreService) {
-		this.categoryService = categoryServiceImpl;
-		this.itemService = itemServiceImpl;
+	public CategoryController(CategoryServiceImpl categoryService, UserProperties userProperties, StatisticServiceImpl statisticService) {
+		this.categoryService = categoryService;
 		this.userProperties = userProperties;
-		this.categoryScoreService = categoryScoreService;
+		this.statisticService = statisticService;
 	}
 
 	@GetMapping("/woo/categories")
 	public ModelAndView getCategoryNamesAndImages() {
-		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", CategoryFunctions.getCategoriesByName(categoryService.getCategories(), itemService, categoryService, categoryScoreService, userProperties.getContact()));
+		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId())));
+		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
 
@@ -46,8 +45,20 @@ public class CategoryController {
 			return null;
 		}
 		LogMessage.logx("categoryçgetname " + category.getName() + " " + category.getId());
-		ModelAndView view = new ModelAndView("categoryDecadesAndImages", "categoryDecades", CategoryFunctions.getCategoriesByDecade(categoryService.getCategoriesByName(category.getName()), itemService, categoryScoreService, userProperties.getContact()));
+		ModelAndView view = new ModelAndView("categoryDecadesAndImages", "categoryDecades", categoryService.getCategoriesByDecade(category.getName(), userProperties.getId()));
 		return view;
+	}
+
+	@GetMapping("/woo/category/my")
+	public String getMyCategoryNamesAndImages(Model model) {
+		if (userProperties.getId() == Codes.errorIntCode) {
+			return "redirect:/woo/login";
+		}
+		// model.addAttribute("categoryNames", );
+		model.addAttribute("categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId())));
+		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
+		return "categoryNames";
+
 	}
 
 }

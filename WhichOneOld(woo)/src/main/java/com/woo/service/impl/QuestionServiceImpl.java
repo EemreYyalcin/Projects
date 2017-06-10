@@ -11,6 +11,8 @@ import com.woo.domain.Item;
 import com.woo.domain.Question;
 import com.woo.repository.QuestionRepository;
 import com.woo.service.types.QuestionService;
+import com.woo.utils.generater.GenerateRandom;
+import com.woo.utils.log.LogMessage;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -28,7 +30,7 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public Iterable<Question> getQuestions() {
+	public Iterable<Question> getAllQuestion() {
 		return questionRepository.findAll();
 	}
 
@@ -60,5 +62,19 @@ public class QuestionServiceImpl implements QuestionService {
 		}
 		return questions.get(0);
 	}
+	
+	
+	@Override
+	public Question getRandomQuestion(Category category, int level) {
+		ArrayList<Question> questions = getQuestionByCategoryAndLevel(category, level);
+		if (questions.size() <= 0) {
+			LogMessage.error("No Questions!! Code:Accessor");
+			return null;
+		}
+		int randomValue = GenerateRandom.getRandomInt(0, questions.size());
+		return questions.get(randomValue);
+	}
+
+	
 
 }

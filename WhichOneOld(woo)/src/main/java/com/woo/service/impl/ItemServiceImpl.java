@@ -9,6 +9,7 @@ import com.woo.domain.Category;
 import com.woo.domain.Item;
 import com.woo.repository.ItemRepository;
 import com.woo.service.types.ItemService;
+import com.woo.utils.generater.GenerateRandom;
 import com.woo.utils.log.LogMessage;
 
 @Service
@@ -68,7 +69,13 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void addItemFromFile(Item item) {
 		itemRepository.save(item);
+	}
 
+	@Override
+	public Item getRandomItem(Category category) {
+		int randomMapCount = GenerateRandom.getRandomInt(1, category.getMapCountItem());
+		LogMessage.logx("CategoryId:" + category.getId() + " randomMapCount:" + randomMapCount + " category.getMapCountItem():" + category.getMapCountItem());
+		return getItemByCategoryAndMapCount(category, randomMapCount);
 	}
 
 }

@@ -12,7 +12,7 @@ public interface QuestionService {
 
 	void addQuestion(Question question);
 
-	Iterable<Question> getQuestions();
+	Iterable<Question> getAllQuestion();
 
 	void deleteQuestionById(long id);
 
@@ -23,5 +23,7 @@ public interface QuestionService {
 	ArrayList<Question> getQuestionByCategoryAndLevel(Category category, int level);
 
 	Question getQuestionByCategoryAndLevelWithPage(Category category, int level, Pageable pageable);
+
+	Question getRandomQuestion(Category category, int level);
 
 }

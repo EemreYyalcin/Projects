@@ -6,18 +6,31 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.woo.core.attributes.Codes;
+import com.woo.core.attributes.Link;
 import com.woo.domain.Category;
+import com.woo.domain.CategoryScore;
+import com.woo.domain.Item;
+import com.woo.domain.Statistic;
+import com.woo.model.CategoryModel;
 import com.woo.repository.CategoryRepository;
 import com.woo.service.types.CategoryService;
+import com.woo.utils.log.LogMessage;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
 	private CategoryRepository categoryRepository;
 
+	private ItemServiceImpl itemService;
+
+	private CategoryScoreServiceImpl categoryScoreService;
+
 	@Autowired
-	public CategoryServiceImpl(CategoryRepository categoryRepository) {
+	public CategoryServiceImpl(CategoryRepository categoryRepository, ItemServiceImpl itemService, CategoryScoreServiceImpl categoryScoreService) {
 		this.categoryRepository = categoryRepository;
+		this.itemService = itemService;
+		this.categoryScoreService = categoryScoreService;
 	}
 
 	@Override
@@ -26,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Iterable<Category> getCategories() {
+	public Iterable<Category> getAllCategories() {
 		return categoryRepository.findAll();
 	}
 
@@ -80,6 +93,78 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 		}
 		return lastUpdateDate;
+	}
+
+	@Override
+	public ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic) {
+		ArrayList<Category> filterCategories = new ArrayList<Category>();
+		ArrayList<String> allCategoriesName = categoryRepository.findDistinctStates();
+		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
+		long userId = Codes.errorIntCode;
+		if (statistic != null) {
+			userId = statistic.getContact().getId();
+			if (statistic.getCategoryScoreList() == null || statistic.getCategoryScoreList().size() == 0) {
+				// empty Page
+				return null;
+			}
+			for (String categoryName : allCategoriesName) {
+				for (CategoryScore categoryScore : statistic.getCategoryScoreList()) {
+					if (categoryName.equals(categoryScore.getCategory().getName())) {
+						filterCategories.add(categoryScore.getCategory());
+						break;
+					}
+				}
+			}
+		}
+		else {
+			for (String categoryName : allCategoriesName) {
+				filterCategories.add(getCategoriesByName(categoryName).get(0));
+			}
+		}
+
+		for (Category category : filterCategories) {
+			CategoryModel categoryModel = CategoryModel.getCategoryModel(category);
+			categoryModel.setDecadeList(getDecades(category.getName()));
+			categoryModel.setLastUpdateDate(getLastUpdateDate(category.getName()));
+			Item randomItem = itemService.getRandomItem(category);
+			categoryModel.setCategoryClickUrl(Link.categories);
+			categoryModel.setCategoryScoreModel(categoryScoreService.getTotalCategoryScore(userId, category.getName(), this));
+			if (randomItem == null || randomItem.getId() == 0) {
+				LogMessage.error("Wrong Item Code:Patika");
+				continue;
+			}
+			if (randomItem != null) {
+				categoryModel.setImageResource(Link.items + randomItem.getId());
+			}
+			categoryModels.add(categoryModel);
+		}
+		return categoryModels;
+	}
+
+	@Override
+	public ArrayList<CategoryModel> getCategoriesByDecade(String categoryName, long userId) {
+		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
+		ArrayList<Category> categories = getCategoriesByName(categoryName);
+		LogMessage.logx("categories:" + categories.toString());
+		for (Category category : categories) {
+			CategoryModel categoryModel = new CategoryModel();
+			categoryModel.setCategoryId(category.getId());
+			categoryModel.setCategoryName(category.getName());
+			categoryModel.setDecade(category.getDecade());
+			categoryModel.setLastUpdateDate(category.getLastUpdateDate());
+			categoryModel.setCategoryClickUrl(Link.selectLevels);
+			categoryModel.setCategoryScoreModel(categoryScoreService.getCategoryDecadeScoreModel(userId, category));
+			Item randomItem = itemService.getRandomItem(category);
+			if (randomItem == null || randomItem.getId() == 0) {
+				LogMessage.error("Wrong Item Code:Lana");
+				continue;
+			}
+			if (randomItem != null) {
+				categoryModel.setImageResource(Link.items + randomItem.getId());
+			}
+			categoryModels.add(categoryModel);
+		}
+		return categoryModels;
 	}
 
 }

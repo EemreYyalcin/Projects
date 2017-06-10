@@ -80,12 +80,8 @@ public class Link {
 
 	public static String homes = "/";
 
-	public static String explore = "/woo/profile/explore";
+	public static String myCategory = "/woo/category/my";
 
-	public static String explores = "/woo/profile/explore/";
-
-	public static String myCategory = "/woo/profile/mycategory";
-
-	public static String myCategories = "/woo/profile/mycategory/";
+	public static String myCategories = "/woo/category/my/";
 
 }

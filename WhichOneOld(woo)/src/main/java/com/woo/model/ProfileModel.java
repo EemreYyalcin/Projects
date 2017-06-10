@@ -1,5 +1,9 @@
 package com.woo.model;
 
+import com.woo.core.attributes.Codes;
+import com.woo.core.attributes.Link;
+import com.woo.ejb.UserProperties;
+
 public class ProfileModel {
 
 	private String name;
@@ -120,6 +124,24 @@ public class ProfileModel {
 
 	public void setVeryEasyClickPercentage(int veryEasyClickPercentage) {
 		this.veryEasyClickPercentage = veryEasyClickPercentage;
+	}
+
+	public static ProfileModel getBasicProfileModel(UserProperties userProperties) {
+		ProfileModel profileModel = new ProfileModel();
+		profileModel.setHome(Link.home);
+		profileModel.setExplore(Link.categoryNames);
+		profileModel.setMyCategories(Link.myCategory);
+		profileModel.setProfile(Link.profile);
+		if (userProperties.getId() == Codes.errorIntCode) {
+			// Empty Model Or Demo Model
+			profileModel.setName("Guess");
+			profileModel.setSurname("Demo");
+		}
+		else {
+			profileModel.setName(userProperties.getName());
+			profileModel.setSurname(userProperties.getSurname());
+		}
+		return profileModel;
 	}
 
 }

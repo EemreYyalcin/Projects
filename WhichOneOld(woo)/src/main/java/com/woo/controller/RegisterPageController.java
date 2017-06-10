@@ -68,7 +68,7 @@ public class RegisterPageController {
 			return "register";
 		}
 
-		userProperties.setContact(contactSaved);
+		userProperties.setId(contactSaved.getId()).setEmail(contactSaved.getEmail()).setName(contactSaved.getName()).setSurname(contactSaved.getSurname());
 		return "redirect:" + Link.profile;
 	}
 

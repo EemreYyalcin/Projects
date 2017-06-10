@@ -17,6 +17,7 @@ import com.woo.core.attributes.Link;
 import com.woo.domain.Contact;
 import com.woo.ejb.UserProperties;
 import com.woo.service.impl.ContactServiceImpl;
+import com.woo.utils.log.LogMessage;
 import com.woo.validator.LoginValidation;
 
 @Controller
@@ -41,7 +42,12 @@ public class LoginPageController {
 		if (bindingResult.hasErrors()) {
 			return "login";
 		}
-		userProperties.setContact(contactService.getContactByEmail(contact.getEmail()));
+		Contact contactX = contactService.getContactByEmail(contact.getEmail());
+		if (contactX == null) {
+			LogMessage.error("Contact is not found in DB!!");
+			return "login";
+		}
+		userProperties.setId(contactX.getId()).setEmail(contactX.getEmail()).setName(contactX.getName()).setSurname(contactX.getSurname());
 
 		return "redirect:" + Link.profile;
 	}

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.woo.controller.functions.QuestionFunctions;
+import com.woo.core.attributes.Codes;
 import com.woo.core.attributes.Link;
 import com.woo.domain.Category;
 import com.woo.domain.CategoryScore;
@@ -47,7 +48,7 @@ public class QuestionController {
 
 	@RequestMapping(value = "/woo/question/random/{categoryId}/{level}", method = RequestMethod.GET)
 	public String getQuestionRandom(@PathVariable("categoryId") Category category, @PathVariable("level") int level, Model view) {
-		Question question = QuestionFunctions.getRandomQuestion(questionService, category, level);
+		Question question = questionService.getRandomQuestion(category, level);
 		if (question == null) {
 			return "errorpagenoquestion";
 		}
@@ -57,7 +58,7 @@ public class QuestionController {
 		if (level == 5) {
 			questionModel.setItemCClickNext(Link.randomClickCs + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
 		}
-		QuestionFunctions.setPercentageValue(questionModel, question, questionScoreService);
+		questionScoreService.setPercentageValue(questionModel, question);
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		view.addAttribute("questionModel", questionModel);
 		view.addAttribute("answerModel", answerModel);
@@ -75,15 +76,15 @@ public class QuestionController {
 
 		if (answerModel.isAnswerA()) {
 			questionScoreService.updateQuestionResult(question, true);
-			if (userProperties.getContact() != null) {
-				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), true);
+			if (userProperties.getId() != Codes.errorIntCode) {
+				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
 			return nextQuestion;
 		}
 
 		questionScoreService.updateQuestionResult(question, false);
-		if (userProperties.getContact() != null) {
-			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), false);
+		if (userProperties.getId() != Codes.errorIntCode) {
+			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
 
 		return nextQuestion;
@@ -100,15 +101,15 @@ public class QuestionController {
 
 		if (answerModel.isAnswerB()) {
 			questionScoreService.updateQuestionResult(question, true);
-			if (userProperties.getContact() != null) {
-				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), true);
+			if (userProperties.getId() != Codes.errorIntCode) {
+				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
 			return nextQuestion;
 		}
 
 		questionScoreService.updateQuestionResult(question, false);
-		if (userProperties.getContact() != null) {
-			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), false);
+		if (userProperties.getId() != Codes.errorIntCode) {
+			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
 
 		return nextQuestion;
@@ -124,25 +125,25 @@ public class QuestionController {
 		}
 		if (answerModel.isAnswerC()) {
 			questionScoreService.updateQuestionResult(question, true);
-			if (userProperties.getContact() != null) {
-				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), true);
+			if (userProperties.getId() != Codes.errorIntCode) {
+				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
 			return nextQuestion;
 		}
 
 		questionScoreService.updateQuestionResult(question, false);
-		if (userProperties.getContact() != null) {
-			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), false);
+		if (userProperties.getId() != Codes.errorIntCode) {
+			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
 		return nextQuestion;
 	}
 
 	@RequestMapping(value = "/woo/question/getlevel/{categoryId}", method = RequestMethod.GET)
 	public ModelAndView getLevels(@PathVariable("categoryId") Category category) {
-		CategoryScore categoryScore = categoryScoreService.getCategoryScore(userProperties.getContact(), category);
+		CategoryScore categoryScore = categoryScoreService.getCategoryScore(userProperties.getId(), category);
 
 		ModelAndView view = null;
-		if (userProperties.getContact() == null) {
+		if (userProperties.getId() != Codes.errorIntCode) {
 			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(itemService, Link.randomQuestions + category.getId(), categoryScore, true));
 		}
 		else {
@@ -169,7 +170,7 @@ public class QuestionController {
 		if (level == 5) {
 			questionModel.setItemCClickNext(Link.serialClickCs + questionModel.getQuestionId() + "/" + category.getId() + "/" + level + "/" + pageId);
 		}
-		QuestionFunctions.setPercentageValue(questionModel, question, questionScoreService);
+		questionScoreService.setPercentageValue(questionModel, question);
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		view.addAttribute("questionModel", questionModel);
 		view.addAttribute("answerModel", answerModel);
@@ -187,16 +188,16 @@ public class QuestionController {
 		}
 		if (answerModel.isAnswerA()) {
 			questionScoreService.updateQuestionResult(question, true);
-			if (userProperties.getContact() != null) {
-				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), true);
+			if (userProperties.getId() != Codes.errorIntCode) {
+				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
 
 			return nextQuestion;
 		}
 
 		questionScoreService.updateQuestionResult(question, false);
-		if (userProperties.getContact() != null) {
-			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), false);
+		if (userProperties.getId() != Codes.errorIntCode) {
+			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
 
 		return nextQuestion;
@@ -213,15 +214,15 @@ public class QuestionController {
 
 		if (answerModel.isAnswerB()) {
 			questionScoreService.updateQuestionResult(question, true);
-			if (userProperties.getContact() != null) {
-				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), true);
+			if (userProperties.getId() != Codes.errorIntCode) {
+				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
 			return nextQuestion;
 		}
 
 		questionScoreService.updateQuestionResult(question, false);
-		if (userProperties.getContact() != null) {
-			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), false);
+		if (userProperties.getId() != Codes.errorIntCode) {
+			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
 
 		return nextQuestion;
@@ -237,15 +238,15 @@ public class QuestionController {
 		}
 		if (answerModel.isAnswerC()) {
 			questionScoreService.updateQuestionResult(question, true);
-			if (userProperties.getContact() != null) {
-				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), true);
+			if (userProperties.getId() != Codes.errorIntCode) {
+				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
 			return nextQuestion;
 		}
 
 		questionScoreService.updateQuestionResult(question, false);
-		if (userProperties.getContact() != null) {
-			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getContact(), false);
+		if (userProperties.getId() != Codes.errorIntCode) {
+			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
 		return nextQuestion;
 	}
