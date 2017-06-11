@@ -26,4 +26,8 @@ public interface QuestionService {
 
 	Question getRandomQuestion(Category category, int level);
 
+	int getQuestionCountByCategory(Category category);
+
+	int getQuestionCountByCategoryAndLevel(Category category, int level);
+
 }

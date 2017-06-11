@@ -144,10 +144,10 @@ public class QuestionController {
 
 		ModelAndView view = null;
 		if (userProperties.getId() != Codes.errorIntCode) {
-			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(itemService, Link.randomQuestions + category.getId(), categoryScore, true));
+			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(itemService, Link.randomQuestions + category.getId(), categoryScore, questionService, true));
 		}
 		else {
-			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(itemService, Link.serialQuestions + category.getId(), categoryScore, false));
+			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(itemService, Link.serialQuestions + category.getId(), categoryScore, questionService, false));
 		}
 
 		return view;

@@ -1,11 +1,9 @@
 package com.woo.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.woo.domain.Category;
-import com.woo.utils.log.LogMessage;
 
 public class CategoryModel {
 
@@ -15,7 +13,7 @@ public class CategoryModel {
 
 	private int decade;
 
-	private String lastUpdateDate;
+	private Date lastUpdateDate;
 
 	private String categoryClickUrl;
 
@@ -58,22 +56,12 @@ public class CategoryModel {
 		return this;
 	}
 
-	public String getLastUpdateDate() {
+	public Date getLastUpdateDate() {
 		return lastUpdateDate;
 	}
 
 	public CategoryModel setLastUpdateDate(Date lastUpdateDate) {
-		try {
-			if (lastUpdateDate == null) {
-				LogMessage.error("Setting CategoryModel LastUpdateDate Error. Code:Cola");
-				return this;
-			}
-			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm");
-			this.lastUpdateDate = sdf.format(lastUpdateDate);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		this.lastUpdateDate = lastUpdateDate;
 		return this;
 	}
 

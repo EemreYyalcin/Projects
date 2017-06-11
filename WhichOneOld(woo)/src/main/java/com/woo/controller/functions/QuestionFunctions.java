@@ -11,19 +11,20 @@ import com.woo.model.CategoryScoreModel;
 import com.woo.model.LevelModel;
 import com.woo.model.RatioModel;
 import com.woo.service.impl.ItemServiceImpl;
+import com.woo.service.impl.QuestionServiceImpl;
+import com.woo.utils.calculation.Calculator;
 import com.woo.utils.log.LogMessage;
 
 public class QuestionFunctions {
 
-	public static ArrayList<LevelModel> getLevels(ItemServiceImpl itemService, String nextUrl, CategoryScore categoryScore, boolean isRandom) {
+	public static ArrayList<LevelModel> getLevels(ItemServiceImpl itemService, String nextUrl, CategoryScore categoryScore, QuestionServiceImpl questionService, boolean isRandom) {
 
 		CategoryScoreModel categoryScoreModel;
 		if (categoryScore == null) {
 			categoryScoreModel = CategoryScoreModel.getEmptyCategoryScoreModel(0);
-			categoryScore = new CategoryScore();
 		}
 		else {
-			categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore);
+			categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore, questionService.getQuestionCountByCategory(categoryScore.getCategory()));
 		}
 
 		String[] names = { "VERY EASY", "EASY", "MEDIUM", "HARD", "VERY HARD" };
@@ -34,6 +35,8 @@ public class QuestionFunctions {
 		for (int i = 0; i < names.length; i++) {
 			RatioModel ratioModel = null;
 			int pageId = 0;
+			int status = 0;
+			int totalQuestion = 0;
 			item = itemService.getItemByFilename(names[i]);
 			if (item == null || item.getId() == 0) {
 				suffix = "1";
@@ -44,30 +47,36 @@ public class QuestionFunctions {
 			switch (i) {
 			case 0:
 				ratioModel = categoryScoreModel.getScoreModel().getVeryEasyRatio();
-				pageId = categoryScore.getVeryEasyPageId();
+				pageId = categoryScoreModel.getVeryEasyPageId();
 				break;
 			case 1:
 				ratioModel = categoryScoreModel.getScoreModel().getEasyRatio();
-				pageId = categoryScore.getEasyPageId();
+				pageId = categoryScoreModel.getEasyPageId();
 				break;
 			case 2:
 				ratioModel = categoryScoreModel.getScoreModel().getMediumRatio();
-				pageId = categoryScore.getMediumPageId();
+				pageId = categoryScoreModel.getMediumPageId();
 				break;
 			case 3:
 				ratioModel = categoryScoreModel.getScoreModel().getHardRatio();
-				pageId = categoryScore.getHardPageId();
+				pageId = categoryScoreModel.getHardPageId();
 				break;
 			case 4:
 				ratioModel = categoryScoreModel.getScoreModel().getVeryHardRatio();
-				pageId = categoryScore.getVeryHardPageId();
-				break;
+				pageId = categoryScoreModel.getVeryHardPageId();
 			}
-			if (isRandom) {
-				list.add(new LevelModel(names[i], nextUrl + "/" + (i + 1), Link.imageSources + suffix, ratioModel));
+			if (categoryScore == null) {
+				totalQuestion = 0;
 			}
 			else {
-				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), Link.imageSources + suffix, ratioModel));
+				totalQuestion = questionService.getQuestionCountByCategoryAndLevel(categoryScore.getCategory(), i + 1);
+			}
+			status = (int) Calculator.getPercentage(pageId, totalQuestion);
+			if (isRandom) {
+				list.add(new LevelModel(names[i], nextUrl + "/" + (i + 1), "/images/Capture" + (i + 1) + ".jpg", ratioModel, status));
+			}
+			else {
+				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), Link.imageSources + suffix, ratioModel, status));
 			}
 		}
 		return list;

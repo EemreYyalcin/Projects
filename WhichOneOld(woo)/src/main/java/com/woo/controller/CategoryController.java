@@ -33,7 +33,7 @@ public class CategoryController {
 
 	@GetMapping("/woo/categories")
 	public ModelAndView getCategoryNamesAndImages() {
-		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId())));
+		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId()), userProperties.getId(), true));
 		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
@@ -46,6 +46,7 @@ public class CategoryController {
 		}
 		LogMessage.logx("categoryçgetname " + category.getName() + " " + category.getId());
 		ModelAndView view = new ModelAndView("categoryDecadesAndImages", "categoryDecades", categoryService.getCategoriesByDecade(category.getName(), userProperties.getId()));
+		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
 
@@ -55,7 +56,7 @@ public class CategoryController {
 			return "redirect:/woo/login";
 		}
 		// model.addAttribute("categoryNames", );
-		model.addAttribute("categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId())));
+		model.addAttribute("categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId()), userProperties.getId(), false));
 		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return "categoryNames";
 

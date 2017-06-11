@@ -48,6 +48,15 @@ public class QuestionServiceImpl implements QuestionService {
 	public Question getQuestionByItemAndItem(Item itemA, Item itemB) {
 		return questionRepository.findByItemAAndItemB(itemA, itemB);
 	}
+	@Override
+	public int getQuestionCountByCategory(Category category){
+		return questionRepository.countByCategory(category);
+	}
+	
+	@Override
+	public int getQuestionCountByCategoryAndLevel(Category category, int level){
+		return questionRepository.countByCategoryAndLevel(category, level);
+	}
 
 	@Override
 	public ArrayList<Question> getQuestionByCategoryAndLevel(Category category, int level) {

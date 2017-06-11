@@ -1,12 +1,13 @@
 package com.woo.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.woo.core.attributes.Codes;
 import com.woo.core.attributes.Link;
 import com.woo.domain.Category;
 import com.woo.domain.CategoryScore;
@@ -96,13 +97,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic) {
+	public ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic, long userId, boolean isExplore) {
 		ArrayList<Category> filterCategories = new ArrayList<Category>();
 		ArrayList<String> allCategoriesName = categoryRepository.findDistinctStates();
 		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
-		long userId = Codes.errorIntCode;
-		if (statistic != null) {
-			userId = statistic.getContact().getId();
+		if (statistic != null && !isExplore) {
 			if (statistic.getCategoryScoreList() == null || statistic.getCategoryScoreList().size() == 0) {
 				// empty Page
 				return null;
@@ -138,6 +137,17 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 			categoryModels.add(categoryModel);
 		}
+		categoryModels = sortCategoryModel(categoryModels);
+
+		return categoryModels;
+	}
+
+	private ArrayList<CategoryModel> sortCategoryModel(ArrayList<CategoryModel> categoryModels) {
+		Collections.sort(categoryModels, new Comparator<CategoryModel>() {
+			public int compare(CategoryModel o1, CategoryModel o2) {
+				return o1.getLastUpdateDate().after(o2.getLastUpdateDate()) ? -1 : 1;
+			}
+		});
 		return categoryModels;
 	}
 

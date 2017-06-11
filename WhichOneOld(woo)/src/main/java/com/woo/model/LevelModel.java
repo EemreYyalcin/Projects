@@ -9,12 +9,15 @@ public class LevelModel {
 	private String imageUrl;
 
 	private RatioModel ratioModel;
+	
+	private int status = 0;
 
-	public LevelModel(String name, String nextUrl, String imageUrl, RatioModel ratioModel) {
+	public LevelModel(String name, String nextUrl, String imageUrl, RatioModel ratioModel, int status) {
 		this.name = name;
 		this.nextUrl = nextUrl;
 		this.imageUrl = imageUrl;
 		this.setRatioModel(ratioModel);
+		this.status = status;
 	}
 
 	public String getName() {
@@ -47,6 +50,14 @@ public class LevelModel {
 
 	public void setRatioModel(RatioModel ratioModel) {
 		this.ratioModel = ratioModel;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }

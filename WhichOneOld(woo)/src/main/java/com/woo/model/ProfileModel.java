@@ -18,7 +18,7 @@ public class ProfileModel {
 
 	private String myCategories;
 
-	private String profile;
+	private String editProfile;
 
 	private int veryHardClickPercentage;
 
@@ -78,14 +78,6 @@ public class ProfileModel {
 		this.myCategories = myCategories;
 	}
 
-	public String getProfile() {
-		return profile;
-	}
-
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
-
 	public int getVeryHardClickPercentage() {
 		return veryHardClickPercentage;
 	}
@@ -131,7 +123,7 @@ public class ProfileModel {
 		profileModel.setHome(Link.home);
 		profileModel.setExplore(Link.categoryNames);
 		profileModel.setMyCategories(Link.myCategory);
-		profileModel.setProfile(Link.profile);
+		profileModel.setEditProfile(Link.editProfile);
 		if (userProperties.getId() == Codes.errorIntCode) {
 			// Empty Model Or Demo Model
 			profileModel.setName("Guess");
@@ -142,6 +134,14 @@ public class ProfileModel {
 			profileModel.setSurname(userProperties.getSurname());
 		}
 		return profileModel;
+	}
+
+	public String getEditProfile() {
+		return editProfile;
+	}
+
+	public void setEditProfile(String editProfile) {
+		this.editProfile = editProfile;
 	}
 
 }

@@ -84,4 +84,12 @@ public class Link {
 
 	public static String myCategories = "/woo/category/my/";
 
+	public static String editProfile = "/woo/register/edit";
+
+	public static String editProfiles = "/woo/register/edit/";
+
+	public static String editProfilePost = "/woo/register/edit";
+
+	public static String editProfilePosts = "/woo/register/edit/";
+
 }

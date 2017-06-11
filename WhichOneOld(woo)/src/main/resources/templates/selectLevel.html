@@ -72,18 +72,39 @@
 							<h3>
 								<a th:href="${level.nextUrl}" th:text="${level.name}"></a>
 							</h3>
-							<div class="progress active">
-								<div
-									class="progress-bar progress-bar-success progress-bar-striped"
-									role="progressbar"
-									th:style="'width:'+ ${level.ratioModel.truePercentage}+'%;'"
-									th:utext="'TRUE ( ' + ${level.ratioModel.truePercentage}+ '% )'"></div>
-								<div
-									class="progress-bar progress-bar-danger progress-bar-striped"
-									role="progressbar"
-									th:style="'width:'+ ${level.ratioModel.falsePercentage}+'%;'"
-									th:utext="'FALSE ( ' + ${level.ratioModel.falsePercentage}+'% )'"></div>
-							</div>
+							<table class="table">
+								<tbody>
+									<tr>
+										<td><span>Status</span></td>
+										<td>
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-info progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${level.status}+'%;'"
+													th:utext="'STATUS ( ' + ${level.status} + '% )'"></div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td><span>Ratio</span></td>
+										<td>
+											<div class="progress active">
+												<div
+													class="progress-bar progress-bar-success progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${level.ratioModel.truePercentage}+'%;'"
+													th:utext="'TRUE ( ' + ${level.ratioModel.truePercentage}+ '% )'"></div>
+												<div
+													class="progress-bar progress-bar-danger progress-bar-striped"
+													role="progressbar"
+													th:style="'width:'+ ${level.ratioModel.falsePercentage}+'%;'"
+													th:utext="'FALSE ( ' + ${level.ratioModel.falsePercentage}+'% )'"></div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</td>
 					</tr>
 				</tbody>

@@ -41,7 +41,7 @@ public class RegisterValidation implements Validator {
 		}
 
 		if (contactService.getContactByEmail(contactModel.getEmail()) != null) {
-			errors.reject("email", "User with usernamealready exists");
+			errors.reject("emailX", "User with usernamealready exists");
 		}
 
 	}

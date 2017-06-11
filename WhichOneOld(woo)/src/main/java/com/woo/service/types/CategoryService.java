@@ -27,6 +27,6 @@ public interface CategoryService {
 
 	ArrayList<CategoryModel> getCategoriesByDecade(String categoryName, long userId);
 
-	ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic);
+	ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic, long userId, boolean isExplore);
 
 }

@@ -8,4 +8,6 @@ public interface ContactService {
 
 	Contact addContact(Contact contact);
 
+	Contact getContactById(long id);
+
 }

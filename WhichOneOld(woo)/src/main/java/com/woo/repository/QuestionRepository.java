@@ -21,4 +21,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 	ArrayList<Question> findByCategoryAndLevel(Category category, int level, Pageable pageable);
 
+	int countByCategory(Category category);
+
+	int countByCategoryAndLevel(Category category, int level);
+
 }

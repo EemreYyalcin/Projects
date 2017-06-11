@@ -27,11 +27,14 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 
 	private StatisticServiceImpl statisticService;
 
+	private QuestionServiceImpl questionService;
+
 	@Autowired
-	public CategoryScoreServiceImpl(CategoryScoreRepository categoryScoreRepository, ScoreServiceImpl scoreService, StatisticServiceImpl statisticService) {
+	public CategoryScoreServiceImpl(CategoryScoreRepository categoryScoreRepository, ScoreServiceImpl scoreService, StatisticServiceImpl statisticService, QuestionServiceImpl questionService) {
 		this.categoryScoreRepository = categoryScoreRepository;
 		this.scoreService = scoreService;
 		this.statisticService = statisticService;
+		this.questionService = questionService;
 
 	}
 
@@ -57,21 +60,19 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 		}
 		Iterable<Category> categories = categoryService.getCategoriesByName(categoryName);
 		CategoryScoreModel totalScoreModel = null;
-		int totalQuestionCount = 0;
 		for (Category category : categories) {
-			totalQuestionCount += category.getMapCountQuestion();
 			CategoryScore categoryScore = getCategoryScore(userId, category);
 			if (categoryScore != null) {
 				if (totalScoreModel == null) {
-					totalScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore);
+					totalScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore, questionService.getQuestionCountByCategory(category));
 				}
 				else {
-					totalScoreModel.addCategoryScoreModel(CategoryScoreModel.getCategoryScoreModel(categoryScore));
+					totalScoreModel.addCategoryScoreModel(CategoryScoreModel.getCategoryScoreModel(categoryScore, questionService.getQuestionCountByCategory(category)), questionService.getQuestionCountByCategory(category));
 				}
 			}
 		}
 		if (totalScoreModel == null) {
-			totalScoreModel = CategoryScoreModel.getEmptyCategoryScoreModel(totalQuestionCount);
+			totalScoreModel = CategoryScoreModel.getEmptyCategoryScoreModel(0);
 		}
 		return totalScoreModel;
 	}
@@ -85,7 +86,7 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 		if (categoryScore == null) {
 			return CategoryScoreModel.getEmptyCategoryScoreModel(category.getMapCountQuestion());
 		}
-		return CategoryScoreModel.getCategoryScoreModel(categoryScore);
+		return CategoryScoreModel.getCategoryScoreModel(categoryScore, questionService.getQuestionCountByCategory(category));
 	}
 
 	@Override
@@ -118,15 +119,15 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 	public CategoryScoreModel getTotalScoreProfile(Statistic statistic) {
 
 		if (statistic == null) {
-			return CategoryScoreModel.getEmptyCategoryScoreModel(1);
+			return CategoryScoreModel.getEmptyCategoryScoreModel(0);
 		}
 		List<CategoryScore> categoryScores = statistic.getCategoryScoreList();
 		if (categoryScores == null || categoryScores.size() == 0) {
-			return CategoryScoreModel.getEmptyCategoryScoreModel(1);
+			return CategoryScoreModel.getEmptyCategoryScoreModel(0);
 		}
 		CategoryScoreModel totalCategoryScoreModel = null;
 		for (CategoryScore categoryScore : categoryScores) {
-			CategoryScoreModel categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore);
+			CategoryScoreModel categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore, questionService.getQuestionCountByCategory(categoryScore.getCategory()));
 			if (categoryScoreModel == null) {
 				continue;
 			}
@@ -134,7 +135,7 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 				totalCategoryScoreModel = categoryScoreModel;
 				continue;
 			}
-			totalCategoryScoreModel = totalCategoryScoreModel.addCategoryScoreModel(categoryScoreModel);
+			totalCategoryScoreModel = totalCategoryScoreModel.addCategoryScoreModel(categoryScoreModel, questionService.getQuestionCountByCategory(categoryScore.getCategory()));
 		}
 
 		if (totalCategoryScoreModel == null) {

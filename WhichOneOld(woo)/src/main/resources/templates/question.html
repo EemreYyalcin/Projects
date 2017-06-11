@@ -90,7 +90,7 @@
 			<a href="#" id="clickCNext"
 				th:onclick="'changeColor(\'clickC\',\'' + ${answerModel.answerA} + '\',\'' + ${answerModel.answerC} + '\',\'' + ${answerModel.answerC} + '\',\'' + ${questionModel.itemCClickNext} + '\');'">
 				<img class="img-responsive"
-				th:src="${questionModel.imageResource}+${questionModel.itemA.id}"
+				th:src="@{/images/equal.jpg}"
 				alt=""></img>
 			</a>
 			<h3>
