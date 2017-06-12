@@ -41,6 +41,9 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 	@Override
 	public CategoryScore getCategoryScore(long userId, Category category) {
 		Statistic statistic = statisticService.getStatisticByUserId(userId);
+		if (statistic == null) {
+			return null;
+		}
 		if (statistic.getCategoryScoreList() == null) {
 			return null;
 		}
@@ -56,7 +59,7 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 	public CategoryScoreModel getTotalCategoryScore(long userId, String categoryName, CategoryServiceImpl categoryService) {
 
 		if (userId == Codes.errorIntCode) {
-			return null;
+			return CategoryScoreModel.getEmptyCategoryScoreModel(0);
 		}
 		Iterable<Category> categories = categoryService.getCategoriesByName(categoryName);
 		CategoryScoreModel totalScoreModel = null;
@@ -80,7 +83,7 @@ public class CategoryScoreServiceImpl implements CategoryScoreService {
 	@Override
 	public CategoryScoreModel getCategoryDecadeScoreModel(long userId, Category category) {
 		if (userId == Codes.errorIntCode) {
-			return null;
+			return CategoryScoreModel.getEmptyCategoryScoreModel(0);
 		}
 		CategoryScore categoryScore = getCategoryScore(userId, category);
 		if (categoryScore == null) {

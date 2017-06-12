@@ -40,9 +40,9 @@ public class Link {
 
 	public static String rootLocationValue = "C:\\Users\\eemre\\Desktop\\DB\\upload-dir";
 
-	public static String categoryNames = "/woo/categories";
+	public static String categoryNames = "/woo/category";
 
-	public static String categoryNamess = "/woo/categories/";
+	public static String categoryNamess = "/woo/category/";
 
 	public static String categoryDecades = "";
 

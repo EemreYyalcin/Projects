@@ -3,8 +3,9 @@ package com.woo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.woo.core.attributes.Codes;
@@ -16,6 +17,7 @@ import com.woo.service.impl.StatisticServiceImpl;
 import com.woo.utils.log.LogMessage;
 
 @Controller
+@RequestMapping("/woo/category")
 public class CategoryController {
 
 	private CategoryServiceImpl categoryService;
@@ -31,14 +33,14 @@ public class CategoryController {
 		this.statisticService = statisticService;
 	}
 
-	@GetMapping("/woo/categories")
+	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getCategoryNamesAndImages() {
 		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId()), userProperties.getId(), true));
 		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
 
-	@GetMapping("/woo/category/{id}")
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView getCategoryDecadesAndImages(@PathVariable("id") Category category) {
 		if (category == null) {
 			LogMessage.error("Temporarly category is null! Code:Inna");
@@ -50,14 +52,14 @@ public class CategoryController {
 		return view;
 	}
 
-	@GetMapping("/woo/category/my")
+	@RequestMapping(value = "/my", method = RequestMethod.GET)
 	public String getMyCategoryNamesAndImages(Model model) {
 		if (userProperties.getId() == Codes.errorIntCode) {
 			return "redirect:/woo/login";
 		}
-		// model.addAttribute("categoryNames", );
 		model.addAttribute("categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId()), userProperties.getId(), false));
 		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
+		model.addAttribute("myCategory", "myCategory");
 		return "categoryNames";
 
 	}

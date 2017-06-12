@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.woo.core.attributes.Link;
 import com.woo.domain.Contact;
 import com.woo.ejb.UserProperties;
+import com.woo.model.ContactModel;
+import com.woo.model.ProfileModel;
 import com.woo.service.impl.ContactServiceImpl;
 import com.woo.utils.log.LogMessage;
 import com.woo.validator.LoginValidation;
@@ -34,7 +36,9 @@ public class LoginPageController {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		binder.addValidators(loginValidation);
+		if (binder.getTarget() instanceof ContactModel) {
+			binder.addValidators(loginValidation);
+		}
 	}
 
 	@RequestMapping(value = "/woo/login", method = RequestMethod.POST)
@@ -48,13 +52,14 @@ public class LoginPageController {
 			return "login";
 		}
 		userProperties.setId(contactX.getId()).setEmail(contactX.getEmail()).setName(contactX.getName()).setSurname(contactX.getSurname());
-
 		return "redirect:" + Link.profile;
 	}
 
 	@RequestMapping(value = "/woo/login", method = RequestMethod.GET)
 	public ModelAndView getLoginPage() {
-		return new ModelAndView("login", "contact", new Contact());
+		ModelAndView view = new ModelAndView("login", "contact", new Contact());
+		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
+		return view;
 	}
 
 }

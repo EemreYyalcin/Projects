@@ -17,9 +17,10 @@ import com.woo.domain.CategoryScore;
 import com.woo.domain.Question;
 import com.woo.ejb.UserProperties;
 import com.woo.model.AnswerModel;
+import com.woo.model.CategoryScoreModel;
+import com.woo.model.ProfileModel;
 import com.woo.model.QuestionModel;
 import com.woo.service.impl.CategoryScoreServiceImpl;
-import com.woo.service.impl.ItemServiceImpl;
 import com.woo.service.impl.QuestionScoreServiceImpl;
 import com.woo.service.impl.QuestionServiceImpl;
 import com.woo.utils.log.LogMessage;
@@ -29,8 +30,6 @@ public class QuestionController {
 
 	private QuestionServiceImpl questionService;
 
-	private ItemServiceImpl itemService;
-
 	private QuestionScoreServiceImpl questionScoreService;
 
 	private UserProperties userProperties;
@@ -38,9 +37,8 @@ public class QuestionController {
 	private CategoryScoreServiceImpl categoryScoreService;
 
 	@Autowired
-	public QuestionController(QuestionServiceImpl questionService, ItemServiceImpl itemService, QuestionScoreServiceImpl questionScoreService, UserProperties userProperties, CategoryScoreServiceImpl categoryScoreService) {
+	public QuestionController(QuestionServiceImpl questionService, QuestionScoreServiceImpl questionScoreService, UserProperties userProperties, CategoryScoreServiceImpl categoryScoreService) {
 		this.questionService = questionService;
-		this.itemService = itemService;
 		this.questionScoreService = questionScoreService;
 		this.userProperties = userProperties;
 		this.categoryScoreService = categoryScoreService;
@@ -62,6 +60,7 @@ public class QuestionController {
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		view.addAttribute("questionModel", questionModel);
 		view.addAttribute("answerModel", answerModel);
+		view.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return "question";
 	}
 
@@ -71,6 +70,7 @@ public class QuestionController {
 		String nextQuestion = "redirect:" + Link.randomQuestions + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -79,6 +79,7 @@ public class QuestionController {
 			if (userProperties.getId() != Codes.errorIntCode) {
 				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -86,7 +87,7 @@ public class QuestionController {
 		if (userProperties.getId() != Codes.errorIntCode) {
 			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
-
+		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return nextQuestion;
 	}
 
@@ -96,6 +97,7 @@ public class QuestionController {
 		String nextQuestion = "redirect:" + Link.randomQuestions + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -104,6 +106,7 @@ public class QuestionController {
 			if (userProperties.getId() != Codes.errorIntCode) {
 				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -111,7 +114,7 @@ public class QuestionController {
 		if (userProperties.getId() != Codes.errorIntCode) {
 			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
-
+		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return nextQuestion;
 	}
 
@@ -121,6 +124,7 @@ public class QuestionController {
 		String nextQuestion = "redirect:" + Link.randomQuestions + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 		if (answerModel.isAnswerC()) {
@@ -128,6 +132,7 @@ public class QuestionController {
 			if (userProperties.getId() != Codes.errorIntCode) {
 				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -135,6 +140,7 @@ public class QuestionController {
 		if (userProperties.getId() != Codes.errorIntCode) {
 			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
+		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return nextQuestion;
 	}
 
@@ -143,18 +149,27 @@ public class QuestionController {
 		CategoryScore categoryScore = categoryScoreService.getCategoryScore(userProperties.getId(), category);
 
 		ModelAndView view = null;
-		if (userProperties.getId() != Codes.errorIntCode) {
-			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(itemService, Link.randomQuestions + category.getId(), categoryScore, questionService, true));
+
+		CategoryScoreModel categoryScoreModel;
+		if (categoryScore == null) {
+			categoryScoreModel = CategoryScoreModel.getEmptyCategoryScoreModel(0);
 		}
 		else {
-			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(itemService, Link.serialQuestions + category.getId(), categoryScore, questionService, false));
+			categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore, questionService.getQuestionCountByCategory(categoryScore.getCategory()));
 		}
 
+		if (userProperties.getId() != Codes.errorIntCode) {
+			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(Link.randomQuestions + category.getId(), categoryScoreModel, questionService, true, category));
+		}
+		else {
+			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(Link.serialQuestions + category.getId(), categoryScoreModel, questionService, false, category));
+		}
+		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
 
 	@RequestMapping(value = "/woo/question/{categoryId}/{pageId}/{level}", method = RequestMethod.GET)
-	public String getQuestionSerial(@PathVariable("categoryId") Category category, @PathVariable("pageId") int pageId, @PathVariable("level") int level, Model view) {
+	public String getQuestionSerial(@PathVariable("categoryId") Category category, @PathVariable("pageId") int pageId, @PathVariable("level") int level, Model model) {
 		if (category == null || level <= 0 || level > 5) {
 			return "errorpagenoquestion";
 		}
@@ -172,8 +187,9 @@ public class QuestionController {
 		}
 		questionScoreService.setPercentageValue(questionModel, question);
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
-		view.addAttribute("questionModel", questionModel);
-		view.addAttribute("answerModel", answerModel);
+		model.addAttribute("questionModel", questionModel);
+		model.addAttribute("answerModel", answerModel);
+		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return "question";
 	}
 
@@ -184,6 +200,7 @@ public class QuestionController {
 		String nextQuestion = "redirect:" + Link.serialQuestions + category.getId() + "/" + pageId + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 		if (answerModel.isAnswerA()) {
@@ -191,7 +208,7 @@ public class QuestionController {
 			if (userProperties.getId() != Codes.errorIntCode) {
 				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
-
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -199,7 +216,7 @@ public class QuestionController {
 		if (userProperties.getId() != Codes.errorIntCode) {
 			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
-
+		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return nextQuestion;
 	}
 
@@ -209,6 +226,7 @@ public class QuestionController {
 		String nextQuestion = "redirect:" + Link.serialQuestions + category.getId() + "/" + pageId + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -217,6 +235,7 @@ public class QuestionController {
 			if (userProperties.getId() != Codes.errorIntCode) {
 				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -224,7 +243,7 @@ public class QuestionController {
 		if (userProperties.getId() != Codes.errorIntCode) {
 			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
-
+		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return nextQuestion;
 	}
 
@@ -234,6 +253,7 @@ public class QuestionController {
 		String nextQuestion = "redirect:" + Link.serialQuestions + category.getId() + "/" + pageId + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 		if (answerModel.isAnswerC()) {
@@ -241,6 +261,7 @@ public class QuestionController {
 			if (userProperties.getId() != Codes.errorIntCode) {
 				categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), true);
 			}
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return nextQuestion;
 		}
 
@@ -248,6 +269,7 @@ public class QuestionController {
 		if (userProperties.getId() != Codes.errorIntCode) {
 			categoryScoreService.updateCategoryScoreTable(category, level, userProperties.getId(), false);
 		}
+		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return nextQuestion;
 	}
 

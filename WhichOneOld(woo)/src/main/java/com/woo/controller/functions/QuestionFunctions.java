@@ -2,48 +2,28 @@ package com.woo.controller.functions;
 
 import java.util.ArrayList;
 
-import com.woo.core.attributes.Link;
-import com.woo.domain.CategoryScore;
-import com.woo.domain.Item;
+import com.woo.domain.Category;
 import com.woo.domain.Question;
 import com.woo.model.AnswerModel;
 import com.woo.model.CategoryScoreModel;
 import com.woo.model.LevelModel;
 import com.woo.model.RatioModel;
-import com.woo.service.impl.ItemServiceImpl;
 import com.woo.service.impl.QuestionServiceImpl;
 import com.woo.utils.calculation.Calculator;
 import com.woo.utils.log.LogMessage;
 
 public class QuestionFunctions {
 
-	public static ArrayList<LevelModel> getLevels(ItemServiceImpl itemService, String nextUrl, CategoryScore categoryScore, QuestionServiceImpl questionService, boolean isRandom) {
-
-		CategoryScoreModel categoryScoreModel;
-		if (categoryScore == null) {
-			categoryScoreModel = CategoryScoreModel.getEmptyCategoryScoreModel(0);
-		}
-		else {
-			categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore, questionService.getQuestionCountByCategory(categoryScore.getCategory()));
-		}
+	public static ArrayList<LevelModel> getLevels(String nextUrl, CategoryScoreModel categoryScoreModel, QuestionServiceImpl questionService, boolean isRandom, Category category) {
 
 		String[] names = { "VERY EASY", "EASY", "MEDIUM", "HARD", "VERY HARD" };
 		ArrayList<LevelModel> list = new ArrayList<>();
-		Item item;
-		String suffix = "1";
 
 		for (int i = 0; i < names.length; i++) {
 			RatioModel ratioModel = null;
 			int pageId = 0;
 			int status = 0;
 			int totalQuestion = 0;
-			item = itemService.getItemByFilename(names[i]);
-			if (item == null || item.getId() == 0) {
-				suffix = "1";
-			}
-			else {
-				suffix = item.getId() + "";
-			}
 			switch (i) {
 			case 0:
 				ratioModel = categoryScoreModel.getScoreModel().getVeryEasyRatio();
@@ -65,18 +45,18 @@ public class QuestionFunctions {
 				ratioModel = categoryScoreModel.getScoreModel().getVeryHardRatio();
 				pageId = categoryScoreModel.getVeryHardPageId();
 			}
-			if (categoryScore == null) {
+			if (category == null) {
 				totalQuestion = 0;
 			}
 			else {
-				totalQuestion = questionService.getQuestionCountByCategoryAndLevel(categoryScore.getCategory(), i + 1);
+				totalQuestion = questionService.getQuestionCountByCategoryAndLevel(category, i + 1);
 			}
 			status = (int) Calculator.getPercentage(pageId, totalQuestion);
 			if (isRandom) {
 				list.add(new LevelModel(names[i], nextUrl + "/" + (i + 1), "/images/Capture" + (i + 1) + ".jpg", ratioModel, status));
 			}
 			else {
-				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), Link.imageSources + suffix, ratioModel, status));
+				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), "/images/Capture" + (i + 1) + ".jpg", ratioModel, status));
 			}
 		}
 		return list;
