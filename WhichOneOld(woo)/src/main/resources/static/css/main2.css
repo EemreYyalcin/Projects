@@ -1,9 +1,17 @@
+h1{
+	color:#0000FF;
+}
+
+h2{
+	color:#FF0000;
+}
+
 
 /* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
 
 body {
 /*     background: url('http://placehold.it/1920x1080') ; */
-	background: url('../home/images/bg.jpg');
+	background: url('../home/images/overlay.png');
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;

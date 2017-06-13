@@ -30,10 +30,10 @@ public class ImageCodec {
 			// BufferedImage resizeImageJpg = resizeImage(originalImage, type);
 			// ImageIO.write(resizeImageJpg, "jpg", resizeFile);
 
-			if (originalImage.getWidth() != IMG_WIDTH || originalImage.getHeight() != IMG_HEIGHT) {
-				return null;
-			}
-
+//			if (originalImage.getWidth() != IMG_WIDTH || originalImage.getHeight() != IMG_HEIGHT) {
+//				return null;
+//			}
+ 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 			ImageIO.write(originalImage, "jpg", baos);

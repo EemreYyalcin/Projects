@@ -59,6 +59,7 @@ public class RegisterPageController {
 		ModelAndView view = new ModelAndView("register", "contactModel", new ContactModel());
 		view.addObject("login", Link.login);
 		view.addObject("register", Link.register);
+		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
 
@@ -82,7 +83,9 @@ public class RegisterPageController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView getReRegisterPage() {
 		if (userProperties.getId() == Codes.errorIntCode) {
-			return new ModelAndView("login", "contact", new Contact());
+			ModelAndView view = new ModelAndView("login", "contact", new Contact());
+			view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
+			return view;
 		}
 		ModelAndView view = new ModelAndView("reRegister");
 		ProfileModel profile = ProfileModel.getBasicProfileModel(userProperties);

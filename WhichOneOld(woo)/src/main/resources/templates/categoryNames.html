@@ -18,14 +18,6 @@
 <!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
 <link type="text/css" th:href="@{/css/custom.css}" rel="stylesheet" />
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-
 </head>
 
 <!-- Navigation -->
@@ -47,8 +39,10 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li th:class="${myCategory} ? '' : 'active'"><a th:href="${profile.explore}">Explore</a></li>
-				<li th:class="${myCategory} ? 'active' : ''"><a th:href="${profile.myCategories}">MyCategories</a></li>
+				<li th:class="${myCategory} ? '' : 'active'"><a
+					th:href="${profile.explore}">Explore</a></li>
+				<li th:class="${myCategory} ? 'active' : ''"><a
+					th:href="${profile.myCategories}">MyCategories</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a th:href="${profile.editProfile}">Profile</a></li>
@@ -71,128 +65,130 @@
 
 
 <body>
-
-	<div class="container">
-		<div class="table-responsive">
-			<table class="table">
-				<tbody>
-					<tr th:each="category : ${categoryNames}">
-						<td><a
-							th:href="${category.categoryClickUrl}+${category.categoryId}">
-								<img class="img-responsive" th:src="${category.imageResource}"
-								alt="" height="400" width="400" />
-						</a></td>
-						<td>
-							<h2>
-								<a th:href="${category.categoryClickUrl}+${category.categoryId}"
-									th:text="${category.categoryName}">Category</a>
-							</h2>
-							<table class="table">
-								<tbody>
-									<tr>
-										<td><span>Status</span></td>
-										<td>
-											<div class="progress active">
-												<div
-													class="progress-bar progress-bar-info progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.status}+'%;'"
-													th:utext="'STATUS ( ' + ${category.categoryScoreModel.status} + '% )'"></div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td><span>VeryHard</span></td>
-										<td>
-											<div class="progress active">
-												<div
-													class="progress-bar progress-bar-success progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.veryHardRatio.truePercentage}+'%;'"
-													th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.veryHardRatio.truePercentage}+ '% )'"></div>
-												<div
-													class="progress-bar progress-bar-danger progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.veryHardRatio.falsePercentage}+'%;'"
-													th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.veryHardRatio.falsePercentage}+'% )'"></div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td><span>Hard</span></td>
-										<td>
-											<div class="progress active">
-												<div
-													class="progress-bar progress-bar-success progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.hardRatio.truePercentage}+'%;'"
-													th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.hardRatio.truePercentage}+ '% )'"></div>
-												<div
-													class="progress-bar progress-bar-danger progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.hardRatio.falsePercentage}+'%;'"
-													th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.hardRatio.falsePercentage}+'% )'"></div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td><span>Medium</span></td>
-										<td>
-											<div class="progress active">
-												<div
-													class="progress-bar progress-bar-success progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.mediumRatio.truePercentage}+'%;'"
-													th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.mediumRatio.truePercentage}+ '% )'"></div>
-												<div
-													class="progress-bar progress-bar-danger progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.mediumRatio.falsePercentage}+'%;'"
-													th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.mediumRatio.falsePercentage}+'% )'"></div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td><span>Easy</span></td>
-										<td>
-											<div class="progress active">
-												<div
-													class="progress-bar progress-bar-success progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.easyRatio.truePercentage}+'%;'"
-													th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.easyRatio.truePercentage}+ '% )'"></div>
-												<div
-													class="progress-bar progress-bar-danger progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.easyRatio.falsePercentage}+'%;'"
-													th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.easyRatio.falsePercentage}+'% )'"></div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td><span>VeryEasy</span></td>
-										<td>
-											<div class="progress active">
-												<div
-													class="progress-bar progress-bar-success progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.veryEasyRatio.truePercentage}+'%;'"
-													th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.veryEasyRatio.truePercentage}+ '% )'"></div>
-												<div
-													class="progress-bar progress-bar-danger progress-bar-striped"
-													role="progressbar"
-													th:style="'width:'+ ${category.categoryScoreModel.scoreModel.veryEasyRatio.falsePercentage}+'%;'"
-													th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.veryEasyRatio.falsePercentage}+'% )'"></div>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+	<div class="table-responsive">
+		<table class="table">
+			<tbody>
+				<tr th:each="category : ${categoryNames}">
+					<td style="width: 5%"></td>
+					<td style="width: 60%">
+						<!-- 						<div class="container"> --> <a
+						th:href="${category.categoryClickUrl}+${category.categoryId}">
+							<img class="img-responsive" th:src="${category.imageResource}"
+							alt="" />
+					</a> <!-- 						</div> -->
+					</td>
+					<td style="width: 30%">
+						<!-- 						<div class="container"> -->
+						<h2>
+							<a th:href="${category.categoryClickUrl}+${category.categoryId}"
+								th:text="${category.categoryName}">Category</a>
+						</h2>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td><span>Status</span></td>
+									<td>
+										<div class="progress active">
+											<div
+												class="progress-bar progress-bar-info progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.status}+'%;'"
+												th:utext="'STATUS ( ' + ${category.categoryScoreModel.status} + '% )'"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><span>VeryHard</span></td>
+									<td>
+										<div class="progress active">
+											<div
+												class="progress-bar progress-bar-success progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.veryHardRatio.truePercentage}+'%;'"
+												th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.veryHardRatio.truePercentage}+ '% )'"></div>
+											<div
+												class="progress-bar progress-bar-danger progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.veryHardRatio.falsePercentage}+'%;'"
+												th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.veryHardRatio.falsePercentage}+'% )'"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><span>Hard</span></td>
+									<td>
+										<div class="progress active">
+											<div
+												class="progress-bar progress-bar-success progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.hardRatio.truePercentage}+'%;'"
+												th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.hardRatio.truePercentage}+ '% )'"></div>
+											<div
+												class="progress-bar progress-bar-danger progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.hardRatio.falsePercentage}+'%;'"
+												th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.hardRatio.falsePercentage}+'% )'"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><span>Medium</span></td>
+									<td>
+										<div class="progress active">
+											<div
+												class="progress-bar progress-bar-success progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.mediumRatio.truePercentage}+'%;'"
+												th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.mediumRatio.truePercentage}+ '% )'"></div>
+											<div
+												class="progress-bar progress-bar-danger progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.mediumRatio.falsePercentage}+'%;'"
+												th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.mediumRatio.falsePercentage}+'% )'"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><span>Easy</span></td>
+									<td>
+										<div class="progress active">
+											<div
+												class="progress-bar progress-bar-success progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.easyRatio.truePercentage}+'%;'"
+												th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.easyRatio.truePercentage}+ '% )'"></div>
+											<div
+												class="progress-bar progress-bar-danger progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.easyRatio.falsePercentage}+'%;'"
+												th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.easyRatio.falsePercentage}+'% )'"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><span>VeryEasy</span></td>
+									<td>
+										<div class="progress active">
+											<div
+												class="progress-bar progress-bar-success progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.veryEasyRatio.truePercentage}+'%;'"
+												th:utext="'TRUE ( ' + ${category.categoryScoreModel.scoreModel.veryEasyRatio.truePercentage}+ '% )'"></div>
+											<div
+												class="progress-bar progress-bar-danger progress-bar-striped"
+												role="progressbar"
+												th:style="'width:'+ ${category.categoryScoreModel.scoreModel.veryEasyRatio.falsePercentage}+'%;'"
+												th:utext="'FALSE ( ' + ${category.categoryScoreModel.scoreModel.veryEasyRatio.falsePercentage}+'% )'"></div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table> <!-- 						</div> -->
+					</td>
+					<td style="width: 5%"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 

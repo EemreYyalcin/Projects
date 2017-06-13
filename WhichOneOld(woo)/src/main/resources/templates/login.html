@@ -3,65 +3,65 @@
 	xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>Spring Security Tutorial</title>
+<title>LOGIN</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
 <link type="text/css" th:href="@{/css/bootstrap.min.css}"
 	rel="stylesheet" />
+<link type="text/css" th:href="@{/css/main.css}" rel="stylesheet" />
 <script th:src="@{/js/jquery.min.js}"></script>
 </head>
-<!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container">
-		<!-- Logo and responsive toggle -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" th:href="${profile.home}"> <span
-				class="glyphicon glyphicon-fire"></span> Home
-			</a>
-		</div>
-		<!-- Navbar links -->
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li><a th:href="${profile.explore}">Explore</a></li>
-				<li><a th:href="${profile.myCategories}">MyCategories</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="">Profile</a></li>
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	<!-- /.container -->
-</nav>
-
 
 <body>
 
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<!-- Logo and responsive toggle -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="${profile.home}"> <span
+					class="glyphicon glyphicon-fire"></span> Home
+				</a>
+			</div>
+			<!-- Navbar links -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a th:href="${profile.explore}">Explore</a></li>
+					<li><a th:href="${profile.myCategories}">MyCategories</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="">Profile</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+	<br />
+	<br />
+	<br />
+	<br />
 	<div class="container">
-		<img th:src="@{/icons/icon01.jpg}" class="img-responsive center-block"
-			width="300" height="300" alt="Logo" />
-<!-- 		<form th:action="@{/woo/register}" method="get"> -->
-<!-- 			<button class="btn btn-md btn-warning btn-block" type="Submit">Go -->
-<!-- 				To Registration Page</button> -->
-<!-- 		</form> -->
+		<img th:src="@{/icons/icon_login1.png}"
+			class="img-responsive center-block" width="300" height="300"
+			alt="Logo" /><br />
 		<form th:action="@{/woo/login}" method="POST" th:object="${contact}"
 			class="form-signin">
 
-			<h3 class="form-signin-heading" th:text="Welcome"></h3>
+			<h3 class="form-signin-heading" th:text="Login"></h3>
 
 			<br /> <input type="text" id="email" name="email"
 				th:field="*{email}" th:placeholder="Email" class="form-control" />
 
 			<br /> <input type="password" th:field="*{password}"
 				th:placeholder="Password" id="password" name="password"
-				class="form-control" /> 
-			<a th:href="@{/woo/register}">Register</a>
+				class="form-control" /> <a th:href="@{/woo/register}">Register</a>
 			<br />
 			<div align="center" th:if="${error}">
 				<p style="font-size: 20; color: #FF1C19;">Email or Password
