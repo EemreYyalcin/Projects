@@ -36,7 +36,12 @@
 					<li><a th:href="${profile.myCategories}">MyCategories</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="">Profile</a></li>
+					<li th:if="${profile.login == true}"><a
+						th:href="${profile.editProfile}">EditProfile</a></li>
+					<li th:if="${profile.login == true}"><a
+						th:href="${profile.logoutPage}">Logout</a></li>
+					<li th:if="${profile.login == false}"><a
+						th:href="${profile.loginPage}">Login</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->

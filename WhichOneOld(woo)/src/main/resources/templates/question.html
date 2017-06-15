@@ -45,14 +45,19 @@
 					<li class="active"><a th:href="${profile.myCategories}">Question</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a th:href="${profile.editProfile}">Profile</a></li>
+					<li th:if="${profile.login == true}"><a
+						th:href="${profile.editProfile}">EditProfile</a></li>
+					<li th:if="${profile.login == true}"><a
+						th:href="${profile.logoutPage}">Logout</a></li>
+					<li th:if="${profile.login == false}"><a
+						th:href="${profile.loginPage}">Login</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
 	</nav>
-
+	<br />
 	<!-- Heading -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -64,6 +69,8 @@
 	<!-- /.row -->
 	<!-- Projects Row -->
 	<div class="row">
+		<div class="col-md-1 portfolio-item"
+			th:if="${questionModel.itemCClickNext == null}"></div>
 		<div id="clickA" class="col-md-5 portfolio-item">
 			<a href="#" id="clickANext"
 				th:onclick="'changeColor(\'clickA\',\'' + ${answerModel.answerA} + '\',\'' + ${answerModel.answerB} + '\',\'' + ${answerModel.answerC} + '\',\'' + ${questionModel.itemAClickNext} + '\');'">

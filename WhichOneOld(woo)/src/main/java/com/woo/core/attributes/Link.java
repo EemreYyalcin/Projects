@@ -49,8 +49,12 @@ public class Link {
 	public static String categoryDecadess = "";
 
 	public static String login = "/woo/login";
-
+	
 	public static String logins = "/woo/login/";
+	
+	public static String logout = "/woo/login/logout";
+
+	public static String logouts = "/woo/login/logout/";
 
 	public static String register = "/woo/register";
 

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +40,8 @@ public class RegisterPageController {
 
 	private UserProperties userProperties;
 
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
 	@Autowired
 	public RegisterPageController(ContactServiceImpl contactService, RegisterValidation registerValidation, StatisticServiceImpl statisticService, UserProperties userProperties) {
 		this.contactService = contactService;
@@ -57,8 +60,6 @@ public class RegisterPageController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getRegisterPage() {
 		ModelAndView view = new ModelAndView("register", "contactModel", new ContactModel());
-		view.addObject("login", Link.login);
-		view.addObject("register", Link.register);
 		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
@@ -66,13 +67,16 @@ public class RegisterPageController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String handleRegisterForm(@Valid @ModelAttribute("contactModel") ContactModel contactModel, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return "register";
 		}
 		Contact contactX = contactModel.getContact();
 		contactX.setStatistic(statisticService.addStatistic(new Statistic()));
+		contactX.setPassword(encoder.encode(contactX.getEmail() + contactX.getPassword()));
 		Contact contactSaved = contactService.addContact(contactX);
 		if (contactSaved == null) {
 			model.addAttribute("errorRegister", "Contact is not being added!");
+			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 			return "register";
 		}
 
@@ -118,6 +122,7 @@ public class RegisterPageController {
 			}
 		}
 		Contact contactX = contactModel.getContact();
+		contactX.setPassword(encoder.encode(contactX.getEmail() + contactX.getPassword()));
 		contactX.setId(userProperties.getId());
 		Contact contactSaved = contactService.addContact(contactX);
 		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));

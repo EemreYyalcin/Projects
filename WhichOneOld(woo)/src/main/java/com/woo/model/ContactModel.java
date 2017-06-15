@@ -31,7 +31,7 @@ public class ContactModel {
 
 	public Contact getContact() {
 		Contact contact = new Contact();
-		contact.setEmail(email).setPassword(password).setName(name).setSurname(surname);
+		contact.setEmail(email).setPassword(password).setName(name).setSurname(surname); 
 		return contact;
 	}
 

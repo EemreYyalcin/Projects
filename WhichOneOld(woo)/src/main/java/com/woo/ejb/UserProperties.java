@@ -9,9 +9,8 @@ import com.woo.core.attributes.Codes;
 
 @SessionScope
 @Component
-public class UserProperties implements Serializable{
+public class UserProperties implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
 
 	private long id = Codes.errorIntCode;
@@ -56,6 +55,13 @@ public class UserProperties implements Serializable{
 	public UserProperties setSurname(String surname) {
 		this.surname = surname;
 		return this;
+	}
+
+	public void resetValues() {
+		id = Codes.errorIntCode;
+		email = null;
+		name = null;
+		surname = null;
 	}
 
 }

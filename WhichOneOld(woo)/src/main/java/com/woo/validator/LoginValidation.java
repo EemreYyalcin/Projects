@@ -1,17 +1,21 @@
 package com.woo.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.woo.domain.Contact;
 import com.woo.service.impl.ContactServiceImpl;
+import com.woo.utils.log.LogMessage;
 
 @Component
 public class LoginValidation implements Validator {
 
 	private ContactServiceImpl contactService;
+	
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	@Autowired
 	public LoginValidation(ContactServiceImpl contactService) {
@@ -41,8 +45,10 @@ public class LoginValidation implements Validator {
 			return;
 		}
 
-		if (!contactDb.getPassword().equals(contact.getPassword())) {
+		if (!encoder.matches(contact.getEmail() + contact.getPassword(), contactDb.getPassword())) {
 			errors.reject("email", "Username or Password Fail");
+			LogMessage.logx(contact.getPassword());
+			LogMessage.logx(contactDb.getPassword());
 		}
 	}
 

@@ -19,6 +19,12 @@ public class ProfileModel {
 	private String myCategories;
 
 	private String editProfile;
+	
+	private boolean login = false;
+	
+	private String loginPage;
+	
+	private String logoutPage;
 
 	private int veryHardClickPercentage;
 
@@ -117,6 +123,23 @@ public class ProfileModel {
 	public void setVeryEasyClickPercentage(int veryEasyClickPercentage) {
 		this.veryEasyClickPercentage = veryEasyClickPercentage;
 	}
+	
+
+	public String getLoginPage() {
+		return loginPage;
+	}
+
+	public void setLoginPage(String loginPage) {
+		this.loginPage = loginPage;
+	}
+
+	public String getLogoutPage() {
+		return logoutPage;
+	}
+
+	public void setLogoutPage(String logoutPage) {
+		this.logoutPage = logoutPage;
+	}
 
 	public static ProfileModel getBasicProfileModel(UserProperties userProperties) {
 		ProfileModel profileModel = new ProfileModel();
@@ -124,6 +147,8 @@ public class ProfileModel {
 		profileModel.setExplore(Link.categoryNames);
 		profileModel.setMyCategories(Link.myCategory);
 		profileModel.setEditProfile(Link.editProfile);
+		profileModel.setLoginPage(Link.login);
+		profileModel.setLogoutPage(Link.logout);
 		if (userProperties.getId() == Codes.errorIntCode) {
 			// Empty Model Or Demo Model
 			profileModel.setName("Guess");
@@ -132,6 +157,7 @@ public class ProfileModel {
 		else {
 			profileModel.setName(userProperties.getName());
 			profileModel.setSurname(userProperties.getSurname());
+			profileModel.setLogin(true);
 		}
 		return profileModel;
 	}
@@ -142,6 +168,14 @@ public class ProfileModel {
 
 	public void setEditProfile(String editProfile) {
 		this.editProfile = editProfile;
+	}
+
+	public boolean isLogin() {
+		return login;
+	}
+
+	public void setLogin(boolean login) {
+		this.login = login;
 	}
 
 }
