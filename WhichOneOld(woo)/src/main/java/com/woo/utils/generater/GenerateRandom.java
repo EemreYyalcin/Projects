@@ -1,5 +1,7 @@
 package com.woo.utils.generater;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -40,6 +42,10 @@ public class GenerateRandom {
 			decadeRandomItems.add(list.get(randomList.get(i)));
 		}
 		return decadeRandomItems;
+	}
+
+	public static String generateToken(){
+	        return new BigInteger(130, new SecureRandom()).toString(32);
 	}
 
 }

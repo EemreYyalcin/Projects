@@ -53,10 +53,10 @@ public class QuestionFunctions {
 			}
 			status = (int) Calculator.getPercentage(pageId, totalQuestion);
 			if (isRandom) {
-				list.add(new LevelModel(names[i], nextUrl + "/" + (i + 1), "/images/Capture" + (i + 1) + ".jpg", ratioModel, status));
+				list.add(new LevelModel(names[i], nextUrl + "/" + (i + 1), "/images/level" + (i + 1) + ".jpg", ratioModel, status));
 			}
 			else {
-				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), "/images/Capture" + (i + 1) + ".jpg", ratioModel, status));
+				list.add(new LevelModel(names[i], nextUrl + "/" + pageId + "/" + (i + 1), "/images/level" + (i + 1) + ".jpg", ratioModel, status));
 			}
 		}
 		return list;

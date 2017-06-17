@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.woo.core.attributes.Codes;
+import com.woo.core.attributes.Link;
 import com.woo.domain.Category;
 import com.woo.ejb.UserProperties;
 import com.woo.model.ProfileModel;
 import com.woo.service.impl.CategoryServiceImpl;
 import com.woo.service.impl.StatisticServiceImpl;
+import com.woo.utils.generater.GenerateRandom;
 import com.woo.utils.log.LogMessage;
 
 @Controller
@@ -35,19 +37,23 @@ public class CategoryController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getCategoryNamesAndImages() {
-		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId()), userProperties.getId(), true));
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+		ModelAndView view = new ModelAndView("categoryNames", "categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId()), userProperties.getId(), true, tokenNew));
 		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ModelAndView getCategoryDecadesAndImages(@PathVariable("id") Category category) {
-		if (category == null) {
+	@RequestMapping(value = "/{token}/{id}", method = RequestMethod.GET)
+	public ModelAndView getCategoryDecadesAndImages(@PathVariable("id") Category category, @PathVariable("token") String token) {
+		if (category == null || userProperties.getToken() == null) {
 			LogMessage.error("Temporarly category is null! Code:Inna");
-			return null;
+			return new ModelAndView("redirect:" + Link.categoryNames);
 		}
-		LogMessage.logx("categoryçgetname " + category.getName() + " " + category.getId());
-		ModelAndView view = new ModelAndView("categoryDecadesAndImages", "categoryDecades", categoryService.getCategoriesByDecade(category.getName(), userProperties.getId()));
+		LogMessage.logx("category getname " + category.getName() + " " + category.getId());
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+		ModelAndView view = new ModelAndView("categoryDecadesAndImages", "categoryDecades", categoryService.getCategoriesByDecade(category.getName(), userProperties.getId(), tokenNew));
 		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
@@ -57,7 +63,9 @@ public class CategoryController {
 		if (userProperties.getId() == Codes.errorIntCode) {
 			return "redirect:/woo/login";
 		}
-		model.addAttribute("categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId()), userProperties.getId(), false));
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+		model.addAttribute("categoryNames", categoryService.getCategoriesWithName(statisticService.getStatisticByUserId(userProperties.getId()), userProperties.getId(), false, tokenNew));
 		model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
 		model.addAttribute("myCategory", "myCategory");
 		return "categoryNames";

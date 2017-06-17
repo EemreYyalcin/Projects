@@ -23,6 +23,7 @@ import com.woo.model.QuestionModel;
 import com.woo.service.impl.CategoryScoreServiceImpl;
 import com.woo.service.impl.QuestionScoreServiceImpl;
 import com.woo.service.impl.QuestionServiceImpl;
+import com.woo.utils.generater.GenerateRandom;
 import com.woo.utils.log.LogMessage;
 
 @Controller
@@ -44,17 +45,24 @@ public class QuestionController {
 		this.categoryScoreService = categoryScoreService;
 	}
 
-	@RequestMapping(value = "/woo/question/random/{categoryId}/{level}", method = RequestMethod.GET)
-	public String getQuestionRandom(@PathVariable("categoryId") Category category, @PathVariable("level") int level, Model view) {
+	@RequestMapping(value = "/woo/question/random/{token}/{categoryId}/{level}", method = RequestMethod.GET)
+	public String getQuestionRandom(@PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("token") String token, Model view) {
+		if (category == null || userProperties.getToken() == null || !userProperties.getToken().equals(token) || level <= 0 || level > 5) {
+			return "redirect:" + Link.categoryNames;
+		}
+
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+
 		Question question = questionService.getRandomQuestion(category, level);
 		if (question == null) {
 			return "errorpagenoquestion";
 		}
 		QuestionModel questionModel = QuestionModel.getQuestionModel(question);
-		questionModel.setItemAClickNext(Link.randomClickAs + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
-		questionModel.setItemBClickNext(Link.randomClickBs + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
+		questionModel.setItemAClickNext(Link.randomClickAs + tokenNew + "/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
+		questionModel.setItemBClickNext(Link.randomClickBs + tokenNew + "/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
 		if (level == 5) {
-			questionModel.setItemCClickNext(Link.randomClickCs + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
+			questionModel.setItemCClickNext(Link.randomClickCs + tokenNew + "/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level);
 		}
 		questionScoreService.setPercentageValue(questionModel, question);
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
@@ -64,10 +72,16 @@ public class QuestionController {
 		return "question";
 	}
 
-	@RequestMapping(value = "/woo/question/random/clickA/{questionId}/{categoryId}/{level}", method = RequestMethod.GET)
-	public String clickRandomItemA(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level) throws InterruptedException {
+	@RequestMapping(value = "/woo/question/random/clickA/{token}/{questionId}/{categoryId}/{level}", method = RequestMethod.GET)
+	public String clickRandomItemA(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("token") String token) throws InterruptedException {
+		if (category == null || userProperties.getToken() == null || !userProperties.getToken().equals(token) || level <= 0 || level > 5) {
+			return "redirect:" + Link.categoryNames;
+		}
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+
 		LogMessage.logx("A Clicked");
-		String nextQuestion = "redirect:" + Link.randomQuestions + category.getId() + "/" + level;
+		String nextQuestion = "redirect:" + Link.randomQuestions + tokenNew + "/" + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
 			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
@@ -91,10 +105,17 @@ public class QuestionController {
 		return nextQuestion;
 	}
 
-	@RequestMapping(value = "/woo/question/random/clickB/{questionId}/{categoryId}/{level}", method = RequestMethod.GET)
-	public String clickRandomItemB(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level) throws InterruptedException {
+	@RequestMapping(value = "/woo/question/random/clickB/{token}/{questionId}/{categoryId}/{level}", method = RequestMethod.GET)
+	public String clickRandomItemB(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("token") String token) throws InterruptedException {
+		if (category == null || userProperties.getToken() == null || !userProperties.getToken().equals(token) || level <= 0 || level > 5) {
+			return "redirect:" + Link.categoryNames;
+		}
+
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+
 		LogMessage.logx("B Clicked");
-		String nextQuestion = "redirect:" + Link.randomQuestions + category.getId() + "/" + level;
+		String nextQuestion = "redirect:" + Link.randomQuestions + tokenNew + "/" + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
 			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
@@ -118,10 +139,17 @@ public class QuestionController {
 		return nextQuestion;
 	}
 
-	@RequestMapping(value = "/woo/question/random/clickC/{questionId}/{categoryId}/{level}", method = RequestMethod.GET)
-	public String clickRandomItemC(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level) throws InterruptedException {
+	@RequestMapping(value = "/woo/question/random/clickC/{token}/{questionId}/{categoryId}/{level}", method = RequestMethod.GET)
+	public String clickRandomItemC(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("token") String token) throws InterruptedException {
+		if (category == null || userProperties.getToken() == null || !userProperties.getToken().equals(token) || level <= 0 || level > 5) {
+			return "redirect:" + Link.categoryNames;
+		}
+
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+
 		LogMessage.logx("C Clicked");
-		String nextQuestion = "redirect:" + Link.randomQuestions + category.getId() + "/" + level;
+		String nextQuestion = "redirect:" + Link.randomQuestions + tokenNew + "/" + category.getId() + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
 			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
@@ -144,10 +172,17 @@ public class QuestionController {
 		return nextQuestion;
 	}
 
-	@RequestMapping(value = "/woo/question/getlevel/{categoryId}", method = RequestMethod.GET)
-	public ModelAndView getLevels(@PathVariable("categoryId") Category category) {
-		CategoryScore categoryScore = categoryScoreService.getCategoryScore(userProperties.getId(), category);
+	@RequestMapping(value = "/woo/question/getlevel/{token}/{categoryId}", method = RequestMethod.GET)
+	public ModelAndView getLevels(@PathVariable("categoryId") Category category, @PathVariable("token") String token) {
 
+		if (category == null || userProperties.getToken() == null) {
+			return new ModelAndView("redirect:" + Link.categoryNames);
+		}
+
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+
+		CategoryScore categoryScore = categoryScoreService.getCategoryScore(userProperties.getId(), category);
 		ModelAndView view = null;
 
 		CategoryScoreModel categoryScoreModel;
@@ -158,21 +193,24 @@ public class QuestionController {
 			categoryScoreModel = CategoryScoreModel.getCategoryScoreModel(categoryScore, questionService.getQuestionCountByCategory(categoryScore.getCategory()));
 		}
 
-		if (userProperties.getId() != Codes.errorIntCode) {
-			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(Link.randomQuestions + category.getId(), categoryScoreModel, questionService, true, category));
+		if (userProperties.getId() == Codes.errorIntCode) {
+			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(Link.randomQuestions + tokenNew + "/" + category.getId(), categoryScoreModel, questionService, true, category));
 		}
 		else {
-			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(Link.serialQuestions + category.getId(), categoryScoreModel, questionService, false, category));
+			view = new ModelAndView("selectLevel", "levels", QuestionFunctions.getLevels(Link.serialQuestions + tokenNew + "/" + category.getId(), categoryScoreModel, questionService, false, category));
 		}
 		view.addObject("profile", ProfileModel.getBasicProfileModel(userProperties));
 		return view;
 	}
 
-	@RequestMapping(value = "/woo/question/{categoryId}/{pageId}/{level}", method = RequestMethod.GET)
-	public String getQuestionSerial(@PathVariable("categoryId") Category category, @PathVariable("pageId") int pageId, @PathVariable("level") int level, Model model) {
-		if (category == null || level <= 0 || level > 5) {
+	@RequestMapping(value = "/woo/question/{token}/{categoryId}/{pageId}/{level}", method = RequestMethod.GET)
+	public String getQuestionSerial(@PathVariable("categoryId") Category category, @PathVariable("pageId") int pageId, @PathVariable("level") int level, @PathVariable("token") String token, Model model) {
+		if (category == null || userProperties.getToken() == null || level <= 0 || level > 5 || !userProperties.getToken().equals(token)) {
 			return "errorpagenoquestion";
 		}
+
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
 
 		Question question = questionService.getQuestionByCategoryAndLevelWithPage(category, level, new PageRequest(pageId, 1));
 		if (question == null) {
@@ -180,10 +218,10 @@ public class QuestionController {
 		}
 		pageId++;
 		QuestionModel questionModel = QuestionModel.getQuestionModel(question);
-		questionModel.setItemAClickNext(Link.serialClickAs + questionModel.getQuestionId() + "/" + category.getId() + "/" + level + "/" + pageId);
-		questionModel.setItemBClickNext(Link.serialClickBs + questionModel.getQuestionId() + "/" + category.getId() + "/" + level + "/" + pageId);
+		questionModel.setItemAClickNext(Link.serialClickAs + tokenNew + "/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level + "/" + pageId);
+		questionModel.setItemBClickNext(Link.serialClickBs + tokenNew + "/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level + "/" + pageId);
 		if (level == 5) {
-			questionModel.setItemCClickNext(Link.serialClickCs + questionModel.getQuestionId() + "/" + category.getId() + "/" + level + "/" + pageId);
+			questionModel.setItemCClickNext(Link.serialClickCs + tokenNew + "/" + questionModel.getQuestionId() + "/" + category.getId() + "/" + level + "/" + pageId);
 		}
 		questionScoreService.setPercentageValue(questionModel, question);
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
@@ -193,11 +231,18 @@ public class QuestionController {
 		return "question";
 	}
 
-	@RequestMapping(value = "/woo/question/clickA/{questionId}/{categoryId}/{level}/{pageId}", method = RequestMethod.GET)
-	public String clickItemA(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("pageId") int pageId) throws InterruptedException {
+	@RequestMapping(value = "/woo/question/clickA/{token}/{questionId}/{categoryId}/{level}/{pageId}", method = RequestMethod.GET)
+	public String clickItemA(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("token") String token, @PathVariable("pageId") int pageId) throws InterruptedException {
 		LogMessage.logx("A Clicked");
 
-		String nextQuestion = "redirect:" + Link.serialQuestions + category.getId() + "/" + pageId + "/" + level;
+		if (category == null || userProperties.getToken() == null || level <= 0 || level > 5 || !userProperties.getToken().equals(token)) {
+			return "errorpagenoquestion";
+		}
+
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+
+		String nextQuestion = "redirect:" + Link.serialQuestions + tokenNew + "/" + category.getId() + "/" + pageId + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
 			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
@@ -220,10 +265,18 @@ public class QuestionController {
 		return nextQuestion;
 	}
 
-	@RequestMapping(value = "/woo/question/clickB/{questionId}/{categoryId}/{level}/{pageId}", method = RequestMethod.GET)
-	public String clickItemB(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("pageId") int pageId) throws InterruptedException {
+	@RequestMapping(value = "/woo/question/clickB/{token}/{questionId}/{categoryId}/{level}/{pageId}", method = RequestMethod.GET)
+	public String clickItemB(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("token") String token, @PathVariable("pageId") int pageId) throws InterruptedException {
 		LogMessage.logx("B Clicked");
-		String nextQuestion = "redirect:" + Link.serialQuestions + category.getId() + "/" + pageId + "/" + level;
+
+		if (category == null || userProperties.getToken() == null || level <= 0 || level > 5 || !userProperties.getToken().equals(token)) {
+			return "errorpagenoquestion";
+		}
+
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+
+		String nextQuestion = "redirect:" + Link.serialQuestions + tokenNew + "/" + category.getId() + "/" + pageId + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
 			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));
@@ -247,10 +300,17 @@ public class QuestionController {
 		return nextQuestion;
 	}
 
-	@RequestMapping(value = "/woo/question/clickC/{questionId}/{categoryId}/{level}/{pageId}", method = RequestMethod.GET)
-	public String clickItemC(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("pageId") int pageId) throws InterruptedException {
+	@RequestMapping(value = "/woo/question/clickC/{token}/{questionId}/{categoryId}/{level}/{pageId}", method = RequestMethod.GET)
+	public String clickItemC(@PathVariable("questionId") Question question, Model model, @PathVariable("categoryId") Category category, @PathVariable("level") int level, @PathVariable("token") String token, @PathVariable("pageId") int pageId) throws InterruptedException {
 		LogMessage.logx("C Clicked");
-		String nextQuestion = "redirect:" + Link.serialQuestions + category.getId() + "/" + pageId + "/" + level;
+		if (category == null || userProperties.getToken() == null || level <= 0 || level > 5 || !userProperties.getToken().equals(token)) {
+			return "errorpagenoquestion";
+		}
+
+		String tokenNew = GenerateRandom.generateToken();
+		userProperties.setToken(tokenNew);
+
+		String nextQuestion = "redirect:" + Link.serialQuestions + tokenNew + "/" + category.getId() + "/" + pageId + "/" + level;
 		AnswerModel answerModel = QuestionFunctions.answerQuestion(question);
 		if (answerModel == null) {
 			model.addAttribute("profile", ProfileModel.getBasicProfileModel(userProperties));

@@ -65,16 +65,15 @@
 
 
 <body>
-	<div class="container">
+<div class="container">
 		<div class="table-responsive">
 			<table class="table">
 				<tbody>
 					<tr th:each="level : ${levels}">
-						<td><a th:href="${level.nextUrl}"> <img
-								class="img-responsive" th:src="${level.imageUrl}" alt=""
-								height="400" width="400" />
+						<td style="width: 70%"><a th:href="${level.nextUrl}"> <img
+								class="img-responsive" th:src="${level.imageUrl}" alt="" />
 						</a></td>
-						<td>
+						<td style="width: 30%">
 							<h3>
 								<a th:href="${level.nextUrl}" th:text="${level.name}"></a>
 							</h3>
@@ -116,7 +115,7 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
+		</div>
 
 	<!-- jQuery -->
 	<script th:src="@{/js/jquery-1.11.3.min.js}"></script>

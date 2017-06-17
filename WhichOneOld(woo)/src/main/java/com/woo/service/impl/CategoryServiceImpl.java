@@ -97,7 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic, long userId, boolean isExplore) {
+	public ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic, long userId, boolean isExplore, String token) {
 		ArrayList<Category> filterCategories = new ArrayList<Category>();
 		ArrayList<String> allCategoriesName = categoryRepository.findDistinctStates();
 		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
@@ -126,7 +126,7 @@ public class CategoryServiceImpl implements CategoryService {
 			categoryModel.setDecadeList(getDecades(category.getName()));
 			categoryModel.setLastUpdateDate(getLastUpdateDate(category.getName()));
 			Item randomItem = itemService.getRandomItem(category);
-			categoryModel.setCategoryClickUrl(Link.categories);
+			categoryModel.setCategoryClickUrl(Link.categories + token + "/");
 			categoryModel.setCategoryScoreModel(categoryScoreService.getTotalCategoryScore(userId, category.getName(), this));
 			if (randomItem == null || randomItem.getId() == 0) {
 				LogMessage.error("Wrong Item Code:Patika");
@@ -152,7 +152,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public ArrayList<CategoryModel> getCategoriesByDecade(String categoryName, long userId) {
+	public ArrayList<CategoryModel> getCategoriesByDecade(String categoryName, long userId, String token) {
 		ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 		ArrayList<Category> categories = getCategoriesByName(categoryName);
 		LogMessage.logx("categories:" + categories.toString());
@@ -162,7 +162,7 @@ public class CategoryServiceImpl implements CategoryService {
 			categoryModel.setCategoryName(category.getName());
 			categoryModel.setDecade(category.getDecade());
 			categoryModel.setLastUpdateDate(category.getLastUpdateDate());
-			categoryModel.setCategoryClickUrl(Link.selectLevels);
+			categoryModel.setCategoryClickUrl(Link.selectLevels + token + "/");
 			categoryModel.setCategoryScoreModel(categoryScoreService.getCategoryDecadeScoreModel(userId, category));
 			Item randomItem = itemService.getRandomItem(category);
 			if (randomItem == null || randomItem.getId() == 0) {

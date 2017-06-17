@@ -25,8 +25,8 @@ public interface CategoryService {
 
 	Date getLastUpdateDate(String categoryName);
 
-	ArrayList<CategoryModel> getCategoriesByDecade(String categoryName, long userId);
+	ArrayList<CategoryModel> getCategoriesByDecade(String categoryName, long userId, String token);
 
-	ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic, long userId, boolean isExplore);
+	ArrayList<CategoryModel> getCategoriesWithName(Statistic statistic, long userId, boolean isExplore, String token);
 
 }

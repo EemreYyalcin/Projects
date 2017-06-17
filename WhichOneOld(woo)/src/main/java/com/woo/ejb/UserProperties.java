@@ -20,6 +20,8 @@ public class UserProperties implements Serializable {
 	private String name = null;
 
 	private String surname = null;
+	
+	private String token = null;
 
 	public long getId() {
 		return id;
@@ -62,6 +64,14 @@ public class UserProperties implements Serializable {
 		email = null;
 		name = null;
 		surname = null;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }
